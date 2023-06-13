@@ -1,17 +1,17 @@
 package Kaufvertrag.Kaufvertrag.dataLayer.businessObjects;
 
 import Kaufvertrag.Kaufvertrag.businessObjects.IKaufvertrag;
-import Kaufvertrag.Kaufvertrag.businessObjects.IVertragsPartner;
+import Kaufvertrag.Kaufvertrag.businessObjects.IVertragspartner;
 import Kaufvertrag.Kaufvertrag.businessObjects.IWare;
 
 public class Kaufvertrag implements IKaufvertrag
 {
-  private IVertragsPartner verkaeufer;
-  private IVertragsPartner kaeufer;
+  private IVertragspartner verkaeufer;
+  private IVertragspartner kaeufer;
   private IWare ware;
   private String zahlungsModalitaeten;
 
-  public Kaufvertrag(IVertragsPartner kaeufer, IVertragsPartner verkaeufer, IWare ware)
+  public Kaufvertrag(IVertragspartner kaeufer, IVertragspartner verkaeufer, IWare ware)
   {
     this.kaeufer = kaeufer;
     this.verkaeufer = verkaeufer;
@@ -20,25 +20,25 @@ public class Kaufvertrag implements IKaufvertrag
   }
 
   @Override
-  public IVertragsPartner getVerkaeufer()
+  public IVertragspartner getVerkaeufer()
   {
     return verkaeufer;
   }
 
   @Override
-  public void setVerkaeufer(IVertragsPartner vertragsPartner)
+  public void setVerkaeufer(IVertragspartner vertragsPartner)
   {
     this.verkaeufer = verkaeufer;
   }
 
   @Override
-  public IVertragsPartner getKaeufer()
+  public IVertragspartner getKaeufer()
   {
     return kaeufer;
   }
 
   @Override
-  public void setKaeufer(IVertragsPartner kaeufer)
+  public void setKaeufer(IVertragspartner kaeufer)
   {
     this.kaeufer = kaeufer;
   }

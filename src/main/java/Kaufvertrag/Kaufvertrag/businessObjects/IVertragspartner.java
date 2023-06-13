@@ -1,5 +1,5 @@
 package Kaufvertrag.Kaufvertrag.businessObjects;
 
-public interface IVertragsPartner
+public interface IVertragspartner
 {
 }

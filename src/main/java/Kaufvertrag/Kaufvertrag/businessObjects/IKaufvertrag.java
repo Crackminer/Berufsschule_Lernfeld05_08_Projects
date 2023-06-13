@@ -5,10 +5,10 @@ package Kaufvertrag.Kaufvertrag.businessObjects;
  */
 public interface IKaufvertrag
 {
-  IVertragsPartner getVerkaeufer();
-  void setVerkaeufer(IVertragsPartner vertragsPartner);
-  IVertragsPartner getKaeufer();
-  void setKaeufer(IVertragsPartner kaeufer);
+  IVertragspartner getVerkaeufer();
+  void setVerkaeufer(IVertragspartner vertragsPartner);
+  IVertragspartner getKaeufer();
+  void setKaeufer(IVertragspartner kaeufer);
   IWare getWare();
   void setWare(IWare ware);
   String getZahlungsModalitaeten();
