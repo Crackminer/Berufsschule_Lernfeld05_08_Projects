@@ -9,5 +9,8 @@
         <module name="Lernfeld08Project01" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="Berufsschule_Lernfeld05_08_Projects" target="20" />
+    </bytecodeTargetLevel>
   </component>
 </project>
