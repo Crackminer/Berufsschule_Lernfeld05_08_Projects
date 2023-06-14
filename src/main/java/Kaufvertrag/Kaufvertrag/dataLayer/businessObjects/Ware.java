@@ -4,9 +4,9 @@ import Kaufvertrag.Kaufvertrag.businessObjects.IWare;
 
 import java.util.List;
 
-/*
-* Chris Thomas @Author
-* */
+/**
+*@author Chris Thomas
+*/
 
 
 public class Ware implements IWare

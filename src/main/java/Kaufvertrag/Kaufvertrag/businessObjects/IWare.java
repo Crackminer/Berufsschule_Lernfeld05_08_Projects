@@ -2,9 +2,9 @@ package Kaufvertrag.Kaufvertrag.businessObjects;
 
 import java.util.List;
 
-/*
-* Chris Thomas @Author
-* */
+/**
+*@author Chris Thomas
+*/
 
 public interface IWare
 {
