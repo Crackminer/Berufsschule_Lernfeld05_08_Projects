@@ -2,6 +2,6 @@
 
 Still to do:
 - GUI                             -> Patrick
-- DatalayerManager                -> 
-- DataLayerXxml + Subclasses      -> 
-- DatalayerSqlite + subclasses    -> 
+- DatalayerManager                -> (Patrick) + 
+- DataLayerXxml + Subclasses      -> (Patrick) + 
+- DatalayerSqlite + subclasses    -> (Patrick) + 
