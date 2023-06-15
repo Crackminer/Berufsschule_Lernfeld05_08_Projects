@@ -8,18 +8,24 @@ public class Programm
 {
     public static void main(String[] args)
     {
-        if(args.length >= 1 && args[0].equals("-Console"))
+        for(String s : args)
         {
-            //Do Console Application
-            System.out.println("I was started via Console!");
-        }
-        else
-        {
-            EventQueue.invokeLater(() ->
+            if (s.equals("-Console"))
             {
-                RootFrame root = new RootFrame();
-                root.setVisible(true);
-            });
+                startConsoleApplication();
+                return;
+            }
         }
+
+        EventQueue.invokeLater(() ->
+        {
+            RootFrame root = new RootFrame();
+            root.setVisible(true);
+        });
+    }
+
+    public static void startConsoleApplication()
+    {
+        System.out.println("I was started as a Console application :)");
     }
 }
