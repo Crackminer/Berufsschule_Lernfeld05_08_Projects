@@ -3,7 +3,7 @@ package Kaufvertrag.Kaufvertrag.dataLayer.dataAccessObjects;
 public class DataLayerManager
 {
   private static DataLayerManager instance;
-  private String persistenceType;
+  private String persistenceType;   //Witzlos, wenn ich das nirgends setze?
 
   private DataLayerManager()
   {
@@ -15,8 +15,8 @@ public class DataLayerManager
     {
       instance = new DataLayerManager();
     }
-    String persistanceType = instance.readPersistanceType();
-    if(persistanceType.equals("sqlite"))
+    String persistenceType = instance.readPersistenceType();
+    if("sqlite".equals(persistenceType))
     {
 
     }
@@ -28,8 +28,8 @@ public class DataLayerManager
     return null;
   }
 
-  private String readPersistanceType()
+  private String readPersistenceType()
   {
-    return "";
+    return persistenceType;
   }
 }

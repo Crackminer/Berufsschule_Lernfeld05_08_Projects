@@ -14,21 +14,21 @@ public class RootFrame extends JFrame
   {
     GridBagConstraints gridBagConstraints;
 
-    jpanel1 = new JPanel();
+    jPanel1 = new JPanel();
     setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     setTitle("Kaufvertragsmanager");
     setName("Kaufvertragsmanager");
     setSize(new Dimension(800, 450));
     setPreferredSize(new Dimension(800, 450));
-    getContentPane().add(jpanel1);
+    getContentPane().add(jPanel1);
 
-    jpanel1.setLayout(new GridLayout());
-    //jpanel1.add(classformular); //TODO: ersetze mit klasse für start-seite
+    jPanel1.setLayout(new GridLayout());
+    //jpanel1.add(classFormular); //TODO: ersetze mit klasse für start-seite
 
     pack();
     setLocationRelativeTo(null);
   }
 
-  //private Classformular classformular; //TODO: ersetze mit klasse für start-seite
-  private JPanel jpanel1;
+  //private ClassFormular classFormular; //TODO: ersetze mit klasse für start-seite
+  private JPanel jPanel1;
 }
