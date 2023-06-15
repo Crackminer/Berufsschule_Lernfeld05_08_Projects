@@ -7,15 +7,24 @@ import Kaufvertrag.Kaufvertrag.dataLayer.dataAccessObjects.IDataLayer;
 
 public class DataLayerSqlite implements IDataLayer
 {
+  private VertragspartnerDaoSqlite daoVertragspartner;
+  private WareDaoSqlite daoWare;
+
+  public DataLayerSqlite()
+  {
+    daoVertragspartner = new VertragspartnerDaoSqlite();
+    daoWare = new WareDaoSqlite();
+  }
+
   @Override
   public IDao<IVertragspartner, String> getDaoVertragspartner()
   {
-    return null;
+    return daoVertragspartner;
   }
 
   @Override
   public IDao<IWare, Long> getDaoWare()
   {
-    return null;
+    return daoWare;
   }
 }

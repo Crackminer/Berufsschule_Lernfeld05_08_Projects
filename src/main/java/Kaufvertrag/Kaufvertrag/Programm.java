@@ -1,31 +1,26 @@
 package Kaufvertrag.Kaufvertrag;
 
-import Kaufvertrag.Kaufvertrag.presentationLayer.RootFrame;
-
-import java.awt.*;
-
 public class Programm
 {
+    private static IApplication inputMethod;
     public static void main(String[] args)
     {
         for(String s : args)
         {
-            if (s.equals("-Console"))
+            if ("-Console".equals(s))
             {
-                startConsoleApplication();
-                return;
+                inputMethod = inputMethod == null ? new ConsoleApplication() : inputMethod;
+            }
+            else if ("-GUI".equals(s))
+            {
+                inputMethod = inputMethod == null ? new WindowApplication() : inputMethod;
             }
         }
-
-        EventQueue.invokeLater(() ->
-        {
-            RootFrame root = new RootFrame();
-            root.setVisible(true);
-        });
+        inputMethod.startApplication();
     }
 
-    public static void startConsoleApplication()
+    public static String getPersistenceType()
     {
-        System.out.println("I was started as a Console application :)");
+        return inputMethod.getPersistenceType();
     }
 }
