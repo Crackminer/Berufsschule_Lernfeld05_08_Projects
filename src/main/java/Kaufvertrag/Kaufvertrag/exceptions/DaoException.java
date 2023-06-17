@@ -5,7 +5,7 @@ package Kaufvertrag.Kaufvertrag.exceptions;
  */
 public class DaoException extends Exception
 {
-  private String message;
+  private final String message;
   public DaoException(String message)
   {
     this.message = message;

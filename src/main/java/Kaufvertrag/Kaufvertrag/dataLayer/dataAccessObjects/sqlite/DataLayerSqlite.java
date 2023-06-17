@@ -9,10 +9,10 @@ import Kaufvertrag.Kaufvertrag.dataLayer.dataAccessObjects.IDataLayer;
 
 public class DataLayerSqlite implements IDataLayer
 {
-  private AdresseDaoSqlite daoAdresse;
-  private VertragspartnerDaoSqlite daoVertragspartner;
-  private WareDaoSqlite daoWare;
-  private KaufvertragDaoSqlite daoKaufvertrag;
+  private final AdresseDaoSqlite daoAdresse;
+  private final VertragspartnerDaoSqlite daoVertragspartner;
+  private final WareDaoSqlite daoWare;
+  private final KaufvertragDaoSqlite daoKaufvertrag;
 
   public DataLayerSqlite()
   {
