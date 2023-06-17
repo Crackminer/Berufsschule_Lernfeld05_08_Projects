@@ -16,6 +16,11 @@ public class Programm
                 inputMethod = inputMethod == null ? new WindowApplication() : inputMethod;
             }
         }
+        if (inputMethod == null)
+        {
+            System.out.println("The input method is not Specified.\nPlease start the program with '-Console' or '-GUI' to specify the input method.\n");
+            return;
+        }
         inputMethod.startApplication();
     }
 
