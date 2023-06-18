@@ -5,8 +5,10 @@ import java.awt.*;
 
 public class RootFrame extends JFrame
 {
+  private String persistenceType;
   public RootFrame()
   {
+    persistenceType = null;
     initComponents();
   }
 
@@ -20,15 +22,26 @@ public class RootFrame extends JFrame
     setName("Kaufvertragsmanager");
     setSize(new Dimension(800, 450));
     setPreferredSize(new Dimension(800, 450));
-    getContentPane().add(jPanel1);
+    add(jPanel1);
 
     jPanel1.setLayout(new GridLayout());
-    //jpanel1.add(classFormular); //TODO: ersetze mit klasse für start-seite
+    persistencePanel = new PersistencePanel();
+    jPanel1.add(persistencePanel);
 
     pack();
     setLocationRelativeTo(null);
   }
 
-  //private ClassFormular classFormular; //TODO: ersetze mit klasse für start-seite
+  public void setPersistenceType(String type)
+  {
+    this.persistenceType = type;
+  }
+
+  public String getPersistenceType()
+  {
+    return this.persistenceType;
+  }
+
+  private PersistencePanel persistencePanel;
   private JPanel jPanel1;
 }
