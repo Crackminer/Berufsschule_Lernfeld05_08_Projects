@@ -7,6 +7,12 @@ import java.awt.*;
 public class WindowApplication implements IApplication
 {
   private RootFrame root;
+
+  public WindowApplication()
+  {
+
+  }
+
   @Override
   public void startApplication()
   {
