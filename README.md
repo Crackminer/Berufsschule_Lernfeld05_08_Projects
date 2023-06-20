@@ -1,5 +1,6 @@
 # Berufsschule_Lernfeld05_08_Projects
 
+<h1>Usage within IntelliJ IDE</h1>
 To use this project from inside the IntelliJ IDE please click the Button in the following picture:<br />
 ![click_button](https://github.com/Crackminer/Berufsschule_Lernfeld05_08_Projects/assets/87083544/582054b4-a39b-485c-b730-6ce9c32dd8c1)
 <br />
@@ -38,6 +39,7 @@ Now you can select the option from the table and hit 'start' to run the program 
 I strongly recommend you to make both the GUI and the Console available for you.<br />
 <br />
 <br />
+<h1>Building the Project with maven</h1>
 To build the project please go into the directory of the project.                           <br />
 Make sure you have maven installed for this and make sure that the active jdk is jdk 18.    <br />
 
