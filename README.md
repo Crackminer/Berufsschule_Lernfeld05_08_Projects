@@ -2,7 +2,8 @@
 
 <h1>Usage within IntelliJ IDE</h1>
 To use this project from inside the IntelliJ IDE please click the Button in the following picture:<br />
-![click_button](https://github.com/Crackminer/Berufsschule_Lernfeld05_08_Projects/assets/87083544/582054b4-a39b-485c-b730-6ce9c32dd8c1)
+
+![click_button](https://github.com/Crackminer/Berufsschule_Lernfeld05_08_Projects/assets/87083544/d4b4e252-99e0-4a88-b099-9e9f40ce9d57)
 <br />
 
 Now you select edit configurations:<br />
