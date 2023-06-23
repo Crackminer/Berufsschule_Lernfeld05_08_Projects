@@ -1,7 +1,9 @@
 package Kaufvertrag.Kaufvertrag;
 
 import Kaufvertrag.Kaufvertrag.presentationLayer.RootFrame;
+import com.formdev.flatlaf.FlatDarkLaf;
 
+import javax.swing.*;
 import java.awt.*;
 
 public class WindowApplication implements IApplication
@@ -17,6 +19,7 @@ public class WindowApplication implements IApplication
   public void startApplication()
   {
     EventQueue.invokeLater(() -> {
+      FlatDarkLaf.setup();
       root = new RootFrame();
       root.setVisible(true);
     });

@@ -11,6 +11,10 @@ public class PersistencePanel extends JPanel
     initComponents();
   }
 
+  /**
+   * //TODO: panel mit drop-down-menue für sql oder xml
+   * //TODO: panel mit button zum bestätigen und button zum beenden
+   */
   private void initComponents()
   {
     GridBagConstraints gridBagConstraints;
