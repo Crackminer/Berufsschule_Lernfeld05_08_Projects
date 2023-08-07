@@ -39,6 +39,6 @@ public class DataLayerManager
 
   private String readPersistenceType()
   {
-    return Programm.getPersistenceType();
+    return persistenceType == null ? persistenceType = Programm.getPersistenceType() : persistenceType;
   }
 }
