@@ -36,7 +36,7 @@ public class AdresseDaoSqlite implements IDao<IAdresse, Long>
   }
 
   @Override
-  public IAdresse create(IAdresse objectToInsert)
+  public void create(IAdresse objectToInsert)
   {
     try
     {
@@ -53,7 +53,6 @@ public class AdresseDaoSqlite implements IDao<IAdresse, Long>
     {
       System.out.println("There was an unexpected Exception in AdresseDaoSqlite#create(IAdresse objectToInsert).");
     }
-    return objectToInsert;
   }
 
   @Override

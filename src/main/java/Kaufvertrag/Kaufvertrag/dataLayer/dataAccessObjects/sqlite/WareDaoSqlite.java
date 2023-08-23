@@ -14,9 +14,9 @@ public class WareDaoSqlite implements IDao<IWare, Long>
   }
 
   @Override
-  public IWare create(IWare objectToInsert)
+  public void create(IWare objectToInsert)
   {
-    return null;
+
   }
 
   @Override

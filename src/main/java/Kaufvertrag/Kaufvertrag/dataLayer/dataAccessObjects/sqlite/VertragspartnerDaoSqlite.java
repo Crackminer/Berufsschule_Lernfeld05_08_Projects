@@ -14,9 +14,9 @@ public class VertragspartnerDaoSqlite implements IDao<IVertragspartner, String>
   }
 
   @Override
-  public IVertragspartner create(IVertragspartner objectToInsert)
+  public void create(IVertragspartner objectToInsert)
   {
-    return null;
+
   }
 
   @Override

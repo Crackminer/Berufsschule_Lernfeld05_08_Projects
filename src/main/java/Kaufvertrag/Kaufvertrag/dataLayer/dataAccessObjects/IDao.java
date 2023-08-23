@@ -8,7 +8,7 @@ import java.util.List;
 public interface IDao<T, K>
 {
   T create();
-  T create(T objectToInsert);
+  void create(T objectToInsert);
   T read(K id);
   List<T> readAll();
   void update(T objectToUpdate);

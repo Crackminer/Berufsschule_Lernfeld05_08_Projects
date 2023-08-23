@@ -14,9 +14,9 @@ public class KaufvertragDaoSqlite implements IDao<IKaufvertrag, Long>
   }
 
   @Override
-  public IKaufvertrag create(IKaufvertrag objectToInsert)
+  public void create(IKaufvertrag objectToInsert)
   {
-    return null;
+
   }
 
   @Override

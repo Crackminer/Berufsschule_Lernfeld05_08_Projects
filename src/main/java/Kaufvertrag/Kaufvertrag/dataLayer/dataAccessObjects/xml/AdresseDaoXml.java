@@ -7,14 +7,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.*;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -83,7 +75,7 @@ public class AdresseDaoXml implements IDao<IAdresse, Long>
   }
 
   @Override
-  public IAdresse create(IAdresse objectToInsert)
+  public void create(IAdresse objectToInsert)
   {
     try
     {
@@ -111,13 +103,11 @@ public class AdresseDaoXml implements IDao<IAdresse, Long>
 
       root.appendChild(nodeID);
       writeToXML(doc, new FileOutputStream(FILEPATH));
-      return objectToInsert;
     }
     catch (IOException ex)
     {
       System.out.println("There was an unexpected Exception in AdresseDaoXml#create(IAdresse objectToInsert).");
     }
-    return null;
   }
 
   @Override
