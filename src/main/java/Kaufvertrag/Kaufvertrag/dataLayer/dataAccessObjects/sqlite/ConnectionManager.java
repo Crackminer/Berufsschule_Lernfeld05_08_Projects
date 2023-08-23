@@ -13,12 +13,13 @@ public class ConnectionManager
   {
     try
     {
-      if (classLoaded)
+      if (!classLoaded)
       {
         Class.forName(CLASSNAME);
         classLoaded = true;
       }
-      existingConnection.close();
+      if (existingConnection != null && !existingConnection.isClosed())
+        existingConnection.close();
       existingConnection = DriverManager.getConnection(CONNECTIONSTRING);
     }
     catch (Exception ex)
@@ -37,9 +38,12 @@ public class ConnectionManager
   {
     try
     {
-      resultSet.close();
-      statement.close();
-      connection.close();
+      if(resultSet != null && !resultSet.isClosed())
+        resultSet.close();
+      if(statement != null && !statement.isClosed())
+        statement.close();
+      if(connection != null && !connection.isClosed())
+        connection.close();
     }
     catch (Exception ex)
     {
