@@ -19,6 +19,9 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static Kaufvertrag.Kaufvertrag.dataLayer.dataAccessObjects.xml.XMLManager.getDocument;
+import static Kaufvertrag.Kaufvertrag.dataLayer.dataAccessObjects.xml.XMLManager.writeToXML;
+
 public class AdresseDaoXml implements IDao<IAdresse, Long>
 {
   /************************************************************************************/
@@ -40,35 +43,12 @@ public class AdresseDaoXml implements IDao<IAdresse, Long>
   /************************************************************************************/
   private static final String FILEPATH = "Berufsschule_Lernfeld05_08_Projects/src/main/java/Kaufvertrag/Kaufvertrag/XML/Adresse.xml";
 
-  private Document getDocument()
-  {
-    try
-    {
-      DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-      DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-      File file = new File(FILEPATH);
-      if (file.exists())
-      {
-        return docBuilder.parse(file);
-      }
-      Document doc = docBuilder.newDocument();
-      Element rootElement = doc.createElement("adresse");
-      doc.appendChild(rootElement);
-      return doc;
-    }
-    catch (SAXException | IOException | ParserConfigurationException ex)
-    {
-      System.out.println("There was an unexpected Exception in AdresseDaoXml#getDocument().");
-    }
-    return null;
-  }
-
   @Override
   public IAdresse create()
   {
     try
     {
-      Document doc = getDocument();
+      Document doc = getDocument(FILEPATH);
       Element root = doc.getElementById("adresse");
       Element nodeID = doc.createElement("id");
       //get the id here pls.
@@ -107,7 +87,7 @@ public class AdresseDaoXml implements IDao<IAdresse, Long>
   {
     try
     {
-      Document doc = getDocument();
+      Document doc = getDocument(FILEPATH);
       Element root = doc.getElementById("adresse");
       Element nodeID = doc.createElement("id");
       //get the id here pls.
@@ -143,7 +123,7 @@ public class AdresseDaoXml implements IDao<IAdresse, Long>
   @Override
   public IAdresse read(Long id)
   {
-    Document doc = getDocument();
+    Document doc = getDocument(FILEPATH);
     Element root = doc.getElementById("adresse");
     Element nodeID = root.getOwnerDocument().getElementById(id.toString());
     Adresse adresse = new Adresse(nodeID.getElementsByTagName("strasse").item(0).getNodeValue(), nodeID.getElementsByTagName("hausnummer").item(0).getNodeValue(), nodeID.getElementsByTagName("postleitzahl").item(0).getNodeValue(), nodeID.getElementsByTagName("ort").item(0).getNodeValue());
@@ -153,7 +133,7 @@ public class AdresseDaoXml implements IDao<IAdresse, Long>
   @Override
   public List<IAdresse> readAll()
   {
-    Document doc = getDocument();
+    Document doc = getDocument(FILEPATH);
     Element root = doc.getElementById("adresse");
     List<IAdresse> adressListe = new ArrayList<>();
     NodeList adressen = root.getElementsByTagName("id");
@@ -170,7 +150,7 @@ public class AdresseDaoXml implements IDao<IAdresse, Long>
   {
     try
     {
-      Document doc = getDocument();
+      Document doc = getDocument(FILEPATH);
       Element root = doc.getElementById("adresse");
       //get the id here pls.
       Element nodeID = root.getOwnerDocument().getElementById("");
@@ -200,7 +180,7 @@ public class AdresseDaoXml implements IDao<IAdresse, Long>
   {
     try
     {
-      Document doc = getDocument();
+      Document doc = getDocument(FILEPATH);
       Element root = doc.getElementById("adresse");
       Element nodeID = root.getOwnerDocument().getElementById(id.toString());
       root.removeChild(nodeID);
@@ -209,26 +189,6 @@ public class AdresseDaoXml implements IDao<IAdresse, Long>
       catch (IOException ex)
     {
       System.out.println("There was an unexpected Exception in AdresseDaoXml#delete(Long id).");
-    }
-  }
-
-  private void writeToXML(Document doc, OutputStream output)
-  {
-    try
-    {
-      TransformerFactory transformerFactory = TransformerFactory.newInstance();
-      Transformer transformer = transformerFactory.newTransformer();
-
-      transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-
-      DOMSource source = new DOMSource(doc);
-      StreamResult result = new StreamResult(output);
-
-      transformer.transform(source, result);
-    }
-    catch (TransformerException ex)
-    {
-      System.out.println("There was an unexpected Exception in AdresseDaoXml#writeToXML(Document doc, OutputStream output).");
     }
   }
 }
