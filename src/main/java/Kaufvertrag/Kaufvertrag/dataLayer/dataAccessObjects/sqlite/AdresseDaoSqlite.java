@@ -19,7 +19,7 @@ public class AdresseDaoSqlite implements IDao<IAdresse, Long>
     Adresse objectToInsert = new Adresse("", "", "", "");
     try
     {
-      Connection connection = new ConnectionManager().getNewConnection();
+      Connection connection = ConnectionManager.getNewConnection();
       String query = "INSERT into adresse (strasse, hausnummer, postleitzahl, ort) values(?, ?, ?, ?)";
       PreparedStatement statement = connection.prepareStatement(query);
       statement.setString(1, objectToInsert.getStrasse());
@@ -40,7 +40,7 @@ public class AdresseDaoSqlite implements IDao<IAdresse, Long>
   {
     try
     {
-      Connection connection = new ConnectionManager().getNewConnection();
+      Connection connection = ConnectionManager.getNewConnection();
       String query = "INSERT into adresse (strasse, hausnummer, postleitzahl, ort) values(?, ?, ?, ?)";
       PreparedStatement statement = connection.prepareStatement(query);
       statement.setString(1, objectToInsert.getStrasse());
@@ -60,7 +60,7 @@ public class AdresseDaoSqlite implements IDao<IAdresse, Long>
   {
     try
     {
-      Connection connection = new ConnectionManager().getNewConnection();
+      Connection connection = ConnectionManager.getNewConnection();
       String query = "SELECT strasse, hausnummer, postleitzahl, ort from adresse WHERE id = ?";
       PreparedStatement statement = connection.prepareStatement(query);
       statement.setLong(1, id);
@@ -83,7 +83,7 @@ public class AdresseDaoSqlite implements IDao<IAdresse, Long>
   {
     try
     {
-      Connection connection = new ConnectionManager().getNewConnection();
+      Connection connection = ConnectionManager.getNewConnection();
       String query = "SELECT strasse, hausnummer, postleitzahl, ort from adresse";
       PreparedStatement statement = connection.prepareStatement(query);
       ResultSet result = statement.executeQuery();
@@ -110,7 +110,7 @@ public class AdresseDaoSqlite implements IDao<IAdresse, Long>
   {
     try
     {
-      Connection connection = new ConnectionManager().getNewConnection();
+      Connection connection = ConnectionManager.getNewConnection();
       String query = "UPDATE adresse SET strasse = ?, hausnummer = ?, postleitzahl = ?, ort = ? WHERE id = ?";
       PreparedStatement statement = connection.prepareStatement(query);
       statement.setString(1, objectToUpdate.getStrasse());
@@ -132,7 +132,7 @@ public class AdresseDaoSqlite implements IDao<IAdresse, Long>
   {
     try
     {
-      Connection connection = new ConnectionManager().getNewConnection();
+      Connection connection = ConnectionManager.getNewConnection();
       String query = "DELETE from adresse WHERE id = ?";
       PreparedStatement statement = connection.prepareStatement(query);
       statement.setLong(1, id);

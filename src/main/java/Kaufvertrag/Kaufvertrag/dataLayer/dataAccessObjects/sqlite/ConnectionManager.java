@@ -9,7 +9,7 @@ public class ConnectionManager
   private static Connection existingConnection;
   private static boolean classLoaded = false;
 
-  public Connection getNewConnection()
+  public static Connection getNewConnection()
   {
     try
     {
@@ -29,12 +29,12 @@ public class ConnectionManager
     return existingConnection;
   }
 
-  public Connection getExistingConnection()
+  public static Connection getExistingConnection()
   {
     return existingConnection;
   }
 
-  public void close(ResultSet resultSet, Statement statement, Connection connection)
+  public static void close(ResultSet resultSet, Statement statement, Connection connection)
   {
     try
     {
