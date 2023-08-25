@@ -3,6 +3,7 @@ package Kaufvertrag.Kaufvertrag.presentationLayer;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class PersistencePanel extends JPanel
 {
@@ -20,33 +21,21 @@ public class PersistencePanel extends JPanel
     GridBagConstraints gridBagConstraints;
     this.setLayout(new GridBagLayout());
 
-    xmlButton = new JButton("xml");
-    xmlButton.addActionListener((ActionEvent e) ->
-    {
-             //JButton.  JPanel   .  JPanel   .JLayeredPane. JRootPane.  JFrame
-      ((RootFrame)this.getParent().getParent().getParent().getParent().getParent()).setPersistenceType("xml");
-    });
+    persistanceComboBox = new JComboBox<String>();
+    persistanceComboBox.addItem("xml");
+    persistanceComboBox.addItem("sqlite");
+    persistanceComboBox.addActionListener((ActionEvent e) ->
+      {
+        ((RootFrame)this.getParent().getParent().getParent().getParent().getParent()).setPersistenceType((String)persistanceComboBox.getSelectedItem());
+      }
+    );
 
     gridBagConstraints = new GridBagConstraints();
     gridBagConstraints.insets = new Insets(4, 7, 5, 8);
     gridBagConstraints.gridx = 0;
     gridBagConstraints.gridy = 0;
-    this.add(xmlButton, gridBagConstraints);
-
-    sqliteButton = new JButton("sqlite");
-    sqliteButton.addActionListener((ActionEvent e) ->
-    {
-             //JButton.  JPanel   .  JPanel   .JLayeredPane. JRootPane.  JFrame
-      ((RootFrame)this.getParent().getParent().getParent().getParent().getParent()).setPersistenceType("sqlite");
-    });
-
-    gridBagConstraints = new GridBagConstraints();
-    gridBagConstraints.insets = new Insets(4, 7, 5, 8);
-    gridBagConstraints.gridx = 0;
-    gridBagConstraints.gridy = 1;
-    this.add(sqliteButton, gridBagConstraints);
+    this.add(persistanceComboBox, gridBagConstraints);
   }
 
-  private JButton xmlButton;
-  private JButton sqliteButton;
+  private JComboBox<String> persistanceComboBox;
 }

@@ -33,4 +33,28 @@ public class ConsoleApplication implements IApplication
     }
     return type;
   }
+
+  @Override
+  public Long getID()
+  {
+    return null;
+  }
+
+  @Override
+  public String getString(String whatToGetTheStringFor, Class classForTheString)
+  {
+    return null;
+  }
+
+  @Override
+  public int getInt(String whatToGetTheIntFor, Class classForTheInt)
+  {
+    return 0;
+  }
+
+  @Override
+  public double getDouble(String whatToGetTheDoubleFor, Class classForTheDouble)
+  {
+    return 0;
+  }
 }

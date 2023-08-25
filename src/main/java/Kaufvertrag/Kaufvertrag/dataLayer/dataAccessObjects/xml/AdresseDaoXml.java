@@ -16,23 +16,23 @@ import static Kaufvertrag.Kaufvertrag.dataLayer.dataAccessObjects.xml.XMLManager
 
 public class AdresseDaoXml implements IDao<IAdresse, Long>
 {
-  /************************************************************************************/
-  /************************************************************************************/
-  /** xml sollte wie folgt aussehen:                                                 **/
-  /** xml-datei                                                                      **/
-  /** root-node adresse                                                              **/
-  /**     node id                                                                    **/
-  /**         node strasse                                                           **/
-  /**         node hausnummer                                                        **/
-  /**         node plz                                                               **/
-  /**         node ort                                                               **/
-  /**     node id2                                                                   **/
-  /**         node strasse2                                                          **/
-  /**         node hausnummer2                                                       **/
-  /**         node plz2                                                              **/
-  /**         node ort2                                                              **/
-  /************************************************************************************/
-  /************************************************************************************/
+  /* ********************************************************************************** */
+  /* ********************************************************************************** */
+  /* * xml sollte wie folgt aussehen:                                                 * */
+  /* * xml-datei                                                                      * */
+  /* * root-node adresse                                                              * */
+  /* *     node id                                                                    * */
+  /* *         node strasse                                                           * */
+  /* *         node hausnummer                                                        * */
+  /* *         node plz                                                               * */
+  /* *         node ort                                                               * */
+  /* *     node id2                                                                   * */
+  /* *         node strasse2                                                          * */
+  /* *         node hausnummer2                                                       * */
+  /* *         node plz2                                                              * */
+  /* *         node ort2                                                              * */
+  /* ********************************************************************************** */
+  /* ********************************************************************************** */
   private static final String FILEPATH = "Berufsschule_Lernfeld05_08_Projects/src/main/java/Kaufvertrag/Kaufvertrag/XML/Adresse.xml";
 
   @Override
@@ -41,6 +41,7 @@ public class AdresseDaoXml implements IDao<IAdresse, Long>
     try
     {
       Document doc = getDocument(FILEPATH);
+      assert doc != null;
       Element root = doc.getElementById("adresse");
       Element nodeID = doc.createElement("id");
       //get the id here pls.
@@ -80,6 +81,7 @@ public class AdresseDaoXml implements IDao<IAdresse, Long>
     try
     {
       Document doc = getDocument(FILEPATH);
+      assert doc != null;
       Element root = doc.getElementById("adresse");
       Element nodeID = doc.createElement("id");
       //get the id here pls.
@@ -114,16 +116,17 @@ public class AdresseDaoXml implements IDao<IAdresse, Long>
   public IAdresse read(Long id)
   {
     Document doc = getDocument(FILEPATH);
+    assert doc != null;
     Element root = doc.getElementById("adresse");
     Element nodeID = root.getOwnerDocument().getElementById(id.toString());
-    Adresse adresse = new Adresse(nodeID.getElementsByTagName("strasse").item(0).getNodeValue(), nodeID.getElementsByTagName("hausnummer").item(0).getNodeValue(), nodeID.getElementsByTagName("postleitzahl").item(0).getNodeValue(), nodeID.getElementsByTagName("ort").item(0).getNodeValue());
-    return adresse;
+    return new Adresse(nodeID.getElementsByTagName("strasse").item(0).getNodeValue(), nodeID.getElementsByTagName("hausnummer").item(0).getNodeValue(), nodeID.getElementsByTagName("postleitzahl").item(0).getNodeValue(), nodeID.getElementsByTagName("ort").item(0).getNodeValue());
   }
 
   @Override
   public List<IAdresse> readAll()
   {
     Document doc = getDocument(FILEPATH);
+    assert doc != null;
     Element root = doc.getElementById("adresse");
     List<IAdresse> adressListe = new ArrayList<>();
     NodeList adressen = root.getElementsByTagName("id");
@@ -141,6 +144,7 @@ public class AdresseDaoXml implements IDao<IAdresse, Long>
     try
     {
       Document doc = getDocument(FILEPATH);
+      assert doc != null;
       Element root = doc.getElementById("adresse");
       //get the id here pls.
       Element nodeID = root.getOwnerDocument().getElementById("");
@@ -171,12 +175,13 @@ public class AdresseDaoXml implements IDao<IAdresse, Long>
     try
     {
       Document doc = getDocument(FILEPATH);
+      assert doc != null;
       Element root = doc.getElementById("adresse");
       Element nodeID = root.getOwnerDocument().getElementById(id.toString());
       root.removeChild(nodeID);
       writeToXML(doc, new FileOutputStream(FILEPATH));
     }
-      catch (IOException ex)
+    catch (IOException ex)
     {
       System.out.println("There was an unexpected Exception in AdresseDaoXml#delete(Long id).");
     }
