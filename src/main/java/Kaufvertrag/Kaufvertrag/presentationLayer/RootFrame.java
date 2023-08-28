@@ -9,6 +9,8 @@ import java.awt.event.ActionEvent;
 
 public class RootFrame extends JFrame
 {
+  public static XMLPanel xmlPanel = new XMLPanel();
+  public static SQLITEPanel sqlitePanel = new SQLITEPanel();
   private String persistenceType;
   public RootFrame()
   {
@@ -92,7 +94,8 @@ public class RootFrame extends JFrame
     constraints.gridy = 1;
     constraints.weighty = 1f;
     constraints.anchor = GridBagConstraints.CENTER;
-    jPanel1.add(persistencePanel, constraints);
+    currentContentPanel = persistencePanel;
+    jPanel1.add(currentContentPanel, constraints);
 
     pack();
     setLocationRelativeTo(null);
@@ -107,6 +110,14 @@ public class RootFrame extends JFrame
   {
     return this.persistenceType;
   }
+
+  public void setPanel(JPanel panel)
+  {
+    currentContentPanel = panel;
+    this.repaint();
+  }
+
+  private JPanel currentContentPanel;
 
   private PersistencePanel persistencePanel;
   private JPanel jPanel1;

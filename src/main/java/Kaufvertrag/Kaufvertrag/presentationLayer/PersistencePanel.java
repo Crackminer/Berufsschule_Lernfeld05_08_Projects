@@ -12,9 +12,6 @@ public class PersistencePanel extends JPanel
     initComponents();
   }
 
-  /**
-   * //TODO: panel mit button zum bestätigen und button zum beenden
-   */
   private void initComponents()
   {
     GridBagConstraints gridBagConstraints;
@@ -44,6 +41,11 @@ public class PersistencePanel extends JPanel
     this.add(persistanceComboBox, gridBagConstraints);
 
     confirmButton = new JButton("Confirm");
+    confirmButton.addActionListener((ActionEvent e) ->
+      {
+        ((RootFrame)this.getParent().getParent().getParent().getParent().getParent()).setPanel(((String)persistanceComboBox.getSelectedItem()).equals("xml") ? RootFrame.xmlPanel : RootFrame.sqlitePanel);
+      }
+    );
     gridBagConstraints = new GridBagConstraints();
     gridBagConstraints.insets = new Insets(4, 7, 5, 8);
     gridBagConstraints.gridx = 0;
@@ -54,4 +56,5 @@ public class PersistencePanel extends JPanel
   private JLabel menueLabel;
   private JComboBox<String> persistanceComboBox;
   private JButton confirmButton;
+  private JButton exitButton;
 }
