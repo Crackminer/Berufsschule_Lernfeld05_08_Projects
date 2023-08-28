@@ -1,6 +1,7 @@
 package Kaufvertrag.Kaufvertrag.presentationLayer;
 
 import com.formdev.flatlaf.FlatDarkLaf;
+import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.FlatLightLaf;
 
 import javax.swing.*;
@@ -101,7 +102,9 @@ public class RootFrame extends JFrame
     constraints.gridy = 1;
     constraints.weighty = 1f;
     constraints.anchor = GridBagConstraints.CENTER;
-    currentContentPanel = persistencePanel;
+    currentContentPanel = new JPanel();
+    currentContentPanel.setSize(this.getSize());
+    currentContentPanel.add(persistencePanel);
     jPanel1.add(currentContentPanel, constraints);
 
     constraints.gridy = 2;
@@ -123,7 +126,6 @@ public class RootFrame extends JFrame
     constraints.anchor = GridBagConstraints.SOUTHEAST;
     jPanel1.add(exitButton, constraints);
 
-    pack();
     setLocationRelativeTo(null);
   }
 
@@ -140,7 +142,6 @@ public class RootFrame extends JFrame
   public void setBack(JPanel panel)
   {
     backButton.removeActionListener(currentActionListener);
-    backButton.setVisible(panel != null);
     currentActionListener = (ActionEvent e) ->
     {
       setPanel(panel);
@@ -150,9 +151,13 @@ public class RootFrame extends JFrame
 
   public void setPanel(JPanel panel)
   {
+    GridBagConstraints constraints = new GridBagConstraints();
+    constraints.weightx = 1f;
+    constraints.weighty = 1f;
     currentContentPanel.removeAll();
-    currentContentPanel.add(panel);
-    this.repaint();
+    currentContentPanel.add(panel, constraints);
+    backButton.setVisible(currentContentPanel.getComponent(0) != persistencePanel);
+    FlatLaf.updateUI();
   }
 
   private JPanel currentContentPanel;

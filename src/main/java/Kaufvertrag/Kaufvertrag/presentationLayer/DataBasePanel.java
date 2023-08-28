@@ -3,6 +3,7 @@ package Kaufvertrag.Kaufvertrag.presentationLayer;
 import javax.swing.*;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
+import java.awt.*;
 
 public class DataBasePanel extends JPanel
 {
@@ -11,29 +12,46 @@ public class DataBasePanel extends JPanel
   public DataBasePanel(String persistence)
   {
     this.persistence = persistence;
-    //RootFrame.instance.setBack(PersistencePanel.instance);
+    RootFrame.instance.setBack(PersistencePanel.instance);
     initComponents();
   }
 
   private void initComponents()
   {
     persistenceTable = new JTable();
-    persistenceTableHeader = new JTableHeader();
+    persistenceTable.setPreferredScrollableViewportSize(new Dimension(500, 70));
+    persistenceTable.setFillsViewportHeight(true);
+
+    pane = new JScrollPane(persistenceTable);
 
     TableColumn idColumn = new TableColumn();
     idColumn.setIdentifier("ID");
     idColumn.setHeaderValue("ID");
     idColumn.setWidth(200);
 
+    TableColumn buyerColumn = new TableColumn();
+    buyerColumn.setIdentifier("BUYER");
+    buyerColumn.setHeaderValue("Buyer");
+    buyerColumn.setWidth(200);
+
+    TableColumn sellerColumn = new TableColumn();
+    sellerColumn.setIdentifier("SELLER");
+    sellerColumn.setHeaderValue("Seller");
+    sellerColumn.setWidth(200);
+
+    TableColumn waresColumn = new TableColumn();
+    waresColumn.setIdentifier("WARES");
+    waresColumn.setHeaderValue("Wares");
+    waresColumn.setWidth(200);
+
     persistenceTable.addColumn(idColumn);
-    persistenceTable.add(new JButton("Hello"));
+    persistenceTable.addColumn(buyerColumn);
+    persistenceTable.addColumn(sellerColumn);
+    persistenceTable.addColumn(waresColumn);
 
-    persistenceTableHeader.setTable(persistenceTable);
-
-    this.add(persistenceTableHeader);
-    this.add(persistenceTable);
+    this.add(pane);
   }
 
   private JTable persistenceTable;
-  private JTableHeader persistenceTableHeader;
+  private JScrollPane pane;
 }

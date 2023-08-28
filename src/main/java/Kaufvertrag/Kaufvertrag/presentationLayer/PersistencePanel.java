@@ -10,7 +10,7 @@ public class PersistencePanel extends JPanel
 
   public PersistencePanel()
   {
-    this.instance = this;
+    instance = this;
     initComponents();
   }
 
