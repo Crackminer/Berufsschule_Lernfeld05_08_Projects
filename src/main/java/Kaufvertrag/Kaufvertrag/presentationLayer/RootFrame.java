@@ -110,7 +110,8 @@ public class RootFrame extends JFrame
     JButton exitButton = new JButton("Exit");
     exitButton.addActionListener((ActionEvent e) ->
       {
-        System.exit(0);
+        ConfirmationFrame.confirm();
+        //System.exit(0);
       }
     );
     backButton = new JButton("Back");

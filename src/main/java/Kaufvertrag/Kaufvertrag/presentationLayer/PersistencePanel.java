@@ -19,7 +19,7 @@ public class PersistencePanel extends JPanel
     GridBagConstraints gridBagConstraints;
     this.setLayout(new GridBagLayout());
 
-    menueLabel = new JLabel("Menue");
+    menueLabel = new JLabel("Menu");
     menueLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));
     gridBagConstraints = new GridBagConstraints();
     gridBagConstraints.insets = new Insets(4, 7, 5, 8);
