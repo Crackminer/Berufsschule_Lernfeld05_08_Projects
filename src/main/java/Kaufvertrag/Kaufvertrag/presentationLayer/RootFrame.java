@@ -10,8 +10,6 @@ import java.awt.event.ActionListener;
 
 public class RootFrame extends JFrame
 {
-  public static XMLPanel xmlPanel = new XMLPanel();
-  public static SQLITEPanel sqlitePanel = new SQLITEPanel();
   private String persistenceType;
   public static RootFrame instance;
 
@@ -141,12 +139,10 @@ public class RootFrame extends JFrame
   public void setBack(JPanel panel)
   {
     backButton.removeActionListener(currentActionListener);
+    backButton.setVisible(panel != null);
     currentActionListener = (ActionEvent e) ->
     {
-      backButton.setVisible(!panel.equals(persistencePanel));
-      this.currentContentPanel.removeAll();
-      this.currentContentPanel.add(panel);
-      this.repaint();
+      setPanel(panel);
     };
     backButton.addActionListener(currentActionListener);
   }

@@ -3,12 +3,14 @@ package Kaufvertrag.Kaufvertrag.presentationLayer;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.util.Objects;
 
 public class PersistencePanel extends JPanel
 {
+  public static PersistencePanel instance;
+
   public PersistencePanel()
   {
+    this.instance = this;
     initComponents();
   }
 
@@ -45,8 +47,7 @@ public class PersistencePanel extends JPanel
     confirmButton = new JButton("Confirm");
     confirmButton.addActionListener((ActionEvent e) ->
       {
-        RootFrame.instance.setPanel(Objects.equals((String) persistanceComboBox.getSelectedItem(), "xml") ? RootFrame.xmlPanel : RootFrame.sqlitePanel);
-        RootFrame.instance.setBack(this);
+        RootFrame.instance.setPanel(new DataBasePanel((String)persistanceComboBox.getSelectedItem()));
       }
     );
     gridBagConstraints = new GridBagConstraints();
