@@ -13,13 +13,20 @@ public class PersistencePanel extends JPanel
   }
 
   /**
-   * //TODO: panel mit drop-down-menue für sql oder xml
    * //TODO: panel mit button zum bestätigen und button zum beenden
    */
   private void initComponents()
   {
     GridBagConstraints gridBagConstraints;
     this.setLayout(new GridBagLayout());
+
+    menueLabel = new JLabel("Menue");
+    menueLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));
+    gridBagConstraints = new GridBagConstraints();
+    gridBagConstraints.insets = new Insets(4, 7, 5, 8);
+    gridBagConstraints.gridx = 0;
+    gridBagConstraints.gridy = 0;
+    this.add(menueLabel, gridBagConstraints);
 
     persistanceComboBox = new JComboBox<String>();
     persistanceComboBox.addItem("xml");
@@ -33,9 +40,18 @@ public class PersistencePanel extends JPanel
     gridBagConstraints = new GridBagConstraints();
     gridBagConstraints.insets = new Insets(4, 7, 5, 8);
     gridBagConstraints.gridx = 0;
-    gridBagConstraints.gridy = 0;
+    gridBagConstraints.gridy = 1;
     this.add(persistanceComboBox, gridBagConstraints);
+
+    confirmButton = new JButton("Confirm");
+    gridBagConstraints = new GridBagConstraints();
+    gridBagConstraints.insets = new Insets(4, 7, 5, 8);
+    gridBagConstraints.gridx = 0;
+    gridBagConstraints.gridy = 2;
+    this.add(confirmButton, gridBagConstraints);
   }
 
+  private JLabel menueLabel;
   private JComboBox<String> persistanceComboBox;
+  private JButton confirmButton;
 }

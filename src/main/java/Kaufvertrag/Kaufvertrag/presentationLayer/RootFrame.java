@@ -87,9 +87,11 @@ public class RootFrame extends JFrame
     constraints.gridx = 0;
     constraints.gridy = 0;
     constraints.weightx = 1f;
+    constraints.anchor = GridBagConstraints.WEST;
     jPanel1.add(darkLightModePanel, constraints);
     constraints.gridy = 1;
     constraints.weighty = 1f;
+    constraints.anchor = GridBagConstraints.CENTER;
     jPanel1.add(persistencePanel, constraints);
 
     pack();
