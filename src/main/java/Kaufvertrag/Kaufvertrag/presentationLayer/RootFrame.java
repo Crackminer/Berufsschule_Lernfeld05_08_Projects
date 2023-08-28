@@ -6,16 +6,20 @@ import com.formdev.flatlaf.FlatLightLaf;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class RootFrame extends JFrame
 {
   public static XMLPanel xmlPanel = new XMLPanel();
   public static SQLITEPanel sqlitePanel = new SQLITEPanel();
   private String persistenceType;
+  public static RootFrame instance;
+
   public RootFrame()
   {
     persistenceType = null;
     initComponents();
+    instance = this;
   }
 
   private void initComponents()
@@ -30,6 +34,8 @@ public class RootFrame extends JFrame
     ButtonGroup group = new ButtonGroup();
     JRadioButton lightMode = new JRadioButton("Light");
     JRadioButton darkMode = new JRadioButton("Dark");
+    commandPanel = new JPanel();
+    commandPanel.setLayout(new GridLayout());
 
     darkMode.setSelected(true);
 
@@ -86,16 +92,37 @@ public class RootFrame extends JFrame
     jPanel1.setLayout(new GridBagLayout());
     persistencePanel = new PersistencePanel();
     GridBagConstraints constraints = new GridBagConstraints();
+
     constraints.gridx = 0;
     constraints.gridy = 0;
+    constraints.gridwidth = 2;
     constraints.weightx = 1f;
     constraints.anchor = GridBagConstraints.WEST;
     jPanel1.add(darkLightModePanel, constraints);
+
     constraints.gridy = 1;
     constraints.weighty = 1f;
     constraints.anchor = GridBagConstraints.CENTER;
     currentContentPanel = persistencePanel;
     jPanel1.add(currentContentPanel, constraints);
+
+    constraints.gridy = 2;
+    constraints.gridwidth = 1;
+    constraints.anchor = GridBagConstraints.SOUTHWEST;
+    JButton exitButton = new JButton("Exit");
+    exitButton.addActionListener((ActionEvent e) ->
+      {
+        System.exit(0);
+      }
+    );
+    backButton = new JButton("Back");
+    backButton.setVisible(false);
+    commandPanel.add(backButton);
+    commandPanel.add(exitButton);
+    jPanel1.add(backButton, constraints);
+    constraints.gridx = 1;
+    constraints.anchor = GridBagConstraints.SOUTHEAST;
+    jPanel1.add(exitButton, constraints);
 
     pack();
     setLocationRelativeTo(null);
@@ -111,9 +138,23 @@ public class RootFrame extends JFrame
     return this.persistenceType;
   }
 
+  public void setBack(JPanel panel)
+  {
+    backButton.removeActionListener(currentActionListener);
+    currentActionListener = (ActionEvent e) ->
+    {
+      backButton.setVisible(!panel.equals(persistencePanel));
+      this.currentContentPanel.removeAll();
+      this.currentContentPanel.add(panel);
+      this.repaint();
+    };
+    backButton.addActionListener(currentActionListener);
+  }
+
   public void setPanel(JPanel panel)
   {
-    currentContentPanel = panel;
+    currentContentPanel.removeAll();
+    currentContentPanel.add(panel);
     this.repaint();
   }
 
@@ -123,4 +164,10 @@ public class RootFrame extends JFrame
   private JPanel jPanel1;
 
   private JPanel darkLightModePanel;
+
+  private JPanel commandPanel;
+
+  public JButton backButton;
+
+  private ActionListener currentActionListener;
 }
