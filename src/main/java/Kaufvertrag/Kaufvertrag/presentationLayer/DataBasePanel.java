@@ -54,113 +54,36 @@ public class DataBasePanel extends JPanel
 
     setTable(TableData.CONTRACT);
     constraints.gridy = 2;
+    constraints.weighty = 1f;
+    constraints.gridheight = 4;
     add(pane, constraints);
+
+    constraints = new GridBagConstraints();
+    constraints.gridx = 1;
+    constraints.gridy = 3;
+    createButton = new JButton("Create");
+    add(createButton, constraints);
+
+    constraints.gridy = 4;
+    updateButton = new JButton("Update");
+    add(updateButton, constraints);
+
+    constraints.gridy = 5;
+    deleteButton = new JButton("Delete");
+    add(deleteButton, constraints);
+
+    readCurrentTableData();
   }
 
   private void initTableColumns()
   {
-    idContractColumn = new TableColumn();
-    idContractColumn.setIdentifier("IDCONTRACT");
-    idContractColumn.setHeaderValue("ID");
-    idContractColumn.setWidth(200);
+    getContractColumns();
 
-    buyerColumn = new TableColumn();
-    buyerColumn.setIdentifier("BUYER");
-    buyerColumn.setHeaderValue("Buyer");
-    buyerColumn.setWidth(200);
+    getAddressColumns();
 
-    sellerColumn = new TableColumn();
-    sellerColumn.setIdentifier("SELLER");
-    sellerColumn.setHeaderValue("Seller");
-    sellerColumn.setWidth(200);
+    getPersonColumns();
 
-    waresColumn = new TableColumn();
-    waresColumn.setIdentifier("WARES");
-    waresColumn.setHeaderValue("Wares");
-    waresColumn.setWidth(200);
-
-    paymentColumn = new TableColumn();
-    paymentColumn.setIdentifier("PAYMENT");
-    paymentColumn.setHeaderValue("Payment Method");
-    paymentColumn.setWidth(200);
-
-
-    idAdressColumn = new TableColumn();
-    idAdressColumn.setIdentifier("IDADRESS");
-    idAdressColumn.setHeaderValue("ID");
-    idAdressColumn.setWidth(200);
-
-    streetColumn = new TableColumn();
-    streetColumn.setIdentifier("STREET");
-    streetColumn.setHeaderValue("Street");
-    streetColumn.setWidth(200);
-
-    houseNumberColumn = new TableColumn();
-    houseNumberColumn.setIdentifier("HOUSENUMBER");
-    houseNumberColumn.setHeaderValue("Housenumber");
-    houseNumberColumn.setWidth(200);
-
-    postCodeColumn = new TableColumn();
-    postCodeColumn.setIdentifier("POSTALCODE");
-    postCodeColumn.setHeaderValue("Postal Code");
-    postCodeColumn.setWidth(200);
-
-    cityColumn = new TableColumn();
-    cityColumn.setIdentifier("CITY");
-    cityColumn.setHeaderValue("City");
-    cityColumn.setWidth(200);
-
-
-    idPersonColumn = new TableColumn();
-    idPersonColumn.setIdentifier("IDPERSON");
-    idPersonColumn.setHeaderValue("Personal ID");   //Ausweisnummer statt eigens generierter ID!
-    idPersonColumn.setWidth(200);
-
-    nameColumn = new TableColumn();
-    nameColumn.setIdentifier("NAME");
-    nameColumn.setHeaderValue("Name");
-    nameColumn.setWidth(200);
-
-    surnameColumn = new TableColumn();
-    surnameColumn.setIdentifier("SURNAME");
-    surnameColumn.setHeaderValue("Surname");
-    surnameColumn.setWidth(200);
-
-    adressColumn = new TableColumn();
-    adressColumn.setIdentifier("ADRESS");
-    adressColumn.setHeaderValue("Adress");
-    adressColumn.setWidth(200);
-
-
-    idWareColumn = new TableColumn();
-    idWareColumn.setIdentifier("IDWARE");
-    idWareColumn.setHeaderValue("ID");
-    idWareColumn.setWidth(200);
-
-    productNameColumn = new TableColumn();
-    productNameColumn.setIdentifier("PRODUCTNAME");
-    productNameColumn.setHeaderValue("Name");
-    productNameColumn.setWidth(200);
-
-    descriptionColumn = new TableColumn();
-    descriptionColumn.setIdentifier("DESCRIPTION");
-    descriptionColumn.setHeaderValue("Description");
-    descriptionColumn.setWidth(200);
-
-    priceColumn = new TableColumn();
-    priceColumn.setIdentifier("PRICE");
-    priceColumn.setHeaderValue("price");
-    priceColumn.setWidth(200);
-
-    featuresColumn = new TableColumn();
-    featuresColumn.setIdentifier("FEATURES");
-    featuresColumn.setHeaderValue("Features");
-    featuresColumn.setWidth(200);
-
-    defectsColumn = new TableColumn();
-    defectsColumn.setIdentifier("DEFECTS");
-    defectsColumn.setHeaderValue("defects");
-    defectsColumn.setWidth(200);
+    getWareColumns();
   }
 
   private void setTable(TableData data)
@@ -245,6 +168,145 @@ public class DataBasePanel extends JPanel
     currentData = data;
   }
 
+  private void readCurrentTableData()
+  {
+    switch (currentData)
+    {
+      case CONTRACT ->
+      {
+        getContractColumns();
+      }
+      case PERSON ->
+      {
+        getPersonColumns();
+      }
+      case ADDRESS ->
+      {
+        getAddressColumns();
+      }
+      case WARE ->
+      {
+        getWareColumns();
+      }
+      default ->
+      {
+      }
+    }
+  }
+
+  //TODO: get the data of the persistence type stored data into the table in here, likely with a tablecelleditor (4th argument in new tablecolumn, standard is null, like i am currently displaying)
+  private void getContractColumns()
+  {
+    idContractColumn = new TableColumn(0, 75, null, null);
+    idContractColumn.setIdentifier("IDCONTRACT");
+    idContractColumn.setHeaderValue("ID");
+    idContractColumn.setWidth(200);
+
+    buyerColumn = new TableColumn(0, 75, null, null);
+    buyerColumn.setIdentifier("BUYER");
+    buyerColumn.setHeaderValue("Buyer");
+    buyerColumn.setWidth(200);
+
+    sellerColumn = new TableColumn(0, 75, null, null);
+    sellerColumn.setIdentifier("SELLER");
+    sellerColumn.setHeaderValue("Seller");
+    sellerColumn.setWidth(200);
+
+    waresColumn = new TableColumn(0, 75, null, null);
+    waresColumn.setIdentifier("WARES");
+    waresColumn.setHeaderValue("Wares");
+    waresColumn.setWidth(200);
+
+    paymentColumn = new TableColumn(0, 75, null, null);
+    paymentColumn.setIdentifier("PAYMENT");
+    paymentColumn.setHeaderValue("Payment Method");
+    paymentColumn.setWidth(200);
+  }
+
+  private void getAddressColumns()
+  {
+    idAdressColumn = new TableColumn(0, 75, null, null);
+    idAdressColumn.setIdentifier("IDADRESS");
+    idAdressColumn.setHeaderValue("ID");
+    idAdressColumn.setWidth(200);
+
+    streetColumn = new TableColumn(0, 75, null, null);
+    streetColumn.setIdentifier("STREET");
+    streetColumn.setHeaderValue("Street");
+    streetColumn.setWidth(200);
+
+    houseNumberColumn = new TableColumn(0, 75, null, null);
+    houseNumberColumn.setIdentifier("HOUSENUMBER");
+    houseNumberColumn.setHeaderValue("Housenumber");
+    houseNumberColumn.setWidth(200);
+
+    postCodeColumn = new TableColumn(0, 75, null, null);
+    postCodeColumn.setIdentifier("POSTALCODE");
+    postCodeColumn.setHeaderValue("Postal Code");
+    postCodeColumn.setWidth(200);
+
+    cityColumn = new TableColumn(0, 75, null, null);
+    cityColumn.setIdentifier("CITY");
+    cityColumn.setHeaderValue("City");
+    cityColumn.setWidth(200);
+  }
+
+  private void getPersonColumns()
+  {
+    idPersonColumn = new TableColumn(0, 75, null, null);
+    idPersonColumn.setIdentifier("IDPERSON");
+    idPersonColumn.setHeaderValue("Personal ID");   //Ausweisnummer statt eigens generierter ID!
+    idPersonColumn.setWidth(200);
+
+    nameColumn = new TableColumn(0, 75, null, null);
+    nameColumn.setIdentifier("NAME");
+    nameColumn.setHeaderValue("Name");
+    nameColumn.setWidth(200);
+
+    surnameColumn = new TableColumn(0, 75, null, null);
+    surnameColumn.setIdentifier("SURNAME");
+    surnameColumn.setHeaderValue("Surname");
+    surnameColumn.setWidth(200);
+
+    adressColumn = new TableColumn(0, 75, null, null);
+    adressColumn.setIdentifier("ADRESS");
+    adressColumn.setHeaderValue("Adress");
+    adressColumn.setWidth(200);
+  }
+
+  private void getWareColumns()
+  {
+    idWareColumn = new TableColumn(0, 75, null, null);
+    idWareColumn.setIdentifier("IDWARE");
+    idWareColumn.setHeaderValue("ID");
+    idWareColumn.setWidth(200);
+
+    productNameColumn = new TableColumn(0, 75, null, null);
+    productNameColumn.setIdentifier("PRODUCTNAME");
+    productNameColumn.setHeaderValue("Name");
+    productNameColumn.setWidth(200);
+
+    descriptionColumn = new TableColumn(0, 75, null, null);
+    descriptionColumn.setIdentifier("DESCRIPTION");
+    descriptionColumn.setHeaderValue("Description");
+    descriptionColumn.setWidth(200);
+
+    priceColumn = new TableColumn(0, 75, null, null);
+    priceColumn.setIdentifier("PRICE");
+    priceColumn.setHeaderValue("price");
+    priceColumn.setWidth(200);
+
+    featuresColumn = new TableColumn(0, 75, null, null);
+    featuresColumn.setIdentifier("FEATURES");
+    featuresColumn.setHeaderValue("Features");
+    featuresColumn.setWidth(200);
+
+    defectsColumn = new TableColumn(0, 75, null, null);
+    defectsColumn.setIdentifier("DEFECTS");
+    defectsColumn.setHeaderValue("defects");
+    defectsColumn.setWidth(200);
+  }
+
   private JTable persistenceTable;
   private JScrollPane pane;
   private TableColumn idContractColumn;
@@ -270,6 +332,10 @@ public class DataBasePanel extends JPanel
   private JLabel persistenceLabel;
   private JComboBox<TableData> selectedTable;
   private TableData currentData = TableData.NONE;
+
+  private JButton createButton;
+  private JButton updateButton;
+  private JButton deleteButton;
 }
 
 enum TableData

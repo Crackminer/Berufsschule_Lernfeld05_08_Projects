@@ -99,13 +99,7 @@ public class RootFrame extends JFrame
     constraints.anchor = GridBagConstraints.WEST;
     jPanel1.add(darkLightModePanel, constraints);
 
-    constraints.gridy = 1;
-    constraints.weighty = 1f;
-    constraints.anchor = GridBagConstraints.CENTER;
-    currentContentPanel = new JPanel();
-    currentContentPanel.setSize(this.getSize());
-    currentContentPanel.add(persistencePanel);
-    jPanel1.add(currentContentPanel, constraints);
+
 
     constraints.gridy = 2;
     constraints.gridwidth = 1;
@@ -125,6 +119,17 @@ public class RootFrame extends JFrame
     constraints.gridx = 1;
     constraints.anchor = GridBagConstraints.SOUTHEAST;
     jPanel1.add(exitButton, constraints);
+
+
+    constraints.gridwidth = 2;
+    constraints.gridx = 0;
+    constraints.gridy = 1;
+    constraints.weighty = 1f;
+    constraints.anchor = GridBagConstraints.CENTER;
+    currentContentPanel = new JPanel();
+    currentContentPanel.setSize(this.getSize());
+    currentContentPanel.add(persistencePanel);
+    jPanel1.add(currentContentPanel, constraints);
 
     setLocationRelativeTo(null);
   }
