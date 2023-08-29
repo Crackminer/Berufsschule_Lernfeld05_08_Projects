@@ -24,6 +24,7 @@ public class DataBasePanel extends JPanel
     constraints.gridx = 0;
     constraints.gridy = 0;
     persistenceLabel = new JLabel(persistence.toUpperCase() + " Persistence");
+    persistenceLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));
     add(persistenceLabel, constraints);
 
     constraints.gridy = 1;
