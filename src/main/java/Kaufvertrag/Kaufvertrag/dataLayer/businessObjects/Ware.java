@@ -18,6 +18,10 @@ public class Ware implements IWare
     private List<String> besonderheiten;
     private List<String> maengel;
 
+    public Ware(String bezeichnung, double preis){
+        this.bezeichnung = bezeichnung;
+        this.preis = preis;
+    }
     @Override
     public long getId()
     {
