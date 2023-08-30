@@ -4,6 +4,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
+import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -23,7 +24,19 @@ public class XMLManager
   {
     try
     {
+
       DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+      // to be compliant, completely disable DOCTYPE declaration:
+      docFactory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+      // or completely disable external entities declarations:
+      docFactory.setFeature("http://xml.org/sax/features/external-general-entities", false);
+      docFactory.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
+      // or prohibit the use of all protocols by external entities:
+      docFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+      docFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
+      // or disable entity expansion but keep in mind that this doesn't prevent fetching external entities
+      // and this solution is not correct for OpenJDK < 13 due to a bug: https://bugs.openjdk.java.net/browse/JDK-8206132
+      docFactory.setExpandEntityReferences(false);
       DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
       File file = new File(filepath);
       if (file.exists())
@@ -47,6 +60,9 @@ public class XMLManager
     try
     {
       TransformerFactory transformerFactory = TransformerFactory.newInstance();
+      // to be compliant, prohibit the use of all protocols by external entities:
+      transformerFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+      transformerFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_STYLESHEET, "");
       Transformer transformer = transformerFactory.newTransformer();
 
       transformer.setOutputProperty(OutputKeys.INDENT, "yes");
