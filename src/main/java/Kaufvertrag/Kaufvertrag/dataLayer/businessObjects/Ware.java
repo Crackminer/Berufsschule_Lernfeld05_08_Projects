@@ -5,105 +5,107 @@ import Kaufvertrag.Kaufvertrag.businessObjects.IWare;
 import java.util.List;
 
 /**
-*@author Chris Thomas
-*/
+ * @author Chris Thomas
+ */
 
 
 public class Ware implements IWare
 {
-    private long id;
-    private String bezeichnung;
-    private String beschreibung;
-    private double preis;
-    private List<String> besonderheiten;
-    private List<String> maengel;
+  private long id;
+  private String bezeichnung;
+  private String beschreibung;
+  private double preis;
+  private List<String> besonderheiten;
+  private List<String> maengel;
 
-    public Ware(String bezeichnung, double preis){
-        this.bezeichnung = bezeichnung;
-        this.preis = preis;
-    }
-    @Override
-    public long getId()
-    {
-        return id;
-    }
+  public Ware(String bezeichnung, double preis)
+  {
+    this.bezeichnung = bezeichnung;
+    this.preis = preis;
+  }
 
-    public void setId(long id)
-    {
-        this.id = id;
-    }
+  @Override
+  public long getId()
+  {
+    return id;
+  }
 
-    @Override
-    public String getBezeichnung()
-    {
-        return bezeichnung;
-    }
+  public void setId(long id)
+  {
+    this.id = id;
+  }
 
-    @Override
-    public void setBezeichnung(String bezeichnung)
-    {
-        this.bezeichnung = bezeichnung;
-    }
+  @Override
+  public String getBezeichnung()
+  {
+    return bezeichnung;
+  }
 
-    @Override
-    public String getBeschreibung()
-    {
-        return beschreibung;
-    }
+  @Override
+  public void setBezeichnung(String bezeichnung)
+  {
+    this.bezeichnung = bezeichnung;
+  }
 
-    @Override
-    public void setBeschreibung(String beschreibung)
-    {
-        this.beschreibung = beschreibung;
-    }
+  @Override
+  public String getBeschreibung()
+  {
+    return beschreibung;
+  }
 
-    @Override
-    public double getPreis()
-    {
-        return preis;
-    }
+  @Override
+  public void setBeschreibung(String beschreibung)
+  {
+    this.beschreibung = beschreibung;
+  }
 
-    @Override
-    public void setPreis(double preis)
-    {
-        this.preis = preis;
-    }
+  @Override
+  public double getPreis()
+  {
+    return preis;
+  }
 
-    @Override
-    public List<String> getBesonderheiten()
-    {
-        return besonderheiten;
-    }
+  @Override
+  public void setPreis(double preis)
+  {
+    this.preis = preis;
+  }
 
-    @Override
-    public List<String> getMaengel()
-    {
-        return maengel;
-    }
+  @Override
+  public List<String> getBesonderheiten()
+  {
+    return besonderheiten;
+  }
 
-    @Override
-    public String toString()
+  @Override
+  public List<String> getMaengel()
+  {
+    return maengel;
+  }
+
+  @Override
+  public String toString()
+  {
+    StringBuilder s =
+      new StringBuilder("Ware:\n"
+        + "\tID:"
+        + "\t\t" + id + "\n"
+        + "\tBezeichnung:"
+        + "\t\t" + bezeichnung + "\n"
+        + "\tBeschreibung:"
+        + "\t\t" + beschreibung + "\n"
+        + "\tPreis:"
+        + "\t\t" + preis + "\n"
+        + "\tBesonderheiten:\n");
+    for (String besonderheit : besonderheiten)
     {
-        StringBuilder s =
-          new StringBuilder("Ware:\n"
-            + "\tID:"
-            + "\t\t" + id + "\n"
-            + "\tBezeichnung:"
-            + "\t\t" + bezeichnung + "\n"
-            + "\tBeschreibung:"
-            + "\t\t" + beschreibung + "\n"
-            + "\tPreis:"
-            + "\t\t" + preis + "\n"
-            + "\tBesonderheiten:\n");
-        for (String besonderheit : besonderheiten)
-        {
-            s.append("\t\t").append(besonderheit).append("\n");
-        }
-        s.append("\tMängel:\n");
-        for (String mangel : maengel)
-        {
-            s.append("\t\t").append(mangel).append("\n");
-        }
-        return s.toString();
+      s.append("\t\t").append(besonderheit).append("\n");
     }
+    s.append("\tMängel:\n");
+    for (String mangel : maengel)
+    {
+      s.append("\t\t").append(mangel).append("\n");
+    }
+    return s.toString();
+  }
 }

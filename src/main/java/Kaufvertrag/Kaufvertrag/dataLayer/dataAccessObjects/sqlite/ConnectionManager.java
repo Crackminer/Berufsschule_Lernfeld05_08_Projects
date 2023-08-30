@@ -1,6 +1,9 @@
 package Kaufvertrag.Kaufvertrag.dataLayer.dataAccessObjects.sqlite;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
 
 public class ConnectionManager
 {
@@ -19,7 +22,9 @@ public class ConnectionManager
         classLoaded = true;
       }
       if (existingConnection != null && !existingConnection.isClosed())
+      {
         existingConnection.close();
+      }
       existingConnection = DriverManager.getConnection(CONNECTIONSTRING);
     }
     catch (Exception ex)
@@ -38,12 +43,18 @@ public class ConnectionManager
   {
     try
     {
-      if(resultSet != null && !resultSet.isClosed())
+      if (resultSet != null && !resultSet.isClosed())
+      {
         resultSet.close();
-      if(statement != null && !statement.isClosed())
+      }
+      if (statement != null && !statement.isClosed())
+      {
         statement.close();
-      if(connection != null && !connection.isClosed())
+      }
+      if (connection != null && !connection.isClosed())
+      {
         connection.close();
+      }
     }
     catch (Exception ex)
     {

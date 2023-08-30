@@ -22,7 +22,7 @@ public class ConsoleApplication implements IApplication
   {
     String type = "";
     System.out.println("Which persistence-type do you want? Valid inputs are \"sqlite\" or \"xml\".");
-    while(true)
+    while (true)
     {
       type = sc.next().trim().toLowerCase();
       if ("sqlite".equals(type) || "xml".equals(type))

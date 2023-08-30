@@ -11,8 +11,15 @@ import java.awt.event.ActionListener;
 
 public class RootFrame extends JFrame
 {
-  private String persistenceType;
   public static RootFrame instance;
+  public JButton backButton;
+  private String persistenceType;
+  private JPanel currentContentPanel;
+  private PersistencePanel persistencePanel;
+  private JPanel jPanel1;
+  private JPanel darkLightModePanel;
+  private JPanel commandPanel;
+  private ActionListener currentActionListener;
 
   public RootFrame()
   {
@@ -84,8 +91,8 @@ public class RootFrame extends JFrame
     setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     setTitle("Kaufvertragsmanager");
     setName("Kaufvertragsmanager");
-    setSize((int)(Toolkit.getDefaultToolkit().getScreenSize().getWidth() * 0.75f), (int)(Toolkit.getDefaultToolkit().getScreenSize().getHeight() * 0.75f));
-    setPreferredSize(new Dimension((int)(Toolkit.getDefaultToolkit().getScreenSize().getWidth() * 0.75f), (int)(Toolkit.getDefaultToolkit().getScreenSize().getHeight() * 0.75f)));
+    setSize((int) (Toolkit.getDefaultToolkit().getScreenSize().getWidth() * 0.75f), (int) (Toolkit.getDefaultToolkit().getScreenSize().getHeight() * 0.75f));
+    setPreferredSize(new Dimension((int) (Toolkit.getDefaultToolkit().getScreenSize().getWidth() * 0.75f), (int) (Toolkit.getDefaultToolkit().getScreenSize().getHeight() * 0.75f)));
     add(jPanel1);
 
     jPanel1.setLayout(new GridBagLayout());
@@ -98,7 +105,6 @@ public class RootFrame extends JFrame
     constraints.weightx = 1f;
     constraints.anchor = GridBagConstraints.WEST;
     jPanel1.add(darkLightModePanel, constraints);
-
 
 
     constraints.gridy = 2;
@@ -134,14 +140,14 @@ public class RootFrame extends JFrame
     setLocationRelativeTo(null);
   }
 
-  public void setPersistenceType(String type)
-  {
-    this.persistenceType = type;
-  }
-
   public String getPersistenceType()
   {
     return this.persistenceType;
+  }
+
+  public void setPersistenceType(String type)
+  {
+    this.persistenceType = type;
   }
 
   public void setBack(JPanel panel)
@@ -164,17 +170,4 @@ public class RootFrame extends JFrame
     backButton.setVisible(currentContentPanel.getComponent(0) != persistencePanel);
     FlatLaf.updateUI();
   }
-
-  private JPanel currentContentPanel;
-
-  private PersistencePanel persistencePanel;
-  private JPanel jPanel1;
-
-  private JPanel darkLightModePanel;
-
-  private JPanel commandPanel;
-
-  public JButton backButton;
-
-  private ActionListener currentActionListener;
 }

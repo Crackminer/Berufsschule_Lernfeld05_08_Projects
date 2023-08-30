@@ -70,14 +70,14 @@ public class Kaufvertrag implements IKaufvertrag
   @Override
   public String toString()
   {
-    return  "Kaufvertrag:\n"
-          + "\tKäufer:\n"
-          + "\t\t" + kaeufer.toString() + "\n"
-          + "\tVerkäufer:\n"
-          + "\t\t" + verkaeufer.toString() + "\n"
-          + "\tWare:\n"
-          + "\t\t" + ware.toString() + "\n"
-          + "\tZahlungsmodalität:\n"
-          + "\t\t" + zahlungsModalitaeten + "\n";
+    return "Kaufvertrag:\n"
+      + "\tKäufer:\n"
+      + "\t\t" + kaeufer.toString() + "\n"
+      + "\tVerkäufer:\n"
+      + "\t\t" + verkaeufer.toString() + "\n"
+      + "\tWare:\n"
+      + "\t\t" + ware.toString() + "\n"
+      + "\tZahlungsmodalität:\n"
+      + "\t\t" + zahlungsModalitaeten + "\n";
   }
 }

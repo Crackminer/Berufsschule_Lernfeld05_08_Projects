@@ -21,11 +21,10 @@ public class DataLayerManager
       instance = new DataLayerManager();
     }
     String persistenceType = instance.readPersistenceType();
-    if("sqlite".equals(persistenceType))
+    if ("sqlite".equals(persistenceType))
     {
       instance.dataLayer = new DataLayerSqlite();
-    }
-    else if ("xml".equals(persistenceType))
+    } else if ("xml".equals(persistenceType))
     {
       instance.dataLayer = new DataLayerXml();
     }

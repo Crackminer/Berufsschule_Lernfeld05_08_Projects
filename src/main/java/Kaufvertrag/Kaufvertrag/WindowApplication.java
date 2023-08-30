@@ -3,7 +3,6 @@ package Kaufvertrag.Kaufvertrag;
 import Kaufvertrag.Kaufvertrag.presentationLayer.RootFrame;
 import com.formdev.flatlaf.FlatDarkLaf;
 
-import javax.swing.*;
 import java.awt.*;
 
 public class WindowApplication implements IApplication
@@ -29,7 +28,7 @@ public class WindowApplication implements IApplication
   public String getPersistenceType()
   {
     String type = null;
-    while((type = root.getPersistenceType()) == null)
+    while ((type = root.getPersistenceType()) == null)
     {
       try
       {

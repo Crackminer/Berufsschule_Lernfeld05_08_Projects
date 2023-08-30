@@ -88,7 +88,7 @@ public class AdresseDaoSqlite implements IDao<IAdresse, Long>
       PreparedStatement statement = connection.prepareStatement(query);
       ResultSet result = statement.executeQuery();
       ArrayList<IAdresse> list = new ArrayList<>();
-      while(result.next())
+      while (result.next())
       {
         String strasse = result.getString("strasse");
         String hausnummer = result.getString("hausnummer");

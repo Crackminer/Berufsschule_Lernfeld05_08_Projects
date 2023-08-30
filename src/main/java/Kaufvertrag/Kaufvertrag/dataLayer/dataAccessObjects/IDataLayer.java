@@ -8,7 +8,10 @@ import Kaufvertrag.Kaufvertrag.businessObjects.IWare;
 public interface IDataLayer
 {
   IDao<IAdresse, Long> getDaoAdresse();
+
   IDao<IVertragspartner, String> getDaoVertragspartner();
+
   IDao<IWare, Long> getDaoWare();
+
   IDao<IKaufvertrag, Long> getDaoKaufvertrag();
 }

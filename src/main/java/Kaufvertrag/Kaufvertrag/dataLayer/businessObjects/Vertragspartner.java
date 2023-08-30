@@ -70,14 +70,14 @@ public class Vertragspartner implements IVertragspartner
   @Override
   public String toString()
   {
-    return  "Vertragspartner:\n"
-          + "\tAusweisNr:\n"
-          + "\t\t" + ausweisNr + "\n"
-          + "\tVorname:\n"
-          + "\t\t" + vorname + "\n"
-          + "\tNachname:\n"
-          + "\t\t" + nachname + "\n"
-          + "\tAdresse:\n"
-          + "\t\t" + adresse + "\n";
+    return "Vertragspartner:\n"
+      + "\tAusweisNr:\n"
+      + "\t\t" + ausweisNr + "\n"
+      + "\tVorname:\n"
+      + "\t\t" + vorname + "\n"
+      + "\tNachname:\n"
+      + "\t\t" + nachname + "\n"
+      + "\tAdresse:\n"
+      + "\t\t" + adresse + "\n";
   }
 }

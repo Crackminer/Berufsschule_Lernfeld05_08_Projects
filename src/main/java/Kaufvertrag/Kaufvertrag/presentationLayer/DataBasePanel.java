@@ -5,10 +5,46 @@ import javax.swing.table.TableColumn;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
+enum TableData
+{
+  NONE,
+  CONTRACT,
+  PERSON,
+  ADDRESS,
+  WARE,
+}
+
 public class DataBasePanel extends JPanel
 {
-  private String persistence;
-
+  private final String persistence;
+  private JTable persistenceTable;
+  private JScrollPane pane;
+  private TableColumn idContractColumn;
+  private TableColumn buyerColumn;
+  private TableColumn sellerColumn;
+  private TableColumn waresColumn;
+  private TableColumn paymentColumn;
+  private TableColumn idPersonColumn;
+  private TableColumn nameColumn;
+  private TableColumn surnameColumn;
+  private TableColumn adressColumn;
+  private TableColumn idAdressColumn;
+  private TableColumn streetColumn;
+  private TableColumn houseNumberColumn;
+  private TableColumn postCodeColumn;
+  private TableColumn cityColumn;
+  private TableColumn idWareColumn;
+  private TableColumn productNameColumn;
+  private TableColumn descriptionColumn;
+  private TableColumn priceColumn;
+  private TableColumn featuresColumn;
+  private TableColumn defectsColumn;
+  private JLabel persistenceLabel;
+  private JComboBox<TableData> selectedTable;
+  private TableData currentData = TableData.NONE;
+  private JButton createButton;
+  private JButton updateButton;
+  private JButton deleteButton;
   public DataBasePanel(String persistence)
   {
     this.persistence = persistence;
@@ -34,12 +70,16 @@ public class DataBasePanel extends JPanel
     for (TableData data : TableData.values())
     {
       if (data != TableData.NONE)
+      {
         selectedTable.addItem(data);
+      }
     }
     selectedTable.addActionListener((ActionEvent e) ->
       {
-        if(selectedTable.getSelectedItem() != null)
-          setTable((TableData)selectedTable.getSelectedItem());
+        if (selectedTable.getSelectedItem() != null)
+        {
+          setTable((TableData) selectedTable.getSelectedItem());
+        }
       }
     );
 
@@ -90,9 +130,13 @@ public class DataBasePanel extends JPanel
     while (persistenceTable.getColumnCount() > 0)
     {
       if (persistenceTable.getColumnModel() != null)
+      {
         persistenceTable.removeColumn(persistenceTable.getColumnModel().getColumn(0));
+      }
       if (++helper == 100)  //Fail save if this doesnt work anymore, so we dont get stuck in an infinite loop
+      {
         break;
+      }
     }
 
     switch (data)
@@ -285,43 +329,4 @@ public class DataBasePanel extends JPanel
     pane = new JScrollPane(persistenceTable);
     repaint();
   }
-
-  private JTable persistenceTable;
-  private JScrollPane pane;
-  private TableColumn idContractColumn;
-  private TableColumn buyerColumn;
-  private TableColumn sellerColumn;
-  private TableColumn waresColumn;
-  private TableColumn paymentColumn;
-  private TableColumn idPersonColumn;
-  private TableColumn nameColumn;
-  private TableColumn surnameColumn;
-  private TableColumn adressColumn;
-  private TableColumn idAdressColumn;
-  private TableColumn streetColumn;
-  private TableColumn houseNumberColumn;
-  private TableColumn postCodeColumn;
-  private TableColumn cityColumn;
-  private TableColumn idWareColumn;
-  private TableColumn productNameColumn;
-  private TableColumn descriptionColumn;
-  private TableColumn priceColumn;
-  private TableColumn featuresColumn;
-  private TableColumn defectsColumn;
-  private JLabel persistenceLabel;
-  private JComboBox<TableData> selectedTable;
-  private TableData currentData = TableData.NONE;
-
-  private JButton createButton;
-  private JButton updateButton;
-  private JButton deleteButton;
-}
-
-enum TableData
-{
-  NONE,
-  CONTRACT,
-  PERSON,
-  ADDRESS,
-  WARE,
 }

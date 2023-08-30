@@ -7,7 +7,9 @@ import java.awt.event.ActionEvent;
 public class PersistencePanel extends JPanel
 {
   public static PersistencePanel instance;
-
+  private JLabel menueLabel;
+  private JComboBox<String> persistanceComboBox;
+  private JButton confirmButton;
   public PersistencePanel()
   {
     instance = this;
@@ -33,7 +35,7 @@ public class PersistencePanel extends JPanel
     persistanceComboBox.addItem("sqlite");
     persistanceComboBox.addActionListener((ActionEvent e) ->
       {
-        RootFrame.instance.setPersistenceType((String)persistanceComboBox.getSelectedItem());
+        RootFrame.instance.setPersistenceType((String) persistanceComboBox.getSelectedItem());
       }
     );
 
@@ -47,7 +49,7 @@ public class PersistencePanel extends JPanel
     confirmButton = new JButton("Confirm");
     confirmButton.addActionListener((ActionEvent e) ->
       {
-        RootFrame.instance.setPanel(new DataBasePanel((String)persistanceComboBox.getSelectedItem()));
+        RootFrame.instance.setPanel(new DataBasePanel((String) persistanceComboBox.getSelectedItem()));
       }
     );
     gridBagConstraints = new GridBagConstraints();
@@ -57,8 +59,4 @@ public class PersistencePanel extends JPanel
     gridBagConstraints.weightx = 1f;
     this.add(confirmButton, gridBagConstraints);
   }
-
-  private JLabel menueLabel;
-  private JComboBox<String> persistanceComboBox;
-  private JButton confirmButton;
 }
