@@ -12,9 +12,12 @@ public class ConfirmationFrame
 
     JDialog jd = new JDialog(jFrame);
 
-    jd.setLayout(new FlowLayout());
+    jd.setLayout(new GridBagLayout());
 
-    jd.setBounds(400, 300, (int)(Toolkit.getDefaultToolkit().getScreenSize().getWidth() * 0.27f), (int)(Toolkit.getDefaultToolkit().getScreenSize().getHeight() * 0.1f));
+    GridBagConstraints constraints = new GridBagConstraints();
+    constraints.gridy = 0;
+    constraints.gridx = 0;
+    jd.setBounds(400, 300, (int)(Toolkit.getDefaultToolkit().getScreenSize().getWidth() * 0.35f), (int)(Toolkit.getDefaultToolkit().getScreenSize().getHeight() * 0.25f));
     jd.setLocationRelativeTo(null);
 
     JLabel jLabel = new JLabel("Your contract has been saved and you can now go back to the main page.");
@@ -27,8 +30,9 @@ public class ConfirmationFrame
       }
     );
 
-    jd.add(jLabel);
-    jd.add(jButton);
+    jd.add(jLabel, constraints);
+    constraints.gridy = 1;
+    jd.add(jButton, constraints);
     jd.setVisible(true);
   }
 }
