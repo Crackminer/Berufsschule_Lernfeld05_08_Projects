@@ -132,8 +132,8 @@ public class AdresseDaoXml implements IDao<IAdresse, Long>
     NodeList adressen = root.getElementsByTagName("id");
     for (int i = 0; i < adressen.getLength(); i++)
     {
-      NodeList childs = adressen.item(i).getChildNodes();
-      adressListe.add(new Adresse(childs.item(0).getNodeValue(), childs.item(1).getNodeValue(), childs.item(2).getNodeValue(), childs.item(3).getNodeValue()));
+      NodeList children = adressen.item(i).getChildNodes();
+      adressListe.add(new Adresse(children.item(0).getNodeValue(), children.item(1).getNodeValue(), children.item(2).getNodeValue(), children.item(3).getNodeValue()));
     }
     return adressListe;
   }
