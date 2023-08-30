@@ -84,8 +84,8 @@ public class RootFrame extends JFrame
     setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     setTitle("Kaufvertragsmanager");
     setName("Kaufvertragsmanager");
-    setSize(new Dimension(800, 450));
-    setPreferredSize(new Dimension(800, 450));
+    setSize((int)(Toolkit.getDefaultToolkit().getScreenSize().getWidth() * 0.75f), (int)(Toolkit.getDefaultToolkit().getScreenSize().getHeight() * 0.75f));
+    setPreferredSize(new Dimension((int)(Toolkit.getDefaultToolkit().getScreenSize().getWidth() * 0.75f), (int)(Toolkit.getDefaultToolkit().getScreenSize().getHeight() * 0.75f)));
     add(jPanel1);
 
     jPanel1.setLayout(new GridBagLayout());
