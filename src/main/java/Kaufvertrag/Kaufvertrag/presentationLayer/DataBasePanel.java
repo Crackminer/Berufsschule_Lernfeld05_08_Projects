@@ -23,6 +23,7 @@ public class DataBasePanel extends JPanel
     constraints.weightx = 1f;
     constraints.gridx = 0;
     constraints.gridy = 0;
+    constraints.gridwidth = 2;
     persistenceLabel = new JLabel(persistence.toUpperCase() + " Persistence");
     persistenceLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));
     add(persistenceLabel, constraints);
@@ -44,17 +45,14 @@ public class DataBasePanel extends JPanel
 
     add(selectedTable, constraints);
 
-    persistenceTable = new JTable();
-    persistenceTable.setPreferredScrollableViewportSize(new Dimension(500, 70));
-    persistenceTable.setFillsViewportHeight(true);
-
-    pane = new JScrollPane(persistenceTable);
+    newTable();
 
     initTableColumns();
 
     setTable(TableData.CONTRACT);
     constraints.gridy = 2;
     constraints.weighty = 1f;
+    constraints.gridwidth = 1;
     constraints.gridheight = 4;
     add(pane, constraints);
 
@@ -88,43 +86,13 @@ public class DataBasePanel extends JPanel
 
   private void setTable(TableData data)
   {
-    switch (currentData)
+    int helper = 0;
+    while (persistenceTable.getColumnCount() > 0)
     {
-      case CONTRACT ->
-      {
-        persistenceTable.removeColumn(idContractColumn);
-        persistenceTable.removeColumn(buyerColumn);
-        persistenceTable.removeColumn(sellerColumn);
-        persistenceTable.removeColumn(waresColumn);
-        persistenceTable.removeColumn(paymentColumn);
-      }
-      case PERSON ->
-      {
-        persistenceTable.removeColumn(idPersonColumn);
-        persistenceTable.removeColumn(nameColumn);
-        persistenceTable.removeColumn(surnameColumn);
-        persistenceTable.removeColumn(adressColumn);
-      }
-      case ADDRESS ->
-      {
-        persistenceTable.removeColumn(idAdressColumn);
-        persistenceTable.removeColumn(streetColumn);
-        persistenceTable.removeColumn(houseNumberColumn);
-        persistenceTable.removeColumn(postCodeColumn);
-        persistenceTable.removeColumn(cityColumn);
-      }
-      case WARE ->
-      {
-        persistenceTable.removeColumn(idWareColumn);
-        persistenceTable.removeColumn(productNameColumn);
-        persistenceTable.removeColumn(descriptionColumn);
-        persistenceTable.removeColumn(priceColumn);
-        persistenceTable.removeColumn(featuresColumn);
-        persistenceTable.removeColumn(defectsColumn);
-      }
-      default ->
-      {
-      }
+      if (persistenceTable.getColumnModel() != null)
+        persistenceTable.removeColumn(persistenceTable.getColumnModel().getColumn(0));
+      if (++helper == 100)  //Fail save if this doesnt work anymore, so we dont get stuck in an infinite loop
+        break;
     }
 
     switch (data)
@@ -192,6 +160,7 @@ public class DataBasePanel extends JPanel
       {
       }
     }
+    repaint();
   }
 
   //TODO: get the data of the persistence type stored data into the table in here, likely with a tablecelleditor (4th argument in new tablecolumn, standard is null, like i am currently displaying)
@@ -305,6 +274,16 @@ public class DataBasePanel extends JPanel
     defectsColumn.setIdentifier("DEFECTS");
     defectsColumn.setHeaderValue("defects");
     defectsColumn.setWidth(200);
+  }
+
+  private void newTable()
+  {
+    persistenceTable = new JTable();
+    persistenceTable.setPreferredScrollableViewportSize(new Dimension(500, 70));
+    persistenceTable.setFillsViewportHeight(true);
+
+    pane = new JScrollPane(persistenceTable);
+    repaint();
   }
 
   private JTable persistenceTable;
