@@ -37,24 +37,64 @@ public class ConsoleApplication implements IApplication
   @Override
   public Long getID()
   {
-    return null;
+    System.out.println("Please input the ID of the object.");
+    while (true)
+    {
+      String idString = sc.next().trim();
+      try
+      {
+        //This currently does not check the id for validity (if id exists in context)
+        return Long.parseLong(idString);
+      }
+      catch (NumberFormatException ex)
+      {
+        System.out.println("Your input was wrong. Please make sure you use only input numbers here.");
+      }
+    }
   }
 
   @Override
   public String getString(String whatToGetTheStringFor, Class classForTheString)
   {
-    return null;
+    String string = "";
+    System.out.println("Please input your String for the " + whatToGetTheStringFor + " for the class " + classForTheString.getName() + ".");
+    string = sc.next();
+    return string;
   }
 
   @Override
   public int getInt(String whatToGetTheIntFor, Class classForTheInt)
   {
-    return 0;
+    System.out.println("Please input your Integer for the " + whatToGetTheIntFor + " for the class " + classForTheInt.getName() + ".");
+    while (true)
+    {
+      String integerString = sc.next().trim();
+      try
+      {
+        return Integer.parseInt(integerString);
+      }
+      catch (NumberFormatException ex)
+      {
+        System.out.println("Your input was wrong. Please make sure you use only input numbers here.");
+      }
+    }
   }
 
   @Override
   public double getDouble(String whatToGetTheDoubleFor, Class classForTheDouble)
   {
-    return 0;
+    System.out.println("Please input your Integer for the " + whatToGetTheDoubleFor + " for the class " + classForTheDouble.getName() + ".");
+    while (true)
+    {
+      String doubleString = sc.next().trim().replaceAll(",", ".");
+      try
+      {
+        return Double.parseDouble(doubleString);
+      }
+      catch (NumberFormatException ex)
+      {
+        System.out.println("Your input was wrong. Please make sure you use only input valid numbers here.");
+      }
+    }
   }
 }
