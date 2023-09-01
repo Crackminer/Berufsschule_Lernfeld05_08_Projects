@@ -1,10 +1,10 @@
-package Kaufvertrag.Kaufvertrag.presentationLayer;
+package Kaufvertrag.Kaufvertrag.presentationLayer.dialogues;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
-public class ConfirmationFrame
+public class ConfirmationDialogue
 {
   public static void confirm()
   {
