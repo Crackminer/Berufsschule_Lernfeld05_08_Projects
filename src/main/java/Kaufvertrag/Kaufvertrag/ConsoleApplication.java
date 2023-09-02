@@ -48,7 +48,7 @@ public class ConsoleApplication implements IApplication
       }
       catch (NumberFormatException ex)
       {
-        System.out.println("Your input was wrong. Please make sure you use only input numbers here.");
+        System.out.println("Your input was wrong. Please make sure you input only numbers here.");
       }
     }
   }
@@ -75,7 +75,7 @@ public class ConsoleApplication implements IApplication
       }
       catch (NumberFormatException ex)
       {
-        System.out.println("Your input was wrong. Please make sure you use only input numbers here.");
+        System.out.println("Your input was wrong. Please make sure you input only numbers here.");
       }
     }
   }
@@ -93,7 +93,7 @@ public class ConsoleApplication implements IApplication
       }
       catch (NumberFormatException ex)
       {
-        System.out.println("Your input was wrong. Please make sure you use only input valid numbers here.");
+        System.out.println("Your input was wrong. Please make sure you input only valid numbers here.");
       }
     }
   }
