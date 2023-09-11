@@ -67,6 +67,7 @@ public class AdresseDaoXml implements IDao<IAdresse, Long>
 
       root.appendChild(nodeID);
       Adresse adresse = new Adresse(strasse.getNodeValue(), hausnummer.getNodeValue(), plz.getNodeValue(), ort.getNodeValue());
+      adresse.setID(Long.parseLong(nodeID.getAttribute("id")));
       writeToXML(doc, new FileOutputStream(FILEPATH));
       return adresse;
     }
@@ -86,8 +87,7 @@ public class AdresseDaoXml implements IDao<IAdresse, Long>
       assert doc != null;
       Element root = doc.getElementById("adresse");
       Element nodeID = doc.createElement("id");
-      //get the id here pls.
-      nodeID.setIdAttribute("", true);
+      nodeID.setIdAttribute(String.valueOf(objectToInsert.getID()), true);
 
       Element strasse = doc.createElement("strasse");
       strasse.setNodeValue(objectToInsert.getStrasse());
@@ -121,7 +121,9 @@ public class AdresseDaoXml implements IDao<IAdresse, Long>
     assert doc != null;
     Element root = doc.getElementById("adresse");
     Element nodeID = root.getOwnerDocument().getElementById(id.toString());
-    return new Adresse(nodeID.getElementsByTagName("strasse").item(0).getNodeValue(), nodeID.getElementsByTagName("hausnummer").item(0).getNodeValue(), nodeID.getElementsByTagName("postleitzahl").item(0).getNodeValue(), nodeID.getElementsByTagName("ort").item(0).getNodeValue());
+    Adresse adresse = new Adresse(nodeID.getElementsByTagName("strasse").item(0).getNodeValue(), nodeID.getElementsByTagName("hausnummer").item(0).getNodeValue(), nodeID.getElementsByTagName("postleitzahl").item(0).getNodeValue(), nodeID.getElementsByTagName("ort").item(0).getNodeValue());
+    adresse.setID(Long.parseLong(nodeID.getAttribute("id")));
+    return adresse;
   }
 
   @Override
@@ -135,7 +137,9 @@ public class AdresseDaoXml implements IDao<IAdresse, Long>
     for (int i = 0; i < adressen.getLength(); i++)
     {
       NodeList children = adressen.item(i).getChildNodes();
-      adressListe.add(new Adresse(children.item(0).getNodeValue(), children.item(1).getNodeValue(), children.item(2).getNodeValue(), children.item(3).getNodeValue()));
+      Adresse adresse = new Adresse(children.item(0).getNodeValue(), children.item(1).getNodeValue(), children.item(2).getNodeValue(), children.item(3).getNodeValue());
+      adresse.setID(Long.parseLong(adressen.item(i).getAttributes().getNamedItem("id").getNodeValue()));
+      adressListe.add(adresse);
     }
     return adressListe;
   }
@@ -148,8 +152,7 @@ public class AdresseDaoXml implements IDao<IAdresse, Long>
       Document doc = getDocument(FILEPATH);
       assert doc != null;
       Element root = doc.getElementById("adresse");
-      //get the id here pls.
-      Element nodeID = root.getOwnerDocument().getElementById("");
+      Element nodeID = root.getOwnerDocument().getElementById(String.valueOf(objectToUpdate.getID()));
 
       Node strasse = nodeID.getElementsByTagName("strasse").item(0);
       strasse.setNodeValue(objectToUpdate.getStrasse());

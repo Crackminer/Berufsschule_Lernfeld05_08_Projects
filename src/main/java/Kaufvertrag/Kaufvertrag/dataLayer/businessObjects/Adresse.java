@@ -4,6 +4,7 @@ import Kaufvertrag.Kaufvertrag.businessObjects.IAdresse;
 
 public class Adresse implements IAdresse
 {
+  private long id;
   private String strasse;
   private String hausNr;
   private String plz;
@@ -15,6 +16,17 @@ public class Adresse implements IAdresse
     this.hausNr = hausNr;
     this.plz = plz;
     this.ort = ort;
+  }
+
+  public void setID(long id)
+  {
+    this.id = id;
+  }
+
+  @Override
+  public long getID()
+  {
+    return id;
   }
 
   public String getStrasse()

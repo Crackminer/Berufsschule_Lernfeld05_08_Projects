@@ -20,12 +20,13 @@ public class AdresseDaoSqlite implements IDao<IAdresse, Long>
     try
     {
       Connection connection = ConnectionManager.getNewConnection();
-      String query = "INSERT into adresse (strasse, hausnummer, postleitzahl, ort) values(?, ?, ?, ?)";
+      String query = "INSERT into adresse (id, strasse, hausnummer, postleitzahl, ort) values(?, ?, ?, ?, ?)";
       PreparedStatement statement = connection.prepareStatement(query);
-      statement.setString(1, objectToInsert.getStrasse());
-      statement.setString(2, objectToInsert.getHausNr());
-      statement.setString(3, objectToInsert.getPlz());
-      statement.setString(4, objectToInsert.getOrt());
+      statement.setLong(1, objectToInsert.getID());
+      statement.setString(2, objectToInsert.getStrasse());
+      statement.setString(3, objectToInsert.getHausNr());
+      statement.setString(4, objectToInsert.getPlz());
+      statement.setString(5, objectToInsert.getOrt());
       statement.executeUpdate();
     }
     catch (Exception ex)
@@ -41,12 +42,13 @@ public class AdresseDaoSqlite implements IDao<IAdresse, Long>
     try
     {
       Connection connection = ConnectionManager.getNewConnection();
-      String query = "INSERT into adresse (strasse, hausnummer, postleitzahl, ort) values(?, ?, ?, ?)";
+      String query = "INSERT into adresse (id, strasse, hausnummer, postleitzahl, ort) values(?, ?, ?, ?, ?)";
       PreparedStatement statement = connection.prepareStatement(query);
-      statement.setString(1, objectToInsert.getStrasse());
-      statement.setString(2, objectToInsert.getHausNr());
-      statement.setString(3, objectToInsert.getPlz());
-      statement.setString(4, objectToInsert.getOrt());
+      statement.setLong(1, objectToInsert.getID());
+      statement.setString(2, objectToInsert.getStrasse());
+      statement.setString(3, objectToInsert.getHausNr());
+      statement.setString(4, objectToInsert.getPlz());
+      statement.setString(5, objectToInsert.getOrt());
       statement.executeUpdate();
     }
     catch (Exception ex)
@@ -94,7 +96,9 @@ public class AdresseDaoSqlite implements IDao<IAdresse, Long>
         String hausnummer = result.getString("hausnummer");
         String plz = result.getString("postleitzahl");
         String ort = result.getString("ort");
-        list.add(new Adresse(strasse, hausnummer, plz, ort));
+        Adresse addresse = new Adresse(strasse, hausnummer, plz, ort);
+        addresse.setID(result.getLong("id"));
+        list.add(addresse);
       }
       return list;
     }
@@ -117,8 +121,7 @@ public class AdresseDaoSqlite implements IDao<IAdresse, Long>
       statement.setString(2, objectToUpdate.getHausNr());
       statement.setString(3, objectToUpdate.getPlz());
       statement.setString(4, objectToUpdate.getOrt());
-      //TODO: Possehl fragen, ob wir hier mit scanner bzw generell user input den kram bekommen sollen
-      statement.setInt(5, 0/*whatthefuckshalliputastheidhere?*/);
+      statement.setLong(5, objectToUpdate.getID());
       statement.executeUpdate();
     }
     catch (Exception ex)

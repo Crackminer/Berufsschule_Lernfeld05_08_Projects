@@ -2,6 +2,8 @@ package Kaufvertrag.Kaufvertrag.businessObjects;
 
 public interface IAdresse
 {
+  long getID();
+
   String getStrasse();
 
   void setStrasse(String strasse);
