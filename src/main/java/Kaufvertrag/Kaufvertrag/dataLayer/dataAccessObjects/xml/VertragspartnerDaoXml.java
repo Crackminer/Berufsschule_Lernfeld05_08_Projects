@@ -22,6 +22,7 @@ public class VertragspartnerDaoXml implements IDao<Vertragspartner, String>
   @Override
   public Vertragspartner create()
   {
+    AdresseDaoXml adresseDaoXml = new AdresseDaoXml();
     try
     {
       Document doc = getDocument(FILEPATH);
@@ -43,9 +44,14 @@ public class VertragspartnerDaoXml implements IDao<Vertragspartner, String>
       ausweisNr.setNodeValue("");
       nodeID.appendChild(ausweisNr);
 
+      Element addressId = doc.createElement("addressId");
+      addressId.setNodeValue("");
+      nodeID.appendChild(addressId);
+
       root.appendChild(nodeID);
       Vertragspartner vertragspartner = new Vertragspartner(vorname.getNodeValue(), nachname.getNodeValue());
       vertragspartner.setAusweisNr(ausweisNr.getNodeValue());
+      vertragspartner.setAdresse(adresseDaoXml.read(Long.parseLong(addressId.getNodeValue())));
       writeToXML(doc, new FileOutputStream(FILEPATH));
       return vertragspartner;
     }
@@ -80,6 +86,10 @@ public class VertragspartnerDaoXml implements IDao<Vertragspartner, String>
       ausweisNr.setNodeValue(objectToInsert.getAusweisNr());
       nodeID.appendChild(ausweisNr);
 
+      Element addressId = doc.createElement("addressId");
+      addressId.setNodeValue(String.valueOf(objectToInsert.getAdresse().getID()));
+      nodeID.appendChild(addressId);
+
       root.appendChild(nodeID);
       writeToXML(doc, new FileOutputStream(FILEPATH));
     }
@@ -92,17 +102,21 @@ public class VertragspartnerDaoXml implements IDao<Vertragspartner, String>
   @Override
   public Vertragspartner read(String id)
   {
+    AdresseDaoXml adresseDaoXml = new AdresseDaoXml();
     Document doc = getDocument(FILEPATH);
     assert doc != null;
     Element root = doc.getElementById("vertragspartner");
     Element nodeID = root.getOwnerDocument().getElementById(id);
     Vertragspartner vertragspartner = new Vertragspartner(nodeID.getElementsByTagName("vorname").item(0).getNodeValue(), nodeID.getElementsByTagName("nachname").item(0).getNodeValue());
     vertragspartner.setAusweisNr(nodeID.getElementsByTagName("ausweisNr").item(0).getNodeValue());
+    vertragspartner.setAdresse(adresseDaoXml.read(Long.parseLong(nodeID.getElementsByTagName("addressId").item(0).getNodeValue())));
     return vertragspartner;
   }
 
   @Override
-  public List<Vertragspartner> readAll() {
+  public List<Vertragspartner> readAll()
+  {
+    AdresseDaoXml adresseDaoXml = new AdresseDaoXml();
     Document doc = getDocument(FILEPATH);
     assert doc != null;
     Element root = doc.getElementById("vertragspartner");
@@ -112,6 +126,7 @@ public class VertragspartnerDaoXml implements IDao<Vertragspartner, String>
       NodeList children = vertragspartnerL.item(i).getChildNodes();
       Vertragspartner vertragspartner = new Vertragspartner(children.item(0).getNodeValue(), children.item(1).getNodeValue());
       vertragspartner.setAusweisNr(children.item(2).getNodeValue());
+      vertragspartner.setAdresse(adresseDaoXml.read(Long.parseLong(children.item(3).getNodeValue())));
       vertragspartnerListe.add(vertragspartner);
     }
     return vertragspartnerListe;
@@ -136,6 +151,9 @@ public class VertragspartnerDaoXml implements IDao<Vertragspartner, String>
 
       Node ausweisNr = nodeID.getElementsByTagName("ausweisNr").item(0);
       ausweisNr.setNodeValue(objectToUpdate.getAusweisNr());
+
+      Node addressId = nodeID.getElementsByTagName("addressId").item(0);
+      addressId.setNodeValue(String.valueOf(objectToUpdate.getAdresse().getID()));
 
       writeToXML(doc, new FileOutputStream(FILEPATH));
     }
