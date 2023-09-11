@@ -71,7 +71,9 @@ public class AdresseDaoSqlite implements IDao<IAdresse, Long>
       String hausnummer = result.getString("hausnummer");
       String plz = result.getString("postleitzahl");
       String ort = result.getString("ort");
-      return new Adresse(strasse, hausnummer, plz, ort);
+      Adresse adresse = new Adresse(strasse, hausnummer, plz, ort);
+      adresse.setID(id);
+      return adresse;
     }
     catch (Exception ex)
     {
