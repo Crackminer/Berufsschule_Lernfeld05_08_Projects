@@ -1,5 +1,6 @@
 package Kaufvertrag.Kaufvertrag.dataLayer.dataAccessObjects.xml;
 
+import Kaufvertrag.Kaufvertrag.businessObjects.IVertragspartner;
 import Kaufvertrag.Kaufvertrag.dataLayer.businessObjects.Vertragspartner;
 import Kaufvertrag.Kaufvertrag.dataLayer.dataAccessObjects.IDao;
 import org.w3c.dom.Document;
@@ -15,7 +16,7 @@ import java.util.List;
 import static Kaufvertrag.Kaufvertrag.dataLayer.dataAccessObjects.xml.XMLManager.getDocument;
 import static Kaufvertrag.Kaufvertrag.dataLayer.dataAccessObjects.xml.XMLManager.writeToXML;
 
-public class VertragspartnerDaoXml implements IDao<Vertragspartner, String>
+public class VertragspartnerDaoXml implements IDao<IVertragspartner, String>
 {
   private static final String FILEPATH = "Berufsschule_Lernfeld05_08_Projects/src/main/java/Kaufvertrag/Kaufvertrag/XML/Vertragspartner.xml";
 
@@ -63,7 +64,7 @@ public class VertragspartnerDaoXml implements IDao<Vertragspartner, String>
   }
 
   @Override
-  public void create(Vertragspartner objectToInsert)
+  public void create(IVertragspartner objectToInsert)
   {
     try
     {
@@ -114,13 +115,13 @@ public class VertragspartnerDaoXml implements IDao<Vertragspartner, String>
   }
 
   @Override
-  public List<Vertragspartner> readAll()
+  public List<IVertragspartner> readAll()
   {
     AdresseDaoXml adresseDaoXml = new AdresseDaoXml();
     Document doc = getDocument(FILEPATH);
     assert doc != null;
     Element root = doc.getElementById("vertragspartner");
-    List<Vertragspartner> vertragspartnerListe = new ArrayList<>();
+    List<IVertragspartner> vertragspartnerListe = new ArrayList<>();
     NodeList vertragspartnerL = root.getElementsByTagName("id");
     for (int i = 0; i < vertragspartnerL.getLength(); i++) {
       NodeList children = vertragspartnerL.item(i).getChildNodes();
@@ -133,7 +134,7 @@ public class VertragspartnerDaoXml implements IDao<Vertragspartner, String>
   }
 
   @Override
-  public void update(Vertragspartner objectToUpdate)
+  public void update(IVertragspartner objectToUpdate)
   {
     try
     {
@@ -177,7 +178,7 @@ public class VertragspartnerDaoXml implements IDao<Vertragspartner, String>
     }
     catch (IOException ex)
     {
-      System.out.println("There was an unexpected Exception in VertagspartnerDaoXml#delete(String id).");
+      System.out.println("There was an unexpected Exception in VertragspartnerDaoXml#delete(String id).");
     }
   }
 }

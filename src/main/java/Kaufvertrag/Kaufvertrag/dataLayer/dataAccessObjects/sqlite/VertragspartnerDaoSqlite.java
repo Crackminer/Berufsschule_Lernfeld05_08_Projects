@@ -1,15 +1,12 @@
 package Kaufvertrag.Kaufvertrag.dataLayer.dataAccessObjects.sqlite;
 
-import Kaufvertrag.Kaufvertrag.businessObjects.IAdresse;
 import Kaufvertrag.Kaufvertrag.businessObjects.IVertragspartner;
-import Kaufvertrag.Kaufvertrag.dataLayer.businessObjects.Adresse;
 import Kaufvertrag.Kaufvertrag.dataLayer.businessObjects.Vertragspartner;
 import Kaufvertrag.Kaufvertrag.dataLayer.dataAccessObjects.IDao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
