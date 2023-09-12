@@ -19,23 +19,6 @@ import static Kaufvertrag.Kaufvertrag.dataLayer.dataAccessObjects.xml.XMLManager
 
 public class AdresseDaoXml implements IDao<IAdresse, Long>
 {
-  /* ********************************************************************************** */
-  /* ********************************************************************************** */
-  /* * xml sollte wie folgt aussehen:                                                 * */
-  /* * xml-datei                                                                      * */
-  /* * root-node adresse                                                              * */
-  /* *     node id                                                                    * */
-  /* *         node strasse                                                           * */
-  /* *         node hausnummer                                                        * */
-  /* *         node plz                                                               * */
-  /* *         node ort                                                               * */
-  /* *     node id2                                                                   * */
-  /* *         node strasse2                                                          * */
-  /* *         node hausnummer2                                                       * */
-  /* *         node plz2                                                              * */
-  /* *         node ort2                                                              * */
-  /* ********************************************************************************** */
-  /* ********************************************************************************** */
   private static final String FILEPATH = "Berufsschule_Lernfeld05_08_Projects/src/main/java/Kaufvertrag/Kaufvertrag/XML/Adresse.xml";
 
   @Override
