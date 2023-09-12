@@ -50,13 +50,13 @@ public class WindowApplication implements IApplication
   }
 
   @Override
-  public Long getForeignID(String whatToGetTheIDFor, Class classForTheID)
+  public Long getForeignID(String whatToGetTheIDFor, Class<?> classForTheID)
   {
     return null;
   }
 
   @Override
-  public String getString(String whatToGetTheStringFor, Class classForTheString)
+  public String getString(String whatToGetTheStringFor, Class<?> classForTheString)
   {
     return null;
   }
@@ -68,13 +68,13 @@ public class WindowApplication implements IApplication
   }
 
   @Override
-  public int getInt(String whatToGetTheIntFor, Class classForTheInt)
+  public int getInt(String whatToGetTheIntFor, Class<?> classForTheInt)
   {
     return 0;
   }
 
   @Override
-  public double getDouble(String whatToGetTheDoubleFor, Class classForTheDouble)
+  public double getDouble(String whatToGetTheDoubleFor, Class<?> classForTheDouble)
   {
     return 0;
   }

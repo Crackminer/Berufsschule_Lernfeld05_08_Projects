@@ -15,6 +15,8 @@ public class ConsoleApplication implements IApplication
   public void startApplication()
   {
     System.out.println("I got started as a Console Application :)");
+
+    //This method will need all the dialogue between console and user and mitigate from user input to create methods, update methods, read methods and delete methods of the current persistence type
   }
 
   @Override
@@ -54,7 +56,7 @@ public class ConsoleApplication implements IApplication
   }
 
   @Override
-  public Long getForeignID(String whatToGetTheIDFor, Class classForTheID)
+  public Long getForeignID(String whatToGetTheIDFor, Class<?> classForTheID)
   {
     System.out.println("Please input the ID of " + whatToGetTheIDFor + " for the class " + classForTheID.getName() + ".");
     while (true)
@@ -73,7 +75,7 @@ public class ConsoleApplication implements IApplication
   }
 
   @Override
-  public String getString(String whatToGetTheStringFor, Class classForTheString)
+  public String getString(String whatToGetTheStringFor, Class<?> classForTheString)
   {
     String string = "";
     System.out.println("Please input your String for the " + whatToGetTheStringFor + " for the class " + classForTheString.getName() + ".");
@@ -91,7 +93,7 @@ public class ConsoleApplication implements IApplication
   }
 
   @Override
-  public int getInt(String whatToGetTheIntFor, Class classForTheInt)
+  public int getInt(String whatToGetTheIntFor, Class<?> classForTheInt)
   {
     System.out.println("Please input your Integer for the " + whatToGetTheIntFor + " for the class " + classForTheInt.getName() + ".");
     while (true)
@@ -109,7 +111,7 @@ public class ConsoleApplication implements IApplication
   }
 
   @Override
-  public double getDouble(String whatToGetTheDoubleFor, Class classForTheDouble)
+  public double getDouble(String whatToGetTheDoubleFor, Class<?> classForTheDouble)
   {
     System.out.println("Please input your Integer for the " + whatToGetTheDoubleFor + " for the class " + classForTheDouble.getName() + ".");
     while (true)
