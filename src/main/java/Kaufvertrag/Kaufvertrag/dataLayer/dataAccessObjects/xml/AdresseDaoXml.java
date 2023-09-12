@@ -31,7 +31,7 @@ public class AdresseDaoXml implements IDao<IAdresse, Long>
     objectToInsert.setOrt(Programm.getInputMethod().getString("Ort", getClass()));
 
     objectToInsert.setID(Programm.getInputMethod().getID());
-    try
+    /*try
     {
       Document doc = getDocument(FILEPATH);
       assert doc != null;
@@ -63,7 +63,8 @@ public class AdresseDaoXml implements IDao<IAdresse, Long>
     {
       System.out.println("There was an unexpected Exception in AdresseDaoXml#create().");
     }
-    return null;
+    return null;*/
+    return objectToInsert;
   }
 
   @Override

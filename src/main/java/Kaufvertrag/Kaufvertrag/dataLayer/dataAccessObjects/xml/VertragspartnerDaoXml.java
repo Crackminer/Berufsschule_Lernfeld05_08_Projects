@@ -48,7 +48,7 @@ public class VertragspartnerDaoXml implements IDao<IVertragspartner, String>
     {
       objectToInsert.setAdresse(new AdresseDaoXml().read(Programm.getInputMethod().getForeignID("Adresse", getClass())));
     }
-    try
+    /*try
     {
       Document doc = getDocument(FILEPATH);
       assert doc != null;
@@ -77,7 +77,8 @@ public class VertragspartnerDaoXml implements IDao<IVertragspartner, String>
     {
       System.out.println("There was an unexpected Exception in VertragspartnerDaoXml#create().");
     }
-    return null;
+    return null;*/
+    return objectToInsert;
   }
 
   @Override

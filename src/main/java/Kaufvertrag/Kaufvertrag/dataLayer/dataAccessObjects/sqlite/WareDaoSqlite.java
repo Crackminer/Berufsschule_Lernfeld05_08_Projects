@@ -24,7 +24,7 @@ public class WareDaoSqlite implements IDao<IWare, Long>
     objectToInsert.setPreis(Programm.getInputMethod().getDouble("Preis", getClass()));
 
     objectToInsert.setId(Programm.getInputMethod().getID());
-    try
+    /*try
     {
       Connection connection = ConnectionManager.getNewConnection();
       String query = "INSERT into ware (id, bezeichnung, beschreibung, preis, besonderheiten, maengel) values(?, ?, ?, ?, ?, ?)";
@@ -40,7 +40,7 @@ public class WareDaoSqlite implements IDao<IWare, Long>
     catch (Exception ex)
     {
       System.out.println("There was an unexpected Exception in WareDaoSqlite#create(IWare objectToInsert).");
-    }
+    }*/
     return objectToInsert;
   }
 

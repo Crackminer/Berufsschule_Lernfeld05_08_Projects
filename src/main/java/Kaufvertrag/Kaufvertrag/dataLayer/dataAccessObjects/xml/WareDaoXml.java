@@ -32,7 +32,7 @@ public class WareDaoXml implements IDao<IWare, Long>
 
     objectToInsert.setId(Programm.getInputMethod().getID());
 
-    try
+    /*try
     {
       Document doc = getDocument(FILEPATH);
       assert doc != null;
@@ -79,7 +79,8 @@ public class WareDaoXml implements IDao<IWare, Long>
     {
       System.out.println("There was an unexpected exception in WareDaoXml#create().");
     }
-    return null;
+    return null;*/
+    return objectToInsert;
   }
 
   @Override

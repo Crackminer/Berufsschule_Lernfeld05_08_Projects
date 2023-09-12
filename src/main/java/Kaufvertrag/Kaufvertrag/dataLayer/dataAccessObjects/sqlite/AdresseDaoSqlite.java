@@ -24,7 +24,7 @@ public class AdresseDaoSqlite implements IDao<IAdresse, Long>
     objectToInsert.setOrt(Programm.getInputMethod().getString("Ort", getClass()));
 
     objectToInsert.setID(Programm.getInputMethod().getID());
-    try
+    /*try
     {
       Connection connection = ConnectionManager.getNewConnection();
       String query = "INSERT into adresse (id, strasse, hausnummer, postleitzahl, ort) values(?, ?, ?, ?, ?)";
@@ -39,7 +39,7 @@ public class AdresseDaoSqlite implements IDao<IAdresse, Long>
     catch (Exception ex)
     {
       System.out.println("There was an unexpected Exception in AdresseDaoSqlite#create(IAdresse objectToInsert).");
-    }
+    }*/
     return objectToInsert;
   }
 

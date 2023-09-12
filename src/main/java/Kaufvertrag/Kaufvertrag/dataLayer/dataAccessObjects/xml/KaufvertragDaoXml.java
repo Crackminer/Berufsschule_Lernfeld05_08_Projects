@@ -119,7 +119,7 @@ public class KaufvertragDaoXml implements IDao<IKaufvertrag, Long>
     }
     objectToInsert.setWare(ware);
     objectToInsert.setZahlungsModalitaeten(Programm.getInputMethod().getString("Zahlungsmittel", getClass()));
-    try
+    /*try
     {
       Document doc = getDocument(FILEPATH);
       assert doc != null;
@@ -151,7 +151,8 @@ public class KaufvertragDaoXml implements IDao<IKaufvertrag, Long>
     {
       System.out.println("There was an unexpected Exception in KaufvertragDaoXml#create().");
     }
-    return null;
+    return null;*/
+    return objectToInsert;
   }
 
   @Override

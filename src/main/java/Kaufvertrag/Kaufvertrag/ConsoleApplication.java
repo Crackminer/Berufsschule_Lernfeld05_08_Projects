@@ -1,5 +1,18 @@
 package Kaufvertrag.Kaufvertrag;
 
+import Kaufvertrag.Kaufvertrag.dataLayer.dataAccessObjects.DataLayerManager;
+import Kaufvertrag.Kaufvertrag.dataLayer.dataAccessObjects.IDao;
+import Kaufvertrag.Kaufvertrag.dataLayer.dataAccessObjects.IDataLayer;
+import Kaufvertrag.Kaufvertrag.dataLayer.dataAccessObjects.sqlite.AdresseDaoSqlite;
+import Kaufvertrag.Kaufvertrag.dataLayer.dataAccessObjects.sqlite.KaufvertragDaoSqlite;
+import Kaufvertrag.Kaufvertrag.dataLayer.dataAccessObjects.sqlite.VertragspartnerDaoSqlite;
+import Kaufvertrag.Kaufvertrag.dataLayer.dataAccessObjects.sqlite.WareDaoSqlite;
+import Kaufvertrag.Kaufvertrag.dataLayer.dataAccessObjects.xml.AdresseDaoXml;
+import Kaufvertrag.Kaufvertrag.dataLayer.dataAccessObjects.xml.KaufvertragDaoXml;
+import Kaufvertrag.Kaufvertrag.dataLayer.dataAccessObjects.xml.VertragspartnerDaoXml;
+import Kaufvertrag.Kaufvertrag.dataLayer.dataAccessObjects.xml.WareDaoXml;
+
+import java.util.List;
 import java.util.Scanner;
 
 public class ConsoleApplication implements IApplication
@@ -14,9 +27,74 @@ public class ConsoleApplication implements IApplication
   @Override
   public void startApplication()
   {
-    System.out.println("I got started as a Console Application :)");
+    System.out.println("The program succesfully started.");
+    DataLayerManager dataLayerManager = DataLayerManager.getInstance();
+    IDataLayer dataLayer = dataLayerManager.getDataLayer();
 
-    //This method will need all the dialogue between console and user and mitigate from user input to create methods, update methods, read methods and delete methods of the current persistence type
+    while(true)
+    {
+      System.out.println("Which Data Access Object do you want to manipulate?\nValid inputs are \"kaufvertrag\", \"ware\", \"vertragspartner\" or \"adresse\".\nIf you want to quit the program please input \"q\".");
+      IDao<?, ?> dataAccessObject = null;
+      while(dataAccessObject == null)
+      {
+        String inputDao = sc.next().trim().toLowerCase();
+        switch (inputDao)
+        {
+          case "kaufvertrag" -> dataAccessObject = dataLayer.getDaoKaufvertrag();
+          case "ware" -> dataAccessObject = dataLayer.getDaoWare();
+          case "vertragspartner" -> dataAccessObject = dataLayer.getDaoVertragspartner();
+          case "adresse" -> dataAccessObject = dataLayer.getDaoAdresse();
+          case "q" ->
+          {
+            return;
+          }
+        }
+      }
+
+      System.out.println("What do you intend to do with your data access object?\nValid inputs are \"create\", \"read\", \"readall\", \"update\", \"delete\".\nIf you want to quit the program please input \"q\".");
+      String inputMethod = sc.next().trim().toLowerCase();
+      switch (inputMethod)
+      {
+        case "create" -> {
+          Object object = dataAccessObject.create();
+          System.out.println("you succesfully created the object:\n" + object);
+        }
+        case "read" -> {
+          if (dataAccessObject.getClass().equals(VertragspartnerDaoSqlite.class) || dataAccessObject.getClass().equals(VertragspartnerDaoXml.class))
+          {
+            System.out.println(((IDao<?, String>)dataAccessObject).read(getString("Vertragspartner Ausweisnummer", getClass())));
+          }
+          else
+          {
+            System.out.println(((IDao<?, Long>)dataAccessObject).read(getID()));
+          }
+        }
+        case "readall" -> {
+          List objectList = dataAccessObject.readAll();
+          for (Object object : objectList)
+          {
+            System.out.println(object);
+          }
+        }
+        case "update" -> {
+          ((IDao<Object, ?>)dataAccessObject).update(((IDao<Object, ?>)dataAccessObject).create());
+        }
+        case "delete" -> {
+          if (dataAccessObject.getClass().equals(VertragspartnerDaoSqlite.class) || dataAccessObject.getClass().equals(VertragspartnerDaoXml.class))
+          {
+            ((IDao<?, String>)dataAccessObject).delete(getString("Vertragspartner Ausweisnummer", getClass()));
+          }
+          else
+          {
+            ((IDao<?, Long>)dataAccessObject).delete(getID());
+          }
+        }
+        case "q" ->
+        {
+          return;
+        }
+      }
+    }
   }
 
   @Override
@@ -87,7 +165,7 @@ public class ConsoleApplication implements IApplication
   public String getYesOrNo(String message)
   {
     String string = "";
-    System.out.println("message");
+    System.out.println(message);
     string = sc.next();
     return string;
   }
