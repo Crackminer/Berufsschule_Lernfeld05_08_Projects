@@ -1,5 +1,6 @@
 package Kaufvertrag.Kaufvertrag.dataLayer.dataAccessObjects.sqlite;
 
+import Kaufvertrag.Kaufvertrag.Programm;
 import Kaufvertrag.Kaufvertrag.businessObjects.IWare;
 import Kaufvertrag.Kaufvertrag.dataLayer.businessObjects.Ware;
 import Kaufvertrag.Kaufvertrag.dataLayer.dataAccessObjects.IDao;
@@ -16,7 +17,13 @@ public class WareDaoSqlite implements IDao<IWare, Long>
   @Override
   public IWare create()
   {
-    IWare objectToInsert = new Ware("", 0.0);
+    Ware objectToInsert = new Ware("", 0.0);
+    objectToInsert = new Ware("", 0.0);
+    objectToInsert.setBezeichnung(Programm.getInputMethod().getString("Bezeichnung", getClass()));
+    objectToInsert.setBeschreibung(Programm.getInputMethod().getString("Beschreibung", getClass()));
+    objectToInsert.setPreis(Programm.getInputMethod().getDouble("Preis", getClass()));
+
+    objectToInsert.setId(Programm.getInputMethod().getID());
     try
     {
       Connection connection = ConnectionManager.getNewConnection();

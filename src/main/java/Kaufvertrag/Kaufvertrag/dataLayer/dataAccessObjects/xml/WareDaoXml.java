@@ -1,5 +1,6 @@
 package Kaufvertrag.Kaufvertrag.dataLayer.dataAccessObjects.xml;
 
+import Kaufvertrag.Kaufvertrag.Programm;
 import Kaufvertrag.Kaufvertrag.businessObjects.IWare;
 import Kaufvertrag.Kaufvertrag.dataLayer.businessObjects.Ware;
 import Kaufvertrag.Kaufvertrag.dataLayer.dataAccessObjects.IDao;
@@ -24,6 +25,13 @@ public class WareDaoXml implements IDao<IWare, Long>
   @Override
   public IWare create()
   {
+    Ware objectToInsert = new Ware("", 0.0);
+    objectToInsert.setBezeichnung(Programm.getInputMethod().getString("Bezeichnung", getClass()));
+    objectToInsert.setBeschreibung(Programm.getInputMethod().getString("Beschreibung", getClass()));
+    objectToInsert.setPreis(Programm.getInputMethod().getDouble("Preis", getClass()));
+
+    objectToInsert.setId(Programm.getInputMethod().getID());
+
     try
     {
       Document doc = getDocument(FILEPATH);
@@ -31,45 +39,41 @@ public class WareDaoXml implements IDao<IWare, Long>
 
       Element root = doc.getElementById("ware");
       Element nodeID = doc.createElement("id");
-      nodeID.setIdAttribute("", true);
+      nodeID.setIdAttribute(String.valueOf(objectToInsert.getId()), true);
 
       Element bezeichnung = doc.createElement("bezeichnung");
-      bezeichnung.setNodeValue("");
+      bezeichnung.setNodeValue(objectToInsert.getBezeichnung());
       nodeID.appendChild(bezeichnung);
 
       Element beschreibung = doc.createElement("beschreibung");
-      beschreibung.setNodeValue("");
+      beschreibung.setNodeValue(objectToInsert.getBeschreibung());
       nodeID.appendChild(beschreibung);
 
       Element preis = doc.createElement("preis");
-      preis.setNodeValue("");
+      preis.setNodeValue(String.valueOf(objectToInsert.getPreis()));
       nodeID.appendChild(preis);
 
       Element besonderheiten = doc.createElement("besonderheiten");
-      // i < getBesonderheiten().size()
-      for (int i = 0; i < 1; i++)
+      for (String besonderheit : objectToInsert.getBesonderheiten())
       {
-        Element besonderheit = doc.createElement("besonderheit");
-        besonderheit.setNodeValue("");
-        besonderheiten.appendChild(besonderheit);
+        Element besonderheitElement = doc.createElement("besonderheit");
+        besonderheitElement.setNodeValue(besonderheit);
+        besonderheiten.appendChild(besonderheitElement);
       }
       nodeID.appendChild(besonderheiten);
 
       Element maengel = doc.createElement("maengel");
-      for (int i = 0; i < 1; i++)
+      for (String mangel : objectToInsert.getMaengel())
       {
-        Element mangel = doc.createElement("mangel");
-        mangel.setNodeValue("");
-        maengel.appendChild(mangel);
+        Element mangelElement = doc.createElement("mangel");
+        mangelElement.setNodeValue(mangel);
+        maengel.appendChild(mangelElement);
       }
       nodeID.appendChild(maengel);
 
       root.appendChild(nodeID);
-      Ware ware = new Ware(bezeichnung.getNodeValue(), Double.parseDouble(preis.getNodeValue()));
-      ware.setBeschreibung(beschreibung.getNodeValue());
-      ware.setId(Long.parseLong(nodeID.getAttribute("id")));
       writeToXML(doc, new FileOutputStream(FILEPATH));
-      return ware;
+      return objectToInsert;
     }
     catch (IOException e)
     {

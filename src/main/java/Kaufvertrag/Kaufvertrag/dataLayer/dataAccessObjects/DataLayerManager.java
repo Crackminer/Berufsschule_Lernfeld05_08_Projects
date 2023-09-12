@@ -38,6 +38,6 @@ public class DataLayerManager
 
   private String readPersistenceType()
   {
-    return persistenceType == null ? persistenceType = Programm.getPersistenceType() : persistenceType;
+    return persistenceType == null ? persistenceType = Programm.getInputMethod().getPersistenceType() : persistenceType;
   }
 }

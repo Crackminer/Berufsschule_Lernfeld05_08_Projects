@@ -50,7 +50,19 @@ public class WindowApplication implements IApplication
   }
 
   @Override
+  public Long getForeignID(String whatToGetTheIDFor, Class classForTheID)
+  {
+    return null;
+  }
+
+  @Override
   public String getString(String whatToGetTheStringFor, Class classForTheString)
+  {
+    return null;
+  }
+
+  @Override
+  public String getYesOrNo(String message)
   {
     return null;
   }

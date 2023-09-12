@@ -1,5 +1,6 @@
 package Kaufvertrag.Kaufvertrag.dataLayer.dataAccessObjects.sqlite;
 
+import Kaufvertrag.Kaufvertrag.Programm;
 import Kaufvertrag.Kaufvertrag.businessObjects.IAdresse;
 import Kaufvertrag.Kaufvertrag.dataLayer.businessObjects.Adresse;
 import Kaufvertrag.Kaufvertrag.dataLayer.dataAccessObjects.IDao;
@@ -15,8 +16,14 @@ public class AdresseDaoSqlite implements IDao<IAdresse, Long>
   @Override
   public IAdresse create()
   {
-    //TODO: Possehl fragen, ob wir hier mit scanner bzw generell user input den kram bekommen sollen
     Adresse objectToInsert = new Adresse("", "", "", "");
+    objectToInsert = new Adresse("", "", "", "");
+    objectToInsert.setStrasse(Programm.getInputMethod().getString("Strasse", getClass()));
+    objectToInsert.setHausNr(Programm.getInputMethod().getString("Hausnummer", getClass()));
+    objectToInsert.setPlz(Programm.getInputMethod().getString("PLZ", getClass()));
+    objectToInsert.setOrt(Programm.getInputMethod().getString("Ort", getClass()));
+
+    objectToInsert.setID(Programm.getInputMethod().getID());
     try
     {
       Connection connection = ConnectionManager.getNewConnection();

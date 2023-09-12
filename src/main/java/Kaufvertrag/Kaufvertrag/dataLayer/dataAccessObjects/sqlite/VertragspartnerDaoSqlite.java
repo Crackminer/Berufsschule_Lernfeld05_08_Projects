@@ -1,6 +1,9 @@
 package Kaufvertrag.Kaufvertrag.dataLayer.dataAccessObjects.sqlite;
 
+import Kaufvertrag.Kaufvertrag.Programm;
+import Kaufvertrag.Kaufvertrag.businessObjects.IAdresse;
 import Kaufvertrag.Kaufvertrag.businessObjects.IVertragspartner;
+import Kaufvertrag.Kaufvertrag.dataLayer.businessObjects.Adresse;
 import Kaufvertrag.Kaufvertrag.dataLayer.businessObjects.Vertragspartner;
 import Kaufvertrag.Kaufvertrag.dataLayer.dataAccessObjects.IDao;
 
@@ -15,11 +18,32 @@ public class VertragspartnerDaoSqlite implements IDao<IVertragspartner, String>
   @Override
   public IVertragspartner create()
   {
-    Vertragspartner objectToInsert = new Vertragspartner("","");
+    IVertragspartner objectToInsert = new Vertragspartner("", "");
+    objectToInsert.setNachname(Programm.getInputMethod().getString("Nachname", getClass()));
+    objectToInsert.setVorname(Programm.getInputMethod().getString("Vorname", getClass()));
+    objectToInsert.setAusweisNr(Programm.getInputMethod().getString("Ausweisnummer", getClass()));
+
+    IAdresse adresse = null;
+    if ("y".equalsIgnoreCase(Programm.getInputMethod().getYesOrNo("Do you want your own Adresse for the Vertragspartner or do you want to supply an Id of an existing Adresse? Y for own, N for existing.").trim()))
+    {
+      adresse = new Adresse("", "", "", "");
+      adresse.setStrasse(Programm.getInputMethod().getString("Adresse Strasse", getClass()));
+      adresse.setHausNr(Programm.getInputMethod().getString("Adresse Hausnummer", getClass()));
+      adresse.setPlz(Programm.getInputMethod().getString("Adresse PLZ", getClass()));
+      adresse.setOrt(Programm.getInputMethod().getString("Adresse Ort", getClass()));
+
+      ((Adresse)adresse).setID(Programm.getInputMethod().getForeignID("Adresse", getClass()));
+
+      new AdresseDaoSqlite().create(adresse);
+    }
+    else
+    {
+      objectToInsert.setAdresse(new AdresseDaoSqlite().read(Programm.getInputMethod().getForeignID("Adresse", getClass())));
+    }
     try
     {
       Connection connection = ConnectionManager.getNewConnection();
-      String query = "INSERT into vertragspartner (vorname, nachname, ausweisNr, addressId) values (?, ? , ?, ?)";
+      String query = "INSERT into vertragspartner (vorname, nachname, ausweisNr, adresse) values (?, ? , ?, ?)";
       PreparedStatement statement = connection.prepareStatement(query);
       statement.setString(1, objectToInsert.getVorname());
       statement.setString(2, objectToInsert.getNachname());
@@ -40,7 +64,7 @@ public class VertragspartnerDaoSqlite implements IDao<IVertragspartner, String>
     try
     {
       Connection connection = ConnectionManager.getNewConnection();
-      String query = "INSERT into vertragspartner (vorname, nachname, ausweisNr, addressId) values (?, ? , ?, ?)";
+      String query = "INSERT into vertragspartner (vorname, nachname, ausweisNr, adresse) values (?, ? , ?, ?)";
       PreparedStatement statement = connection.prepareStatement(query);
       statement.setString(1, objectToInsert.getVorname());
       statement.setString(2, objectToInsert.getNachname());
@@ -57,11 +81,10 @@ public class VertragspartnerDaoSqlite implements IDao<IVertragspartner, String>
   @Override
   public IVertragspartner read(String id)
   {
-    AdresseDaoSqlite adresseDaoSqlite = new AdresseDaoSqlite();
     try
     {
       Connection connection = ConnectionManager.getNewConnection();
-      String query = "SELECT vorname, nachname, ausweisNr, addressId from vertragspartner WHERE id = ?";
+      String query = "SELECT vorname, nachname, ausweisNr, adresse from vertragspartner WHERE id = ?";
       PreparedStatement statement = connection.prepareStatement(query);
       statement.setString(1, id);
       ResultSet result = statement.executeQuery();
@@ -71,7 +94,7 @@ public class VertragspartnerDaoSqlite implements IDao<IVertragspartner, String>
       Long addressId = result.getLong("addressId");
       Vertragspartner vertragspartner = new Vertragspartner(vorname, nachname);
       vertragspartner.setAusweisNr(ausweisNr);
-      vertragspartner.setAdresse(adresseDaoSqlite.read(addressId));
+      vertragspartner.setAdresse(new AdresseDaoSqlite().read(addressId));
       return vertragspartner;
     }
     catch (Exception ex)
@@ -84,11 +107,10 @@ public class VertragspartnerDaoSqlite implements IDao<IVertragspartner, String>
   @Override
   public List<IVertragspartner> readAll()
   {
-    AdresseDaoSqlite adresseDaoSqlite = new AdresseDaoSqlite();
     try
     {
       Connection connection = ConnectionManager.getNewConnection();
-      String query = "SELECT vorname, nachname, ausweisNr, addressId from vertragspartner";
+      String query = "SELECT vorname, nachname, ausweisNr, adresse from vertragspartner";
       PreparedStatement statement = connection.prepareStatement(query);
       ResultSet result = statement.executeQuery();
       ArrayList<IVertragspartner> list = new ArrayList<>();
@@ -98,7 +120,7 @@ public class VertragspartnerDaoSqlite implements IDao<IVertragspartner, String>
         vertragspartner.setVorname(result.getString("vorname"));
         vertragspartner.setNachname(result.getString("nachname"));
         vertragspartner.setAusweisNr(result.getString("ausweisNr"));
-        vertragspartner.setAdresse(adresseDaoSqlite.read(result.getLong("addressId")));
+        vertragspartner.setAdresse(new AdresseDaoSqlite().read(result.getLong("addressId")));
         list.add(vertragspartner);
       }
       return list;
@@ -116,14 +138,17 @@ public class VertragspartnerDaoSqlite implements IDao<IVertragspartner, String>
     try
     {
       Connection connection = ConnectionManager.getNewConnection();
-      String query = "UPDATE vertragspartner SET vorname = ?, nachname = ?, ausweisNr = ?, addressId = ? WHERE id = ?";
+      String query = "UPDATE vertragspartner SET vorname = ?, nachname = ?, ausweisNr = ?, adresse = ? WHERE id = ?";
       PreparedStatement statement = connection.prepareStatement(query);
       statement.setString(1, objectToUpdate.getVorname());
       statement.setString(2, objectToUpdate.getNachname());
       statement.setString(3, objectToUpdate.getAusweisNr());
       statement.setLong(4, objectToUpdate.getAdresse().getID());
+      statement.setLong(5, Programm.getInputMethod().getID());
       statement.executeUpdate();
-    } catch (Exception ex) {
+    }
+    catch (Exception ex)
+    {
       System.out.println("here was an unexpected Exception in VertragspartnerDaoSqlite#update(Vertargspartner objectToUpdate).");
     }
   }

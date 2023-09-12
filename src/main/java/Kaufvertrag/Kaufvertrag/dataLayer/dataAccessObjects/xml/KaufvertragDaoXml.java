@@ -1,8 +1,18 @@
 package Kaufvertrag.Kaufvertrag.dataLayer.dataAccessObjects.xml;
 
+import Kaufvertrag.Kaufvertrag.Programm;
+import Kaufvertrag.Kaufvertrag.businessObjects.IAdresse;
 import Kaufvertrag.Kaufvertrag.businessObjects.IKaufvertrag;
+import Kaufvertrag.Kaufvertrag.businessObjects.IVertragspartner;
+import Kaufvertrag.Kaufvertrag.businessObjects.IWare;
+import Kaufvertrag.Kaufvertrag.dataLayer.businessObjects.Adresse;
 import Kaufvertrag.Kaufvertrag.dataLayer.businessObjects.Kaufvertrag;
+import Kaufvertrag.Kaufvertrag.dataLayer.businessObjects.Vertragspartner;
+import Kaufvertrag.Kaufvertrag.dataLayer.businessObjects.Ware;
 import Kaufvertrag.Kaufvertrag.dataLayer.dataAccessObjects.IDao;
+import Kaufvertrag.Kaufvertrag.dataLayer.dataAccessObjects.sqlite.AdresseDaoSqlite;
+import Kaufvertrag.Kaufvertrag.dataLayer.dataAccessObjects.sqlite.VertragspartnerDaoSqlite;
+import Kaufvertrag.Kaufvertrag.dataLayer.dataAccessObjects.sqlite.WareDaoSqlite;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -23,36 +33,119 @@ public class KaufvertragDaoXml implements IDao<IKaufvertrag, Long>
   @Override
   public IKaufvertrag create()
   {
+    IKaufvertrag objectToInsert = new Kaufvertrag(null, null, null);
+    //verkaufer
+    IVertragspartner verkaufer = null;
+    if ("y".equalsIgnoreCase(Programm.getInputMethod().getYesOrNo("Do you want your own Verkaufer or do you want to supply an Id of an existing Verkaufer? Y for own, N for existing.").trim()))
+    {
+      verkaufer = new Vertragspartner("", "");
+      verkaufer.setNachname(Programm.getInputMethod().getString("Verkaufer Nachname", getClass()));
+      verkaufer.setVorname(Programm.getInputMethod().getString("Verkaufer Vorname", getClass()));
+      verkaufer.setAusweisNr(Programm.getInputMethod().getString("Verkaufer Ausweisnummer", getClass()));
+
+      IAdresse adresse = null;
+      if ("y".equalsIgnoreCase(Programm.getInputMethod().getYesOrNo("Do you want your own Adresse for the Verkaufer or do you want to supply an Id of an existing Adresse? Y for own, N for existing.").trim()))
+      {
+        adresse = new Adresse("", "", "", "");
+        adresse.setStrasse(Programm.getInputMethod().getString("Verkaufer Adresse Strasse", getClass()));
+        adresse.setHausNr(Programm.getInputMethod().getString("Verkaufer Adresse Hausnummer", getClass()));
+        adresse.setPlz(Programm.getInputMethod().getString("Verkaufer Adresse PLZ", getClass()));
+        adresse.setOrt(Programm.getInputMethod().getString("Verkaufer Adresse Ort", getClass()));
+
+        ((Adresse)adresse).setID(Programm.getInputMethod().getForeignID("Adresse", getClass()));
+
+        new AdresseDaoXml().create(adresse);
+      }
+      else
+      {
+        verkaufer.setAdresse(new AdresseDaoXml().read(Programm.getInputMethod().getForeignID("Adresse", getClass())));
+      }
+      new VertragspartnerDaoXml().create(verkaufer);
+    }
+    else
+    {
+      verkaufer = new VertragspartnerDaoXml().read(Programm.getInputMethod().getForeignID("Verkaufer", getClass()).toString());
+    }
+    objectToInsert.setVerkaeufer(verkaufer);
+    //kaufer
+    IVertragspartner kaufer = null;
+    if ("y".equalsIgnoreCase(Programm.getInputMethod().getYesOrNo("Do you want your own Kaufer or do you want to supply an Id of an existing Kaufer? Y for own, N for existing.").trim()))
+    {
+      kaufer = new Vertragspartner("", "");
+      kaufer.setNachname(Programm.getInputMethod().getString("Kaufer Nachname", getClass()));
+      kaufer.setVorname(Programm.getInputMethod().getString("Kaufer Vorname", getClass()));
+      kaufer.setAusweisNr(Programm.getInputMethod().getString("Kaufer Ausweisnummer", getClass()));
+
+      IAdresse adresse = null;
+      if ("y".equalsIgnoreCase(Programm.getInputMethod().getYesOrNo("Do you want your own Adresse for the Kaufer or do you want to supply an Id of an existing Adresse? Y for own, N for existing.").trim()))
+      {
+        adresse = new Adresse("", "", "", "");
+        adresse.setStrasse(Programm.getInputMethod().getString("Kaufer Adresse Strasse", getClass()));
+        adresse.setHausNr(Programm.getInputMethod().getString("Kaufer Adresse Hausnummer", getClass()));
+        adresse.setPlz(Programm.getInputMethod().getString("Kaufer Adresse PLZ", getClass()));
+        adresse.setOrt(Programm.getInputMethod().getString("Kaufer Adresse Ort", getClass()));
+
+        ((Adresse)adresse).setID(Programm.getInputMethod().getForeignID("Adresse", getClass()));
+
+        new AdresseDaoXml().create(adresse);
+      }
+      else
+      {
+        kaufer.setAdresse(new AdresseDaoXml().read(Programm.getInputMethod().getForeignID("Adresse", getClass())));
+      }
+      new VertragspartnerDaoXml().create(kaufer);
+    }
+    else
+    {
+      kaufer = new VertragspartnerDaoXml().read(Programm.getInputMethod().getForeignID("Kaufer", getClass()).toString());
+    }
+    objectToInsert.setKaeufer(kaufer);
+    //ware
+    IWare ware = null;
+    if ("y".equalsIgnoreCase(Programm.getInputMethod().getYesOrNo("Do you want your own Ware or do you want to supply an Id of an existing Ware? Y for own, N for existing.").trim()))
+    {
+      ware = new Ware("", 0.0);
+      ware.setBezeichnung(Programm.getInputMethod().getString("Ware Bezeichnung", getClass()));
+      ware.setBeschreibung(Programm.getInputMethod().getString("Ware Beschreibung", getClass()));
+      ware.setPreis(Programm.getInputMethod().getDouble("Ware Preis", getClass()));
+
+      ((Ware)ware).setId(Programm.getInputMethod().getForeignID("Ware", getClass()));
+
+      new WareDaoXml().create(ware);
+    }
+    else
+    {
+      ware = new WareDaoXml().read(Programm.getInputMethod().getForeignID("Ware", getClass()));
+    }
+    objectToInsert.setWare(ware);
+    objectToInsert.setZahlungsModalitaeten(Programm.getInputMethod().getString("Zahlungsmittel", getClass()));
     try
     {
       Document doc = getDocument(FILEPATH);
       assert doc != null;
       Element root = doc.getElementById("kaufvertrag");
       Element nodeID = doc.createElement("id");
-      //get the id here pls.
-      nodeID.setIdAttribute("", true);
+      nodeID.setIdAttribute(Programm.getInputMethod().getID().toString(), true);
 
-      Element verkaufer = doc.createElement("verkaufer");
-      verkaufer.setNodeValue("");
-      nodeID.appendChild(verkaufer);
+      Element verkauferElement = doc.createElement("verkaufer");
+      verkauferElement.setNodeValue(objectToInsert.getVerkaeufer().getAusweisNr());
+      nodeID.appendChild(verkauferElement);
 
-      Element kaufer = doc.createElement("kaufer");
-      kaufer.setNodeValue("");
-      nodeID.appendChild(kaufer);
+      Element kauferElement = doc.createElement("kaufer");
+      kauferElement.setNodeValue(objectToInsert.getKaeufer().getAusweisNr());
+      nodeID.appendChild(kauferElement);
 
-      Element ware = doc.createElement("ware");
-      ware.setNodeValue("");
-      nodeID.appendChild(ware);
+      Element wareElement = doc.createElement("ware");
+      wareElement.setNodeValue(String.valueOf(objectToInsert.getWare().getId()));
+      nodeID.appendChild(wareElement);
 
       Element bezahlmethode = doc.createElement("bezahlmethode");
-      bezahlmethode.setNodeValue("");
+      bezahlmethode.setNodeValue(objectToInsert.getZahlungsModalitaeten());
       nodeID.appendChild(bezahlmethode);
 
       root.appendChild(nodeID);
-      Kaufvertrag kaufvertrag = new Kaufvertrag(new VertragspartnerDaoXml().read(verkaufer.getNodeValue()), new VertragspartnerDaoXml().read(kaufer.getNodeValue()), new WareDaoXml().read(Long.parseLong(ware.getNodeValue())));
-      kaufvertrag.setZahlungsModalitaeten(bezahlmethode.getNodeValue());
       writeToXML(doc, new FileOutputStream(FILEPATH));
-      return kaufvertrag;
+      return objectToInsert;
     }
     catch (IOException ex)
     {
@@ -70,8 +163,7 @@ public class KaufvertragDaoXml implements IDao<IKaufvertrag, Long>
       assert doc != null;
       Element root = doc.getElementById("kaufvertrag");
       Element nodeID = doc.createElement("id");
-      //get the id here pls.
-      nodeID.setIdAttribute("", true);
+      nodeID.setIdAttribute(Programm.getInputMethod().getID().toString(), true);
 
       Element verkaufer = doc.createElement("verkaufer");
       verkaufer.setNodeValue(objectToInsert.getVerkaeufer().getAusweisNr());
@@ -136,8 +228,7 @@ public class KaufvertragDaoXml implements IDao<IKaufvertrag, Long>
       Document doc = getDocument(FILEPATH);
       assert doc != null;
       Element root = doc.getElementById("kaufvertrag");
-      //get the id here pls.
-      Element nodeID = root.getOwnerDocument().getElementById("");
+      Element nodeID = root.getOwnerDocument().getElementById(Programm.getInputMethod().getID().toString());
 
       Node verkaufer = nodeID.getElementsByTagName("verkaufer").item(0);
       verkaufer.setNodeValue(objectToUpdate.getVerkaeufer().getAusweisNr());

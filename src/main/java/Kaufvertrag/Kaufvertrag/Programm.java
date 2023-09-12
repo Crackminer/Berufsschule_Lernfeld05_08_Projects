@@ -24,8 +24,8 @@ public class Programm
     inputMethod.startApplication();
   }
 
-  public static String getPersistenceType()
+  public static IApplication getInputMethod()
   {
-    return inputMethod.getPersistenceType();
+    return inputMethod;
   }
 }

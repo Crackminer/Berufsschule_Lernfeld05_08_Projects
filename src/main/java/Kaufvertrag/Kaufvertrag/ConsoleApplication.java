@@ -54,10 +54,38 @@ public class ConsoleApplication implements IApplication
   }
 
   @Override
+  public Long getForeignID(String whatToGetTheIDFor, Class classForTheID)
+  {
+    System.out.println("Please input the ID of " + whatToGetTheIDFor + " for the class " + classForTheID.getName() + ".");
+    while (true)
+    {
+      String idString = sc.next().trim();
+      try
+      {
+        //This currently does not check the id for validity (if id exists in context)
+        return Long.parseLong(idString);
+      }
+      catch (NumberFormatException ex)
+      {
+        System.out.println("Your input was wrong. Please make sure you input only numbers here.");
+      }
+    }
+  }
+
+  @Override
   public String getString(String whatToGetTheStringFor, Class classForTheString)
   {
     String string = "";
     System.out.println("Please input your String for the " + whatToGetTheStringFor + " for the class " + classForTheString.getName() + ".");
+    string = sc.next();
+    return string;
+  }
+
+  @Override
+  public String getYesOrNo(String message)
+  {
+    String string = "";
+    System.out.println("message");
     string = sc.next();
     return string;
   }

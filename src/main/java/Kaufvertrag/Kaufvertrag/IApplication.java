@@ -8,7 +8,11 @@ public interface IApplication
 
   Long getID();
 
+  Long getForeignID(String whatToGetTheIDFor, Class classForTheID);
+
   String getString(String whatToGetTheStringFor, Class classForTheString);
+
+  String getYesOrNo(String message);
 
   int getInt(String whatToGetTheIntFor, Class classForTheInt);
 

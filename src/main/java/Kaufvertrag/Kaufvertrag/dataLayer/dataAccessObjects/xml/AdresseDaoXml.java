@@ -1,5 +1,6 @@
 package Kaufvertrag.Kaufvertrag.dataLayer.dataAccessObjects.xml;
 
+import Kaufvertrag.Kaufvertrag.Programm;
 import Kaufvertrag.Kaufvertrag.businessObjects.IAdresse;
 import Kaufvertrag.Kaufvertrag.dataLayer.businessObjects.Adresse;
 import Kaufvertrag.Kaufvertrag.dataLayer.dataAccessObjects.IDao;
@@ -40,36 +41,40 @@ public class AdresseDaoXml implements IDao<IAdresse, Long>
   @Override
   public IAdresse create()
   {
+    Adresse objectToInsert = new Adresse("", "", "", "");
+    objectToInsert.setStrasse(Programm.getInputMethod().getString("Strasse", getClass()));
+    objectToInsert.setHausNr(Programm.getInputMethod().getString("Hausnummer", getClass()));
+    objectToInsert.setPlz(Programm.getInputMethod().getString("PLZ", getClass()));
+    objectToInsert.setOrt(Programm.getInputMethod().getString("Ort", getClass()));
+
+    objectToInsert.setID(Programm.getInputMethod().getID());
     try
     {
       Document doc = getDocument(FILEPATH);
       assert doc != null;
       Element root = doc.getElementById("adresse");
       Element nodeID = doc.createElement("id");
-      //get the id here pls.
-      nodeID.setIdAttribute("", true);
+      nodeID.setIdAttribute(String.valueOf(objectToInsert.getID()), true);
 
       Element strasse = doc.createElement("strasse");
-      strasse.setNodeValue("");
+      strasse.setNodeValue(objectToInsert.getStrasse());
       nodeID.appendChild(strasse);
 
       Element hausnummer = doc.createElement("hausnummer");
-      hausnummer.setNodeValue("");
+      hausnummer.setNodeValue(objectToInsert.getHausNr());
       nodeID.appendChild(hausnummer);
 
       Element plz = doc.createElement("postleitzahl");
-      plz.setNodeValue("");
+      plz.setNodeValue(objectToInsert.getPlz());
       nodeID.appendChild(plz);
 
       Element ort = doc.createElement("ort");
-      ort.setNodeValue("");
+      ort.setNodeValue(objectToInsert.getOrt());
       nodeID.appendChild(ort);
 
       root.appendChild(nodeID);
-      Adresse adresse = new Adresse(strasse.getNodeValue(), hausnummer.getNodeValue(), plz.getNodeValue(), ort.getNodeValue());
-      adresse.setID(Long.parseLong(nodeID.getAttribute("id")));
       writeToXML(doc, new FileOutputStream(FILEPATH));
-      return adresse;
+      return objectToInsert;
     }
     catch (IOException ex)
     {

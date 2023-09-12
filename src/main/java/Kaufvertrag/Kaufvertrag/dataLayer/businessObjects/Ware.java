@@ -2,6 +2,7 @@ package Kaufvertrag.Kaufvertrag.dataLayer.businessObjects;
 
 import Kaufvertrag.Kaufvertrag.businessObjects.IWare;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,13 +16,15 @@ public class Ware implements IWare
   private String bezeichnung;
   private String beschreibung;
   private double preis;
-  private List<String> besonderheiten;
-  private List<String> maengel;
+  private final List<String> besonderheiten;
+  private final List<String> maengel;
 
   public Ware(String bezeichnung, double preis)
   {
     this.bezeichnung = bezeichnung;
     this.preis = preis;
+    besonderheiten = new ArrayList<>();
+    maengel = new ArrayList<>();
   }
 
   @Override
