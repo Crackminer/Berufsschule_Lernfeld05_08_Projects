@@ -75,7 +75,7 @@ public class Adresse implements IAdresse
   public String toString()
   {
     return
-      "Adresse:"
+      "Adresse:\n"
         + "\tStraße:\n"
         + "\t\t" + strasse + "\n"
         + "\tHausnr:\n"

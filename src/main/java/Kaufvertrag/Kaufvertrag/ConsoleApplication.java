@@ -3,14 +3,8 @@ package Kaufvertrag.Kaufvertrag;
 import Kaufvertrag.Kaufvertrag.dataLayer.dataAccessObjects.DataLayerManager;
 import Kaufvertrag.Kaufvertrag.dataLayer.dataAccessObjects.IDao;
 import Kaufvertrag.Kaufvertrag.dataLayer.dataAccessObjects.IDataLayer;
-import Kaufvertrag.Kaufvertrag.dataLayer.dataAccessObjects.sqlite.AdresseDaoSqlite;
-import Kaufvertrag.Kaufvertrag.dataLayer.dataAccessObjects.sqlite.KaufvertragDaoSqlite;
 import Kaufvertrag.Kaufvertrag.dataLayer.dataAccessObjects.sqlite.VertragspartnerDaoSqlite;
-import Kaufvertrag.Kaufvertrag.dataLayer.dataAccessObjects.sqlite.WareDaoSqlite;
-import Kaufvertrag.Kaufvertrag.dataLayer.dataAccessObjects.xml.AdresseDaoXml;
-import Kaufvertrag.Kaufvertrag.dataLayer.dataAccessObjects.xml.KaufvertragDaoXml;
 import Kaufvertrag.Kaufvertrag.dataLayer.dataAccessObjects.xml.VertragspartnerDaoXml;
-import Kaufvertrag.Kaufvertrag.dataLayer.dataAccessObjects.xml.WareDaoXml;
 
 import java.util.List;
 import java.util.Scanner;

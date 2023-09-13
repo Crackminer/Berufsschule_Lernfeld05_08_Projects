@@ -64,11 +64,11 @@ public class VertragspartnerDaoSqlite implements IDao<IVertragspartner, String>
     try
     {
       Connection connection = ConnectionManager.getNewConnection();
-      String query = "INSERT into vertragspartner (vorname, nachname, ausweisNr, adresse) values (?, ? , ?, ?)";
+      String query = "INSERT into vertragspartner (ausweisNr, vorname, nachname, adresse) values (?, ? , ?, ?)";
       PreparedStatement statement = connection.prepareStatement(query);
-      statement.setString(1, objectToInsert.getVorname());
-      statement.setString(2, objectToInsert.getNachname());
-      statement.setString(3, objectToInsert.getAusweisNr());
+      statement.setString(1, objectToInsert.getAusweisNr());
+      statement.setString(2, objectToInsert.getVorname());
+      statement.setString(3, objectToInsert.getNachname());
       statement.setLong(4, objectToInsert.getAdresse().getID());
       statement.executeUpdate();
     }
@@ -84,7 +84,7 @@ public class VertragspartnerDaoSqlite implements IDao<IVertragspartner, String>
     try
     {
       Connection connection = ConnectionManager.getNewConnection();
-      String query = "SELECT vorname, nachname, ausweisNr, adresse from vertragspartner WHERE id = ?";
+      String query = "SELECT ausweisNr, vorname, nachname, adresse from vertragspartner WHERE id = ?";
       PreparedStatement statement = connection.prepareStatement(query);
       statement.setString(1, id);
       ResultSet result = statement.executeQuery();
@@ -110,7 +110,7 @@ public class VertragspartnerDaoSqlite implements IDao<IVertragspartner, String>
     try
     {
       Connection connection = ConnectionManager.getNewConnection();
-      String query = "SELECT vorname, nachname, ausweisNr, adresse from vertragspartner";
+      String query = "SELECT ausweisNr, vorname, nachname, adresse from vertragspartner";
       PreparedStatement statement = connection.prepareStatement(query);
       ResultSet result = statement.executeQuery();
       ArrayList<IVertragspartner> list = new ArrayList<>();
@@ -138,13 +138,12 @@ public class VertragspartnerDaoSqlite implements IDao<IVertragspartner, String>
     try
     {
       Connection connection = ConnectionManager.getNewConnection();
-      String query = "UPDATE vertragspartner SET vorname = ?, nachname = ?, ausweisNr = ?, adresse = ? WHERE id = ?";
+      String query = "UPDATE vertragspartner SET vorname = ?, nachname = ?, adresse = ? WHERE ausweisNr = ?";
       PreparedStatement statement = connection.prepareStatement(query);
       statement.setString(1, objectToUpdate.getVorname());
       statement.setString(2, objectToUpdate.getNachname());
-      statement.setString(3, objectToUpdate.getAusweisNr());
-      statement.setLong(4, objectToUpdate.getAdresse().getID());
-      statement.setLong(5, Programm.getInputMethod().getID());
+      statement.setLong(3, objectToUpdate.getAdresse().getID());
+      statement.setString(4, objectToUpdate.getAusweisNr());
       statement.executeUpdate();
     }
     catch (Exception ex)

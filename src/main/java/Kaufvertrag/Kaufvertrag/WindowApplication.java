@@ -3,7 +3,9 @@ package Kaufvertrag.Kaufvertrag;
 import Kaufvertrag.Kaufvertrag.presentationLayer.RootFrame;
 import com.formdev.flatlaf.FlatDarkLaf;
 
+import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 
 public class WindowApplication implements IApplication
 {
@@ -21,6 +23,30 @@ public class WindowApplication implements IApplication
       FlatDarkLaf.setup();
       root = new RootFrame();
       root.setVisible(true);
+      JDialog dialog = new JDialog(root);
+      dialog.setLayout(new GridBagLayout());
+
+      GridBagConstraints constraints = new GridBagConstraints();
+      constraints.gridy = 0;
+      constraints.gridx = 0;
+      dialog.setBounds(400, 300, (int) (Toolkit.getDefaultToolkit().getScreenSize().getWidth() * 0.35f), (int) (Toolkit.getDefaultToolkit().getScreenSize().getHeight() * 0.25f));
+      dialog.setLocationRelativeTo(null);
+
+      JLabel jLabel = new JLabel("Sadly we cant say that the GUI is working. We are sorry for this inconvenience.");
+
+      JButton jButton = new JButton("Acknowledge");
+      jButton.addActionListener((ActionEvent e) ->
+        {
+          dialog.setVisible(false);
+          System.exit(0);
+        }
+      );
+      dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+
+      dialog.add(jLabel, constraints);
+      constraints.gridy = 1;
+      dialog.add(jButton, constraints);
+      dialog.setVisible(true);
     });
   }
 
