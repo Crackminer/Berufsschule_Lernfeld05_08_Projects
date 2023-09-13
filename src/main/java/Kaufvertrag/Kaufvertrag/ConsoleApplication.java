@@ -1,5 +1,9 @@
 package Kaufvertrag.Kaufvertrag;
 
+import Kaufvertrag.Kaufvertrag.businessObjects.IAdresse;
+import Kaufvertrag.Kaufvertrag.businessObjects.IKaufvertrag;
+import Kaufvertrag.Kaufvertrag.businessObjects.IVertragspartner;
+import Kaufvertrag.Kaufvertrag.businessObjects.IWare;
 import Kaufvertrag.Kaufvertrag.dataLayer.dataAccessObjects.DataLayerManager;
 import Kaufvertrag.Kaufvertrag.dataLayer.dataAccessObjects.IDao;
 import Kaufvertrag.Kaufvertrag.dataLayer.dataAccessObjects.IDataLayer;
@@ -28,65 +32,154 @@ public class ConsoleApplication implements IApplication
     while(true)
     {
       System.out.println("Which Data Access Object do you want to manipulate?\nValid inputs are \"kaufvertrag\", \"ware\", \"vertragspartner\" or \"adresse\".\nIf you want to quit the program please input \"q\".");
-      IDao<?, ?> dataAccessObject = null;
-      while(dataAccessObject == null)
+      String inputDao = sc.next().trim().toLowerCase();
+      switch (inputDao)
       {
-        String inputDao = sc.next().trim().toLowerCase();
-        switch (inputDao)
-        {
-          case "kaufvertrag" -> dataAccessObject = dataLayer.getDaoKaufvertrag();
-          case "ware" -> dataAccessObject = dataLayer.getDaoWare();
-          case "vertragspartner" -> dataAccessObject = dataLayer.getDaoVertragspartner();
-          case "adresse" -> dataAccessObject = dataLayer.getDaoAdresse();
-          case "q" ->
-          {
-            return;
-          }
-        }
-      }
-
-      System.out.println("What do you intend to do with your data access object?\nValid inputs are \"create\", \"read\", \"readall\", \"update\", \"delete\".\nIf you want to quit the program please input \"q\".");
-      String inputMethod = sc.next().trim().toLowerCase();
-      switch (inputMethod)
-      {
-        case "create" -> {
-          Object object = dataAccessObject.create();
-          System.out.println("you succesfully created the object:\n" + object);
-        }
-        case "read" -> {
-          if (dataAccessObject.getClass().equals(VertragspartnerDaoSqlite.class) || dataAccessObject.getClass().equals(VertragspartnerDaoXml.class))
-          {
-            System.out.println(((IDao<?, String>)dataAccessObject).read(getString("Vertragspartner Ausweisnummer", getClass())));
-          }
-          else
-          {
-            System.out.println(((IDao<?, Long>)dataAccessObject).read(getID()));
-          }
-        }
-        case "readall" -> {
-          List objectList = dataAccessObject.readAll();
-          for (Object object : objectList)
-          {
-            System.out.println(object);
-          }
-        }
-        case "update" -> {
-          ((IDao<Object, ?>)dataAccessObject).update(((IDao<Object, ?>)dataAccessObject).create());
-        }
-        case "delete" -> {
-          if (dataAccessObject.getClass().equals(VertragspartnerDaoSqlite.class) || dataAccessObject.getClass().equals(VertragspartnerDaoXml.class))
-          {
-            ((IDao<?, String>)dataAccessObject).delete(getString("Vertragspartner Ausweisnummer", getClass()));
-          }
-          else
-          {
-            ((IDao<?, Long>)dataAccessObject).delete(getID());
-          }
-        }
+        case "kaufvertrag" -> doKaufvertrag(dataLayer.getDaoKaufvertrag());
+        case "ware" -> doWare(dataLayer.getDaoWare());
+        case "vertragspartner" -> doVertragspartner(dataLayer.getDaoVertragspartner());
+        case "adresse" -> doAdresse(dataLayer.getDaoAdresse());
         case "q" ->
         {
           return;
         }
+      }
+    }
+  }
+
+  private void doKaufvertrag(IDao<IKaufvertrag, Long> dataAccessObject)
+  {
+    System.out.println("What do you intend to do with your data access object?\nValid inputs are \"create\", \"read\", \"readall\", \"update\", \"delete\".\nIf you want to quit the program please input \"q\".");
+    String inputMethod = sc.next().trim().toLowerCase();
+    switch (inputMethod)
+    {
+      case "create" -> {
+        IKaufvertrag object = dataAccessObject.create();
+        System.out.println("you succesfully created the object:\n" + object);
+        dataAccessObject.create(object);
+      }
+      case "read" -> {
+        System.out.println(dataAccessObject.read(getID()));
+      }
+      case "readall" -> {
+        List<IKaufvertrag> objectList = dataAccessObject.readAll();
+        for (IKaufvertrag object : objectList)
+        {
+          System.out.println(object);
+        }
+      }
+      case "update" -> {
+        dataAccessObject.update(dataAccessObject.create());
+      }
+      case "delete" -> {
+        dataAccessObject.delete(getID());
+      }
+      case "q" ->
+      {
+        return;
+      }
+    }
+  }
+
+  private void doVertragspartner(IDao<IVertragspartner, String> dataAccessObject)
+  {
+    System.out.println("What do you intend to do with your data access object?\nValid inputs are \"create\", \"read\", \"readall\", \"update\", \"delete\".\nIf you want to quit the program please input \"q\".");
+    String inputMethod = sc.next().trim().toLowerCase();
+    switch (inputMethod)
+    {
+      case "create" -> {
+        IVertragspartner object = dataAccessObject.create();
+        System.out.println("you succesfully created the object:\n" + object);
+        dataAccessObject.create(object);
+      }
+      case "read" -> {
+        System.out.println(dataAccessObject.read(getString("Verkaufspartner AusweisNr", getClass())));
+      }
+      case "readall" -> {
+        List<IVertragspartner> objectList = dataAccessObject.readAll();
+        for (IVertragspartner object : objectList)
+        {
+          System.out.println(object);
+        }
+      }
+      case "update" -> {
+        dataAccessObject.update(dataAccessObject.create());
+      }
+      case "delete" -> {
+        dataAccessObject.delete(getString("Verkaufspartner AusweisNr", getClass()));
+      }
+      case "q" ->
+      {
+        return;
+      }
+    }
+  }
+
+  private void doAdresse(IDao<IAdresse, Long> dataAccessObject)
+  {
+    System.out.println("What do you intend to do with your data access object?\nValid inputs are \"create\", \"read\", \"readall\", \"update\", \"delete\".\nIf you want to quit the program please input \"q\".");
+    String inputMethod = sc.next().trim().toLowerCase();
+    switch (inputMethod)
+    {
+      case "create" -> {
+        IAdresse object = dataAccessObject.create();
+        System.out.println("you succesfully created the object:\n" + object);
+        dataAccessObject.create(object);
+      }
+      case "read" -> {
+        System.out.println(dataAccessObject.read(getID()));
+      }
+      case "readall" -> {
+        List<IAdresse> objectList = dataAccessObject.readAll();
+        System.out.println(objectList);
+        for (IAdresse object : objectList)
+        {
+          System.out.println(object);
+        }
+      }
+      case "update" -> {
+        dataAccessObject.update(dataAccessObject.create());
+      }
+      case "delete" -> {
+        dataAccessObject.delete(getID());
+      }
+      case "q" ->
+      {
+        return;
+      }
+    }
+  }
+
+  private void doWare(IDao<IWare, Long> dataAccessObject)
+  {
+    System.out.println("What do you intend to do with your data access object?\nValid inputs are \"create\", \"read\", \"readall\", \"update\", \"delete\".\nIf you want to quit the program please input \"q\".");
+    String inputMethod = sc.next().trim().toLowerCase();
+    switch (inputMethod)
+    {
+      case "create" -> {
+        IWare object = dataAccessObject.create();
+        System.out.println("you succesfully created the object:\n" + object);
+        dataAccessObject.create(object);
+      }
+      case "read" -> {
+        System.out.println(dataAccessObject.read(getID()));
+      }
+      case "readall" -> {
+        List<IWare> objectList = dataAccessObject.readAll();
+        for (IWare object : objectList)
+        {
+          System.out.println(object);
+        }
+      }
+      case "update" -> {
+        dataAccessObject.update(dataAccessObject.create());
+      }
+      case "delete" -> {
+        dataAccessObject.delete(getID());
+      }
+      case "q" ->
+      {
+        return;
       }
     }
   }

@@ -13,17 +13,17 @@ import Kaufvertrag.Kaufvertrag.dataLayer.dataAccessObjects.sqlite.WareDaoSqlite;
 
 public class DataLayerXml implements IDataLayer
 {
-  private final AdresseDaoSqlite daoAdresse;
-  private final VertragspartnerDaoSqlite daoVertragspartner;
-  private final WareDaoSqlite daoWare;
-  private final KaufvertragDaoSqlite daoKaufvertrag;
+  private final AdresseDaoXml daoAdresse;
+  private final VertragspartnerDaoXml daoVertragspartner;
+  private final WareDaoXml daoWare;
+  private final KaufvertragDaoXml daoKaufvertrag;
 
   public DataLayerXml()
   {
-    daoAdresse = new AdresseDaoSqlite();
-    daoVertragspartner = new VertragspartnerDaoSqlite();
-    daoWare = new WareDaoSqlite();
-    daoKaufvertrag = new KaufvertragDaoSqlite();
+    daoAdresse = new AdresseDaoXml();
+    daoVertragspartner = new VertragspartnerDaoXml();
+    daoWare = new WareDaoXml();
+    daoKaufvertrag = new KaufvertragDaoXml();
   }
 
   @Override

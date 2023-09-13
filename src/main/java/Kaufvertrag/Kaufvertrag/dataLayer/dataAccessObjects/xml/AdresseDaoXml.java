@@ -130,6 +130,7 @@ public class AdresseDaoXml implements IDao<IAdresse, Long>
       adresse.setID(Long.parseLong(adressen.item(i).getAttributes().getNamedItem("id").getNodeValue()));
       adressListe.add(adresse);
     }
+    System.out.println(adressListe);
     return adressListe;
   }
 
