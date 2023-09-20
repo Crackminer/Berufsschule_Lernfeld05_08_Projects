@@ -74,9 +74,16 @@ public class AdresseDaoXml implements IDao<IAdresse, Long>
     {
       Document doc = getDocument(FILEPATH);
       assert doc != null;
-      Element root = doc.getElementById("adresse");
+      Node root = doc.getElementsByTagName("adresse").item(0);
+      if (root == null)
+      {
+        root = doc.createElement("adresse");
+        doc.appendChild(root);
+      }
       Element nodeID = doc.createElement("id");
-      nodeID.setIdAttribute(String.valueOf(objectToInsert.getID()), true);
+      root.appendChild(nodeID);
+      nodeID.setAttribute("id", String.valueOf(objectToInsert.getID()));
+      //nodeID.setIdAttribute(String.valueOf(objectToInsert.getID()), true);
 
       Element strasse = doc.createElement("strasse");
       strasse.setNodeValue(objectToInsert.getStrasse());
@@ -94,7 +101,6 @@ public class AdresseDaoXml implements IDao<IAdresse, Long>
       ort.setNodeValue(objectToInsert.getOrt());
       nodeID.appendChild(ort);
 
-      root.appendChild(nodeID);
       writeToXML(doc, new FileOutputStream(FILEPATH));
     }
     catch (IOException ex)
@@ -108,10 +114,26 @@ public class AdresseDaoXml implements IDao<IAdresse, Long>
   {
     Document doc = getDocument(FILEPATH);
     assert doc != null;
-    Element root = doc.getElementById("adresse");
-    Element nodeID = root.getOwnerDocument().getElementById(id.toString());
+    Node root = doc.getElementsByTagName("adresse").item(0);
+    if (root == null)
+    {
+      System.out.println("The Document was empty, so there is nothing to read. Returning now.");
+      return null;
+    }
+    Node nodeID;
+    for (int i = 0; i < root.getOwnerDocument().getChildNodes().getLength(); i++) {
+      if (root.getOwnerDocument().getChildNodes().item(i).getAttributes().getNamedItem("id").getNodeValue().equals(id.toString()))
+      {
+        nodeID = root.getOwnerDocument().getChildNodes().item(i);
+        break;
+      }
+    }
+    if (nodeID == null)
+    {
+      return null;
+    }
     Adresse adresse = new Adresse(nodeID.getElementsByTagName("strasse").item(0).getNodeValue(), nodeID.getElementsByTagName("hausnummer").item(0).getNodeValue(), nodeID.getElementsByTagName("postleitzahl").item(0).getNodeValue(), nodeID.getElementsByTagName("ort").item(0).getNodeValue());
-    adresse.setID(Long.parseLong(nodeID.getAttribute("id")));
+    adresse.setID(Long.parseLong(nodeID.getAttributes().getNamedItem("id").getNodeValue()));
     return adresse;
   }
 
@@ -120,9 +142,9 @@ public class AdresseDaoXml implements IDao<IAdresse, Long>
   {
     Document doc = getDocument(FILEPATH);
     assert doc != null;
-    Element root = doc.getElementById("adresse");
+    Node root = doc.getElementsByTagName("adresse").item(0);
     List<IAdresse> adressListe = new ArrayList<>();
-    NodeList adressen = root.getElementsByTagName("id");
+    NodeList adressen = root.getChildNodes();
     for (int i = 0; i < adressen.getLength(); i++)
     {
       NodeList children = adressen.item(i).getChildNodes();
@@ -130,7 +152,6 @@ public class AdresseDaoXml implements IDao<IAdresse, Long>
       adresse.setID(Long.parseLong(adressen.item(i).getAttributes().getNamedItem("id").getNodeValue()));
       adressListe.add(adresse);
     }
-    System.out.println(adressListe);
     return adressListe;
   }
 
@@ -141,7 +162,7 @@ public class AdresseDaoXml implements IDao<IAdresse, Long>
     {
       Document doc = getDocument(FILEPATH);
       assert doc != null;
-      Element root = doc.getElementById("adresse");
+      Node root = doc.getElementsByTagName("adresse").item(0);
       Element nodeID = root.getOwnerDocument().getElementById(String.valueOf(objectToUpdate.getID()));
 
       Node strasse = nodeID.getElementsByTagName("strasse").item(0);
@@ -171,7 +192,7 @@ public class AdresseDaoXml implements IDao<IAdresse, Long>
     {
       Document doc = getDocument(FILEPATH);
       assert doc != null;
-      Element root = doc.getElementById("adresse");
+      Node root = doc.getElementsByTagName("adresse").item(0);
       Element nodeID = root.getOwnerDocument().getElementById(id.toString());
       root.removeChild(nodeID);
       writeToXML(doc, new FileOutputStream(FILEPATH));
