@@ -244,7 +244,7 @@ public class ConsoleApplication implements IApplication
   {
     String string = "";
     System.out.println("Please input your String for the " + whatToGetTheStringFor + " for the class " + classForTheString.getName() + ".");
-    string = sc.next();
+    string = sc.nextLine();
     return string;
   }
 

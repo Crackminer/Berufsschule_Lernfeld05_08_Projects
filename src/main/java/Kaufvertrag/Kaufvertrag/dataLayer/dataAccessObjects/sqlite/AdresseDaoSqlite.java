@@ -95,11 +95,11 @@ public class AdresseDaoSqlite implements IDao<IAdresse, Long>
     try
     {
       Connection connection = ConnectionManager.getNewConnection();
-      String query = "SELECT strasse, hausnummer, postleitzahl, ort from adresse";
+      String query = "SELECT id, strasse, hausnummer, postleitzahl, ort from adresse";
       PreparedStatement statement = connection.prepareStatement(query);
       ResultSet result = statement.executeQuery();
       ArrayList<IAdresse> list = new ArrayList<>();
-      while (result.next())
+      do
       {
         String strasse = result.getString("strasse");
         String hausnummer = result.getString("hausnummer");
@@ -109,6 +109,7 @@ public class AdresseDaoSqlite implements IDao<IAdresse, Long>
         addresse.setID(result.getLong("id"));
         list.add(addresse);
       }
+      while (result.next());
       return list;
     }
     catch (Exception ex)

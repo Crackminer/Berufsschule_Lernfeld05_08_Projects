@@ -158,7 +158,7 @@ public class VertragspartnerDaoSqlite implements IDao<IVertragspartner, String>
     try
     {
       Connection connection = ConnectionManager.getNewConnection();
-      String query = "DELETE from vertragspartner WHERE id = ?";
+      String query = "DELETE from vertragspartner WHERE ausweisNr = ?";
       PreparedStatement statement = connection.prepareStatement(query);
       statement.setString(1, id);
       ResultSet result = statement.executeQuery();

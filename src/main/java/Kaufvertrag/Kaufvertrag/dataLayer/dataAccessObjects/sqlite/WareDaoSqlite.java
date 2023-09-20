@@ -99,7 +99,7 @@ public class WareDaoSqlite implements IDao<IWare, Long>
     try
     {
       Connection connection = ConnectionManager.getNewConnection();
-      String query = "SELECT bezeichnung, beschreibung, preis, besonderheiten, maengel from ware";
+      String query = "SELECT id, bezeichnung, beschreibung, preis, besonderheiten, maengel from ware";
       PreparedStatement statement = connection.prepareStatement(query);
       ResultSet result = statement.executeQuery();
       ArrayList<IWare> list = new ArrayList<>();
