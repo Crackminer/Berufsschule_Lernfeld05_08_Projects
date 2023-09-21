@@ -19,7 +19,7 @@ import static Kaufvertrag.Kaufvertrag.dataLayer.dataAccessObjects.xml.XMLManager
 
 public class AdresseDaoXml implements IDao<IAdresse, Long>
 {
-  private static final String FILEPATH = "Berufsschule_Lernfeld05_08_Projects/src/main/java/Kaufvertrag/Kaufvertrag/XML/Adresse.xml";
+  private static final String FILEPATH = "xml/Adresse.xml";
 
   @Override
   public IAdresse create()
@@ -120,19 +120,21 @@ public class AdresseDaoXml implements IDao<IAdresse, Long>
       System.out.println("The Document was empty, so there is nothing to read. Returning now.");
       return null;
     }
-    Node nodeID;
+    Node nodeID = null;
     for (int i = 0; i < root.getOwnerDocument().getChildNodes().getLength(); i++) {
-      if (root.getOwnerDocument().getChildNodes().item(i).getAttributes().getNamedItem("id").getNodeValue().equals(id.toString()))
-      {
-        nodeID = root.getOwnerDocument().getChildNodes().item(i);
-        break;
-      }
+      if (root.getOwnerDocument().getChildNodes().item(i).getAttributes().getLength() != 0)
+        if (root.getOwnerDocument().getChildNodes().item(i).getAttributes().item(0).getNodeValue().equals(id.toString()))
+        {
+          nodeID = root.getOwnerDocument().getChildNodes().item(i);
+          break;
+        }
     }
     if (nodeID == null)
     {
       return null;
     }
-    Adresse adresse = new Adresse(nodeID.getElementsByTagName("strasse").item(0).getNodeValue(), nodeID.getElementsByTagName("hausnummer").item(0).getNodeValue(), nodeID.getElementsByTagName("postleitzahl").item(0).getNodeValue(), nodeID.getElementsByTagName("ort").item(0).getNodeValue());
+    Adresse adresse = new Adresse(nodeID.getChildNodes().item(0).getNodeValue(), nodeID.getChildNodes().item(1).getNodeValue(), nodeID.getChildNodes().item(2).getNodeValue(), nodeID.getChildNodes().item(3).getNodeValue());
+
     adresse.setID(Long.parseLong(nodeID.getAttributes().getNamedItem("id").getNodeValue()));
     return adresse;
   }

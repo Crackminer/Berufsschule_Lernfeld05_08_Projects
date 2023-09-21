@@ -8,7 +8,7 @@ import java.sql.Statement;
 public class ConnectionManager
 {
   private static final String CLASSNAME = "org.sqlite.JDBC";
-  private static final String CONNECTIONSTRING = "jdbc:sqlite:/home/patrick/IdeaProjects/Berufsschule_Lernfeld05_08_Projects/src/main/resources/databases/Kaufvertrag";
+  private static final String CONNECTIONSTRING = "jdbc:sqlite:/databases/Kaufvertrag";
   private static Connection existingConnection;
   private static boolean classLoaded = false;
 

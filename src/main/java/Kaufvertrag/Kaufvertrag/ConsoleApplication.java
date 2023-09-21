@@ -7,8 +7,6 @@ import Kaufvertrag.Kaufvertrag.businessObjects.IWare;
 import Kaufvertrag.Kaufvertrag.dataLayer.dataAccessObjects.DataLayerManager;
 import Kaufvertrag.Kaufvertrag.dataLayer.dataAccessObjects.IDao;
 import Kaufvertrag.Kaufvertrag.dataLayer.dataAccessObjects.IDataLayer;
-import Kaufvertrag.Kaufvertrag.dataLayer.dataAccessObjects.sqlite.VertragspartnerDaoSqlite;
-import Kaufvertrag.Kaufvertrag.dataLayer.dataAccessObjects.xml.VertragspartnerDaoXml;
 
 import java.util.List;
 import java.util.Scanner;
@@ -32,7 +30,7 @@ public class ConsoleApplication implements IApplication
     while(true)
     {
       System.out.println("Which Data Access Object do you want to manipulate?\nValid inputs are \"kaufvertrag\", \"ware\", \"vertragspartner\" or \"adresse\".\nIf you want to quit the program please input \"q\".");
-      String inputDao = sc.next().trim().toLowerCase();
+      String inputDao = sc.nextLine().trim().toLowerCase();
       switch (inputDao)
       {
         case "kaufvertrag" -> doKaufvertrag(dataLayer.getDaoKaufvertrag());
@@ -50,7 +48,7 @@ public class ConsoleApplication implements IApplication
   private void doKaufvertrag(IDao<IKaufvertrag, Long> dataAccessObject)
   {
     System.out.println("What do you intend to do with your data access object?\nValid inputs are \"create\", \"read\", \"readall\", \"update\", \"delete\".\nIf you want to quit the program please input \"q\".");
-    String inputMethod = sc.next().trim().toLowerCase();
+    String inputMethod = sc.nextLine().trim().toLowerCase();
     switch (inputMethod)
     {
       case "create" -> {
@@ -84,7 +82,7 @@ public class ConsoleApplication implements IApplication
   private void doVertragspartner(IDao<IVertragspartner, String> dataAccessObject)
   {
     System.out.println("What do you intend to do with your data access object?\nValid inputs are \"create\", \"read\", \"readall\", \"update\", \"delete\".\nIf you want to quit the program please input \"q\".");
-    String inputMethod = sc.next().trim().toLowerCase();
+    String inputMethod = sc.nextLine().trim().toLowerCase();
     switch (inputMethod)
     {
       case "create" -> {
@@ -118,7 +116,7 @@ public class ConsoleApplication implements IApplication
   private void doAdresse(IDao<IAdresse, Long> dataAccessObject)
   {
     System.out.println("What do you intend to do with your data access object?\nValid inputs are \"create\", \"read\", \"readall\", \"update\", \"delete\".\nIf you want to quit the program please input \"q\".");
-    String inputMethod = sc.next().trim().toLowerCase();
+    String inputMethod = sc.nextLine().trim().toLowerCase();
     switch (inputMethod)
     {
       case "create" -> {
@@ -153,7 +151,7 @@ public class ConsoleApplication implements IApplication
   private void doWare(IDao<IWare, Long> dataAccessObject)
   {
     System.out.println("What do you intend to do with your data access object?\nValid inputs are \"create\", \"read\", \"readall\", \"update\", \"delete\".\nIf you want to quit the program please input \"q\".");
-    String inputMethod = sc.next().trim().toLowerCase();
+    String inputMethod = sc.nextLine().trim().toLowerCase();
     switch (inputMethod)
     {
       case "create" -> {
@@ -191,7 +189,7 @@ public class ConsoleApplication implements IApplication
     System.out.println("Which persistence-type do you want? Valid inputs are \"sqlite\" or \"xml\".");
     while (true)
     {
-      type = sc.next().trim().toLowerCase();
+      type = sc.nextLine().trim().toLowerCase();
       if ("sqlite".equals(type) || "xml".equals(type))
       {
         break;
@@ -207,7 +205,7 @@ public class ConsoleApplication implements IApplication
     System.out.println("Please input the ID of the object.");
     while (true)
     {
-      String idString = sc.next().trim();
+      String idString = sc.nextLine().trim();
       try
       {
         //This currently does not check the id for validity (if id exists in context)
@@ -226,7 +224,7 @@ public class ConsoleApplication implements IApplication
     System.out.println("Please input the ID of " + whatToGetTheIDFor + " for the class " + classForTheID.getName() + ".");
     while (true)
     {
-      String idString = sc.next().trim();
+      String idString = sc.nextLine().trim();
       try
       {
         //This currently does not check the id for validity (if id exists in context)
@@ -253,7 +251,7 @@ public class ConsoleApplication implements IApplication
   {
     String string = "";
     System.out.println(message);
-    string = sc.next();
+    string = sc.nextLine();
     return string;
   }
 
@@ -263,7 +261,7 @@ public class ConsoleApplication implements IApplication
     System.out.println("Please input your Integer for the " + whatToGetTheIntFor + " for the class " + classForTheInt.getName() + ".");
     while (true)
     {
-      String integerString = sc.next().trim();
+      String integerString = sc.nextLine().trim();
       try
       {
         return Integer.parseInt(integerString);
@@ -281,7 +279,7 @@ public class ConsoleApplication implements IApplication
     System.out.println("Please input your Integer for the " + whatToGetTheDoubleFor + " for the class " + classForTheDouble.getName() + ".");
     while (true)
     {
-      String doubleString = sc.next().trim().replaceAll(",", ".");
+      String doubleString = sc.nextLine().trim().replaceAll(",", ".");
       try
       {
         return Double.parseDouble(doubleString);

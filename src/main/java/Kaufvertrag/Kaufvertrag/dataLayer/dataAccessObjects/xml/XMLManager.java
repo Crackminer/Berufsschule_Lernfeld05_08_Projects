@@ -24,7 +24,6 @@ public class XMLManager
   {
     try
     {
-
       DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
       // to be compliant, completely disable DOCTYPE declaration:
       docFactory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
@@ -44,7 +43,7 @@ public class XMLManager
         return docBuilder.parse(file);
       }
       Document doc = docBuilder.newDocument();
-      Element rootElement = doc.createElement("adresse");
+      Element rootElement = doc.createElement(filepath.trim().toLowerCase().split("/")[filepath.trim().toLowerCase().split("/").length -1].replace(".xml", ""));
       doc.appendChild(rootElement);
       return doc;
     }
