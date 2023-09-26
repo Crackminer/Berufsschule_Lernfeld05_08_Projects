@@ -23,7 +23,7 @@ public class WindowApplication implements IApplication
       FlatDarkLaf.setup();
       root = new RootFrame();
       root.setVisible(true);
-      /*JDialog dialog = new JDialog(root);
+      JDialog dialog = new JDialog(root);
       dialog.setLayout(new GridBagLayout());
 
       GridBagConstraints constraints = new GridBagConstraints();
@@ -46,7 +46,7 @@ public class WindowApplication implements IApplication
       dialog.add(jLabel, constraints);
       constraints.gridy = 1;
       dialog.add(jButton, constraints);
-      dialog.setVisible(true);*/
+      dialog.setVisible(true);
     });
   }
 
