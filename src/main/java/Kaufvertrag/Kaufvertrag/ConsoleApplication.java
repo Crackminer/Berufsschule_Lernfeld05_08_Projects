@@ -129,7 +129,6 @@ public class ConsoleApplication implements IApplication
       }
       case "readall" -> {
         List<IAdresse> objectList = dataAccessObject.readAll();
-        System.out.println(objectList);
         for (IAdresse object : objectList)
         {
           System.out.println(object);
