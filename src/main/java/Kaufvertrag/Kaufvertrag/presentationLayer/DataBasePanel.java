@@ -44,6 +44,7 @@ public class DataBasePanel extends JPanel
   private JButton createButton;
   private JButton updateButton;
   private JButton deleteButton;
+  private GridBagConstraints paneConstraints;
   public DataBasePanel(String persistence)
   {
     this.persistence = persistence;
@@ -94,6 +95,7 @@ public class DataBasePanel extends JPanel
     constraints.gridwidth = 1;
     constraints.gridheight = 4;
     add(pane, constraints);
+    paneConstraints = constraints;
 
     constraints = new GridBagConstraints();
     constraints.gridx = 1;
@@ -216,6 +218,7 @@ public class DataBasePanel extends JPanel
 
   private void setTable(TableData data)
   {
+    this.remove(pane);
     switch (data)
     {
       case CONTRACT ->
@@ -238,6 +241,8 @@ public class DataBasePanel extends JPanel
       {
       }
     }
+    pane = new JScrollPane(persistenceTable);
+    this.add(pane, paneConstraints);
     currentData = data;
     repaint();
   }
