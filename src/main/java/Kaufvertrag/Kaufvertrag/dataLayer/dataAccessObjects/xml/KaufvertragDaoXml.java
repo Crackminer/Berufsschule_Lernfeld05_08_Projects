@@ -28,7 +28,7 @@ import static Kaufvertrag.Kaufvertrag.dataLayer.dataAccessObjects.xml.XMLManager
 
 public class KaufvertragDaoXml implements IDao<IKaufvertrag, Long>
 {
-  private static final String FILEPATH = "Berufsschule_Lernfeld05_08_Projects/src/main/java/Kaufvertrag/Kaufvertrag/XML/Kaufvertrag.xml";
+  private static final String FILEPATH = "src/main/resources/xml/Kaufvertrag.xml";
 
   @Override
   public IKaufvertrag create()
@@ -119,39 +119,6 @@ public class KaufvertragDaoXml implements IDao<IKaufvertrag, Long>
     }
     objectToInsert.setWare(ware);
     objectToInsert.setZahlungsModalitaeten(Programm.getInputMethod().getString("Zahlungsmittel", getClass()));
-    /*try
-    {
-      Document doc = getDocument(FILEPATH);
-      assert doc != null;
-      Element root = doc.getElementById("kaufvertrag");
-      Element nodeID = doc.createElement("id");
-      nodeID.setIdAttribute(Programm.getInputMethod().getID().toString(), true);
-
-      Element verkauferElement = doc.createElement("verkaufer");
-      verkauferElement.setNodeValue(objectToInsert.getVerkaeufer().getAusweisNr());
-      nodeID.appendChild(verkauferElement);
-
-      Element kauferElement = doc.createElement("kaufer");
-      kauferElement.setNodeValue(objectToInsert.getKaeufer().getAusweisNr());
-      nodeID.appendChild(kauferElement);
-
-      Element wareElement = doc.createElement("ware");
-      wareElement.setNodeValue(String.valueOf(objectToInsert.getWare().getId()));
-      nodeID.appendChild(wareElement);
-
-      Element bezahlmethode = doc.createElement("bezahlmethode");
-      bezahlmethode.setNodeValue(objectToInsert.getZahlungsModalitaeten());
-      nodeID.appendChild(bezahlmethode);
-
-      root.appendChild(nodeID);
-      writeToXML(doc, new FileOutputStream(FILEPATH));
-      return objectToInsert;
-    }
-    catch (IOException ex)
-    {
-      System.out.println("There was an unexpected Exception in KaufvertragDaoXml#create().");
-    }
-    return null;*/
     return objectToInsert;
   }
 
@@ -164,22 +131,24 @@ public class KaufvertragDaoXml implements IDao<IKaufvertrag, Long>
       assert doc != null;
       Element root = doc.getElementById("kaufvertrag");
       Element nodeID = doc.createElement("id");
-      nodeID.setIdAttribute(Programm.getInputMethod().getID().toString(), true);
+      root.appendChild(nodeID);
+      nodeID.setAttribute("id", String.valueOf(Programm.getInputMethod().getID()));
+      nodeID.setIdAttribute("id", true);
 
       Element verkaufer = doc.createElement("verkaufer");
-      verkaufer.setNodeValue(objectToInsert.getVerkaeufer().getAusweisNr());
+      verkaufer.setTextContent(objectToInsert.getVerkaeufer().getAusweisNr());
       nodeID.appendChild(verkaufer);
 
       Element kaufer = doc.createElement("kaufer");
-      kaufer.setNodeValue(objectToInsert.getKaeufer().getAusweisNr());
+      kaufer.setTextContent(objectToInsert.getKaeufer().getAusweisNr());
       nodeID.appendChild(kaufer);
 
       Element ware = doc.createElement("ware");
-      ware.setNodeValue(String.valueOf(objectToInsert.getWare().getId()));
+      ware.setTextContent(String.valueOf(objectToInsert.getWare().getId()));
       nodeID.appendChild(ware);
 
       Element bezahlmethode = doc.createElement("bezahlmethode");
-      bezahlmethode.setNodeValue(objectToInsert.getZahlungsModalitaeten());
+      bezahlmethode.setTextContent(objectToInsert.getZahlungsModalitaeten());
       nodeID.appendChild(bezahlmethode);
 
       root.appendChild(nodeID);
@@ -197,9 +166,23 @@ public class KaufvertragDaoXml implements IDao<IKaufvertrag, Long>
     Document doc = getDocument(FILEPATH);
     assert doc != null;
     Element root = doc.getElementById("adresse");
-    Element nodeID = root.getOwnerDocument().getElementById(id.toString());
-    Kaufvertrag kaufvertrag = new Kaufvertrag(new VertragspartnerDaoXml().read(nodeID.getElementsByTagName("verkaufer").item(0).getNodeValue()), new VertragspartnerDaoXml().read(nodeID.getElementsByTagName("kaufer").item(0).getNodeValue()), new WareDaoXml().read(Long.parseLong(nodeID.getElementsByTagName("ware").item(0).getNodeValue())));
-    kaufvertrag.setZahlungsModalitaeten(nodeID.getElementsByTagName("bezahlmethode").item(0).getNodeValue());
+    NodeList nodes = root.getChildNodes();
+    Node nodeID = null;
+    for(int i = 0; i < nodes.getLength(); i++)
+    {
+      if (nodes.item(i).hasAttributes())
+      {
+        if (nodes.item(i).getAttributes().getNamedItem("id") != null)
+        {
+          if (nodes.item(i).getAttributes().getNamedItem("id").getTextContent().equals(id.toString()))
+          {
+            nodeID = nodes.item(i);
+          }
+        }
+      }
+    }
+    Kaufvertrag kaufvertrag = new Kaufvertrag(new VertragspartnerDaoXml().read(nodeID.getChildNodes().item(1).getTextContent()), new VertragspartnerDaoXml().read(nodeID.getChildNodes().item(3).getTextContent()), new WareDaoXml().read(Long.parseLong(nodeID.getChildNodes().item(5).getTextContent())));
+    kaufvertrag.setZahlungsModalitaeten(nodeID.getChildNodes().item(7).getTextContent());
     return kaufvertrag;
   }
 
@@ -213,10 +196,13 @@ public class KaufvertragDaoXml implements IDao<IKaufvertrag, Long>
     NodeList kaufvertraege = root.getElementsByTagName("id");
     for (int i = 0; i < kaufvertraege.getLength(); i++)
     {
-      NodeList children = kaufvertraege.item(i).getChildNodes();
-      Kaufvertrag kaufvertrag = new Kaufvertrag(new VertragspartnerDaoXml().read(children.item(0).getNodeValue()), new VertragspartnerDaoXml().read(children.item(1).getNodeValue()), new WareDaoXml().read(Long.parseLong(children.item(2).getNodeValue())));
-      kaufvertrag.setZahlungsModalitaeten(children.item(3).getNodeValue());
-      kaufvertragListe.add(kaufvertrag);
+      Node nodeID = kaufvertraege.item(i);
+      if (nodeID.hasAttributes())
+      {
+        Kaufvertrag kaufvertrag = new Kaufvertrag(new VertragspartnerDaoXml().read(nodeID.getChildNodes().item(1).getTextContent()), new VertragspartnerDaoXml().read(nodeID.getChildNodes().item(3).getTextContent()), new WareDaoXml().read(Long.parseLong(nodeID.getChildNodes().item(5).getTextContent())));
+        kaufvertrag.setZahlungsModalitaeten(nodeID.getChildNodes().item(7).getTextContent());
+        kaufvertragListe.add(kaufvertrag);
+      }
     }
     return kaufvertragListe;
   }
@@ -229,19 +215,33 @@ public class KaufvertragDaoXml implements IDao<IKaufvertrag, Long>
       Document doc = getDocument(FILEPATH);
       assert doc != null;
       Element root = doc.getElementById("kaufvertrag");
-      Element nodeID = root.getOwnerDocument().getElementById(Programm.getInputMethod().getID().toString());
+      NodeList nodes = root.getChildNodes();
+      Node nodeID = null;
+      for(int i = 0; i < nodes.getLength(); i++)
+      {
+        if (nodes.item(i).hasAttributes())
+        {
+          if (nodes.item(i).getAttributes().getNamedItem("id") != null)
+          {
+            if (nodes.item(i).getAttributes().getNamedItem("id").getTextContent().equals(String.valueOf(Programm.getInputMethod().getID())))
+            {
+              nodeID = nodes.item(i);
+            }
+          }
+        }
+      }
 
-      Node verkaufer = nodeID.getElementsByTagName("verkaufer").item(0);
-      verkaufer.setNodeValue(objectToUpdate.getVerkaeufer().getAusweisNr());
+      Node verkaufer = nodeID.getChildNodes().item(1);
+      verkaufer.setTextContent(objectToUpdate.getVerkaeufer().getAusweisNr());
 
-      Node kaufer = nodeID.getElementsByTagName("kaufer").item(0);
-      kaufer.setNodeValue(objectToUpdate.getKaeufer().getAusweisNr());
+      Node kaufer = nodeID.getChildNodes().item(3);
+      kaufer.setTextContent(objectToUpdate.getKaeufer().getAusweisNr());
 
-      Node ware = nodeID.getElementsByTagName("ware").item(0);
-      ware.setNodeValue(String.valueOf(objectToUpdate.getWare().getId()));
+      Node ware = nodeID.getChildNodes().item(5);
+      ware.setTextContent(String.valueOf(objectToUpdate.getWare().getId()));
 
-      Node bezahlmethode = nodeID.getElementsByTagName("bezahlmethode").item(0);
-      bezahlmethode.setNodeValue(objectToUpdate.getZahlungsModalitaeten());
+      Node bezahlmethode = nodeID.getChildNodes().item(7);
+      bezahlmethode.setTextContent(objectToUpdate.getZahlungsModalitaeten());
 
       writeToXML(doc, new FileOutputStream(FILEPATH));
     }
@@ -259,7 +259,21 @@ public class KaufvertragDaoXml implements IDao<IKaufvertrag, Long>
       Document doc = getDocument(FILEPATH);
       assert doc != null;
       Element root = doc.getElementById("kaufvertrag");
-      Element nodeID = root.getOwnerDocument().getElementById(id.toString());
+      NodeList nodes = root.getChildNodes();
+      Node nodeID = null;
+      for(int i = 0; i < nodes.getLength(); i++)
+      {
+        if (nodes.item(i).hasAttributes())
+        {
+          if (nodes.item(i).getAttributes().getNamedItem("id") != null)
+          {
+            if (nodes.item(i).getAttributes().getNamedItem("id").getTextContent().equals(id.toString()))
+            {
+              nodeID = nodes.item(i);
+            }
+          }
+        }
+      }
       root.removeChild(nodeID);
       writeToXML(doc, new FileOutputStream(FILEPATH));
     }

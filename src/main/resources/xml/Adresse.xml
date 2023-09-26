@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<adresse>
+        
+  
+  <id id="1">
+                
+    
+    <hausnummer>3</hausnummer>
+                
+    
+    <postleitzahl>31582</postleitzahl>
+                
+    
+    <ort>Nienburg</ort>
+            
+  
+  </id>
+        
+  
+  <id id="2">
+                
+    
+    <strasse>Schleswiger Strasse</strasse>
+                
+    
+    <hausnummer>41</hausnummer>
+                
+    
+    <postleitzahl>28219</postleitzahl>
+                
+    
+    <ort>Bremen</ort>
+            
+  
+  </id>
+        
+
+
+  <id id="3">
+    <strasse>Clemens-Cassel-Strasse</strasse>
+    <hausnummer>2</hausnummer>
+    <postleitzahl>29223</postleitzahl>
+    <ort>Celle</ort>
+  </id>
+</adresse>

@@ -40,21 +40,6 @@ public class VertragspartnerDaoSqlite implements IDao<IVertragspartner, String>
     {
       objectToInsert.setAdresse(new AdresseDaoSqlite().read(Programm.getInputMethod().getForeignID("Adresse", getClass())));
     }
-    /*try
-    {
-      Connection connection = ConnectionManager.getNewConnection();
-      String query = "INSERT into vertragspartner (vorname, nachname, ausweisNr, adresse) values (?, ? , ?, ?)";
-      PreparedStatement statement = connection.prepareStatement(query);
-      statement.setString(1, objectToInsert.getVorname());
-      statement.setString(2, objectToInsert.getNachname());
-      statement.setString(3, objectToInsert.getAusweisNr());
-      statement.setLong(4, objectToInsert.getAdresse().getID());
-      statement.executeUpdate();
-    }
-    catch (Exception ex)
-    {
-      System.out.println("There was an unexpected Exception in VertragspartnerDaoSqlite#create(IVertragspartner objectToInsert).");
-    }*/
     return objectToInsert;
   }
 

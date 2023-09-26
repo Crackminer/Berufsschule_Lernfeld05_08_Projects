@@ -19,7 +19,7 @@ import static Kaufvertrag.Kaufvertrag.dataLayer.dataAccessObjects.xml.XMLManager
 
 public class AdresseDaoXml implements IDao<IAdresse, Long>
 {
-  private static final String FILEPATH = "xml/Adresse.xml";
+  private static final String FILEPATH = "src/main/resources/xml/Adresse.xml";
 
   @Override
   public IAdresse create()
@@ -31,39 +31,6 @@ public class AdresseDaoXml implements IDao<IAdresse, Long>
     objectToInsert.setOrt(Programm.getInputMethod().getString("Ort", getClass()));
 
     objectToInsert.setID(Programm.getInputMethod().getID());
-    /*try
-    {
-      Document doc = getDocument(FILEPATH);
-      assert doc != null;
-      Element root = doc.getElementById("adresse");
-      Element nodeID = doc.createElement("id");
-      nodeID.setIdAttribute(String.valueOf(objectToInsert.getID()), true);
-
-      Element strasse = doc.createElement("strasse");
-      strasse.setNodeValue(objectToInsert.getStrasse());
-      nodeID.appendChild(strasse);
-
-      Element hausnummer = doc.createElement("hausnummer");
-      hausnummer.setNodeValue(objectToInsert.getHausNr());
-      nodeID.appendChild(hausnummer);
-
-      Element plz = doc.createElement("postleitzahl");
-      plz.setNodeValue(objectToInsert.getPlz());
-      nodeID.appendChild(plz);
-
-      Element ort = doc.createElement("ort");
-      ort.setNodeValue(objectToInsert.getOrt());
-      nodeID.appendChild(ort);
-
-      root.appendChild(nodeID);
-      writeToXML(doc, new FileOutputStream(FILEPATH));
-      return objectToInsert;
-    }
-    catch (IOException ex)
-    {
-      System.out.println("There was an unexpected Exception in AdresseDaoXml#create().");
-    }
-    return null;*/
     return objectToInsert;
   }
 
@@ -73,8 +40,12 @@ public class AdresseDaoXml implements IDao<IAdresse, Long>
     try
     {
       Document doc = getDocument(FILEPATH);
-      assert doc != null;
-      Node root = doc.getElementsByTagName("adresse").item(0);
+      Node root = null;
+      if(doc == null)
+      {
+        return;
+      }
+      root = doc.getElementsByTagName("adresse").item(0);
       if (root == null)
       {
         root = doc.createElement("adresse");
@@ -83,22 +54,22 @@ public class AdresseDaoXml implements IDao<IAdresse, Long>
       Element nodeID = doc.createElement("id");
       root.appendChild(nodeID);
       nodeID.setAttribute("id", String.valueOf(objectToInsert.getID()));
-      //nodeID.setIdAttribute(String.valueOf(objectToInsert.getID()), true);
+      nodeID.setIdAttribute("id", true);
 
       Element strasse = doc.createElement("strasse");
-      strasse.setNodeValue(objectToInsert.getStrasse());
+      strasse.setTextContent(objectToInsert.getStrasse());
       nodeID.appendChild(strasse);
 
       Element hausnummer = doc.createElement("hausnummer");
-      hausnummer.setNodeValue(objectToInsert.getHausNr());
+      hausnummer.setTextContent(objectToInsert.getHausNr());
       nodeID.appendChild(hausnummer);
 
       Element plz = doc.createElement("postleitzahl");
-      plz.setNodeValue(objectToInsert.getPlz());
+      plz.setTextContent(objectToInsert.getPlz());
       nodeID.appendChild(plz);
 
       Element ort = doc.createElement("ort");
-      ort.setNodeValue(objectToInsert.getOrt());
+      ort.setTextContent(objectToInsert.getOrt());
       nodeID.appendChild(ort);
 
       writeToXML(doc, new FileOutputStream(FILEPATH));
@@ -120,22 +91,23 @@ public class AdresseDaoXml implements IDao<IAdresse, Long>
       System.out.println("The Document was empty, so there is nothing to read. Returning now.");
       return null;
     }
+    NodeList nodes = root.getChildNodes();
     Node nodeID = null;
-    for (int i = 0; i < root.getOwnerDocument().getChildNodes().getLength(); i++) {
-      if (root.getOwnerDocument().getChildNodes().item(i).getAttributes().getLength() != 0)
-        if (root.getOwnerDocument().getChildNodes().item(i).getAttributes().item(0).getNodeValue().equals(id.toString()))
-        {
-          nodeID = root.getOwnerDocument().getChildNodes().item(i);
-          break;
-        }
-    }
-    if (nodeID == null)
+    for(int i = 0; i < nodes.getLength(); i++)
     {
-      return null;
+      if (nodes.item(i).hasAttributes())
+      {
+        if (nodes.item(i).getAttributes().getNamedItem("id") != null)
+        {
+          if (nodes.item(i).getAttributes().getNamedItem("id").getTextContent().equals(id.toString()))
+          {
+            nodeID = nodes.item(i);
+          }
+        }
+      }
     }
-    Adresse adresse = new Adresse(nodeID.getChildNodes().item(0).getNodeValue(), nodeID.getChildNodes().item(1).getNodeValue(), nodeID.getChildNodes().item(2).getNodeValue(), nodeID.getChildNodes().item(3).getNodeValue());
-
-    adresse.setID(Long.parseLong(nodeID.getAttributes().getNamedItem("id").getNodeValue()));
+    Adresse adresse = new Adresse(nodeID.getChildNodes().item(1).getTextContent(), nodeID.getChildNodes().item(3).getTextContent(), nodeID.getChildNodes().item(5).getTextContent(), nodeID.getChildNodes().item(7).getTextContent());
+    adresse.setID(id);
     return adresse;
   }
 
@@ -149,10 +121,13 @@ public class AdresseDaoXml implements IDao<IAdresse, Long>
     NodeList adressen = root.getChildNodes();
     for (int i = 0; i < adressen.getLength(); i++)
     {
-      NodeList children = adressen.item(i).getChildNodes();
-      Adresse adresse = new Adresse(children.item(0).getNodeValue(), children.item(1).getNodeValue(), children.item(2).getNodeValue(), children.item(3).getNodeValue());
-      adresse.setID(Long.parseLong(adressen.item(i).getAttributes().getNamedItem("id").getNodeValue()));
-      adressListe.add(adresse);
+      Node nodeID = adressen.item(i);
+      if (nodeID.hasAttributes())
+      {
+        Adresse adresse = new Adresse(nodeID.getChildNodes().item(1).getTextContent(), nodeID.getChildNodes().item(3).getTextContent(), nodeID.getChildNodes().item(5).getTextContent(), nodeID.getChildNodes().item(7).getTextContent());
+        adresse.setID(Long.parseLong(nodeID.getAttributes().getNamedItem("id").getTextContent()));
+        adressListe.add(adresse);
+      }
     }
     return adressListe;
   }
@@ -165,19 +140,33 @@ public class AdresseDaoXml implements IDao<IAdresse, Long>
       Document doc = getDocument(FILEPATH);
       assert doc != null;
       Node root = doc.getElementsByTagName("adresse").item(0);
-      Element nodeID = root.getOwnerDocument().getElementById(String.valueOf(objectToUpdate.getID()));
+      NodeList nodes = root.getChildNodes();
+      Node nodeID = null;
+      for(int i = 0; i < nodes.getLength(); i++)
+      {
+        if (nodes.item(i).hasAttributes())
+        {
+          if (nodes.item(i).getAttributes().getNamedItem("id") != null)
+          {
+            if (nodes.item(i).getAttributes().getNamedItem("id").getTextContent().equals(String.valueOf(objectToUpdate.getID())))
+            {
+              nodeID = nodes.item(i);
+            }
+          }
+        }
+      }
 
-      Node strasse = nodeID.getElementsByTagName("strasse").item(0);
-      strasse.setNodeValue(objectToUpdate.getStrasse());
+      Node strasse = nodeID.getChildNodes().item(1);
+      strasse.setTextContent(objectToUpdate.getStrasse());
 
-      Node hausnummer = nodeID.getElementsByTagName("hausnummer").item(0);
-      hausnummer.setNodeValue(objectToUpdate.getHausNr());
+      Node hausnummer = nodeID.getChildNodes().item(3);
+      hausnummer.setTextContent(objectToUpdate.getHausNr());
 
-      Node plz = nodeID.getElementsByTagName("postleitzahl").item(0);
-      plz.setNodeValue(objectToUpdate.getPlz());
+      Node plz = nodeID.getChildNodes().item(5);
+      plz.setTextContent(objectToUpdate.getPlz());
 
-      Node ort = nodeID.getElementsByTagName("ort").item(0);
-      ort.setNodeValue(objectToUpdate.getOrt());
+      Node ort = nodeID.getChildNodes().item(7);
+      ort.setTextContent(objectToUpdate.getOrt());
 
       writeToXML(doc, new FileOutputStream(FILEPATH));
     }
@@ -195,7 +184,21 @@ public class AdresseDaoXml implements IDao<IAdresse, Long>
       Document doc = getDocument(FILEPATH);
       assert doc != null;
       Node root = doc.getElementsByTagName("adresse").item(0);
-      Element nodeID = root.getOwnerDocument().getElementById(id.toString());
+      NodeList nodes = root.getChildNodes();
+      Node nodeID = null;
+      for(int i = 0; i < nodes.getLength(); i++)
+      {
+        if (nodes.item(i).hasAttributes())
+        {
+          if (nodes.item(i).getAttributes().getNamedItem("id") != null)
+          {
+            if (nodes.item(i).getAttributes().getNamedItem("id").getTextContent().equals(id.toString()))
+            {
+              nodeID = nodes.item(i);
+            }
+          }
+        }
+      }
       root.removeChild(nodeID);
       writeToXML(doc, new FileOutputStream(FILEPATH));
     }

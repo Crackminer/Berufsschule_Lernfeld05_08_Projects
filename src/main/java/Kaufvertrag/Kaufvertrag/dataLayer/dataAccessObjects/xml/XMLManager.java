@@ -25,30 +25,27 @@ public class XMLManager
     try
     {
       DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-      // to be compliant, completely disable DOCTYPE declaration:
       docFactory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
-      // or completely disable external entities declarations:
       docFactory.setFeature("http://xml.org/sax/features/external-general-entities", false);
       docFactory.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
-      // or prohibit the use of all protocols by external entities:
       docFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
       docFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
-      // or disable entity expansion but keep in mind that this doesn't prevent fetching external entities
-      // and this solution is not correct for OpenJDK < 13 due to a bug: https://bugs.openjdk.java.net/browse/JDK-8206132
       docFactory.setExpandEntityReferences(false);
       DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
       File file = new File(filepath);
-      if (file.exists())
+      if (!file.createNewFile())
       {
         return docBuilder.parse(file);
       }
       Document doc = docBuilder.newDocument();
-      Element rootElement = doc.createElement(filepath.trim().toLowerCase().split("/")[filepath.trim().toLowerCase().split("/").length -1].replace(".xml", ""));
+      String[] split = filepath.trim().toLowerCase().split("/");
+      Element rootElement = doc.createElement(split[split.length -1].replace(".xml", ""));
       doc.appendChild(rootElement);
       return doc;
     }
     catch (SAXException | IOException | ParserConfigurationException ex)
     {
+      ex.printStackTrace();
       System.out.println("There was an unexpected Exception in AdresseDaoXml#getDocument().");
     }
     return null;
@@ -59,10 +56,10 @@ public class XMLManager
     try
     {
       TransformerFactory transformerFactory = TransformerFactory.newInstance();
-      // to be compliant, prohibit the use of all protocols by external entities:
       transformerFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
       transformerFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_STYLESHEET, "");
       Transformer transformer = transformerFactory.newTransformer();
+      transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
 
       transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 

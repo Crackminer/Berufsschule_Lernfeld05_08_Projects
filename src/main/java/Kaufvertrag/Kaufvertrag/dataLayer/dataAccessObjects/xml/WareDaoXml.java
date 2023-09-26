@@ -20,7 +20,7 @@ import static Kaufvertrag.Kaufvertrag.dataLayer.dataAccessObjects.xml.XMLManager
 
 public class WareDaoXml implements IDao<IWare, Long>
 {
-  private static final String FILEPATH = "Berufsschule_Lernfeld05_08_Projects/src/main/java/Kaufvertrag/Kaufvertrag/XML/Ware.xml";
+  private static final String FILEPATH = "src/main/resources/xml/Ware.xml";
 
   @Override
   public IWare create()
@@ -31,55 +31,6 @@ public class WareDaoXml implements IDao<IWare, Long>
     objectToInsert.setPreis(Programm.getInputMethod().getDouble("Preis", getClass()));
 
     objectToInsert.setId(Programm.getInputMethod().getID());
-
-    /*try
-    {
-      Document doc = getDocument(FILEPATH);
-      assert doc != null;
-
-      Element root = doc.getElementById("ware");
-      Element nodeID = doc.createElement("id");
-      nodeID.setIdAttribute(String.valueOf(objectToInsert.getId()), true);
-
-      Element bezeichnung = doc.createElement("bezeichnung");
-      bezeichnung.setNodeValue(objectToInsert.getBezeichnung());
-      nodeID.appendChild(bezeichnung);
-
-      Element beschreibung = doc.createElement("beschreibung");
-      beschreibung.setNodeValue(objectToInsert.getBeschreibung());
-      nodeID.appendChild(beschreibung);
-
-      Element preis = doc.createElement("preis");
-      preis.setNodeValue(String.valueOf(objectToInsert.getPreis()));
-      nodeID.appendChild(preis);
-
-      Element besonderheiten = doc.createElement("besonderheiten");
-      for (String besonderheit : objectToInsert.getBesonderheiten())
-      {
-        Element besonderheitElement = doc.createElement("besonderheit");
-        besonderheitElement.setNodeValue(besonderheit);
-        besonderheiten.appendChild(besonderheitElement);
-      }
-      nodeID.appendChild(besonderheiten);
-
-      Element maengel = doc.createElement("maengel");
-      for (String mangel : objectToInsert.getMaengel())
-      {
-        Element mangelElement = doc.createElement("mangel");
-        mangelElement.setNodeValue(mangel);
-        maengel.appendChild(mangelElement);
-      }
-      nodeID.appendChild(maengel);
-
-      root.appendChild(nodeID);
-      writeToXML(doc, new FileOutputStream(FILEPATH));
-      return objectToInsert;
-    }
-    catch (IOException e)
-    {
-      System.out.println("There was an unexpected exception in WareDaoXml#create().");
-    }
-    return null;*/
     return objectToInsert;
   }
 
@@ -92,25 +43,27 @@ public class WareDaoXml implements IDao<IWare, Long>
       assert doc != null;
       Element root = doc.getElementById("ware");
       Element nodeID = doc.createElement("id");
-      nodeID.setIdAttribute(String.valueOf(objectToInsert.getId()), true);
+      root.appendChild(nodeID);
+      nodeID.setAttribute("id", String.valueOf(objectToInsert.getId()));
+      nodeID.setIdAttribute("id", true);
 
       Element bezeichnung = doc.createElement("bezeichnung");
-      bezeichnung.setNodeValue("");
+      bezeichnung.setTextContent(objectToInsert.getBezeichnung());
       nodeID.appendChild(bezeichnung);
 
       Element beschreibung = doc.createElement("beschreibung");
-      beschreibung.setNodeValue("");
+      beschreibung.setTextContent(objectToInsert.getBeschreibung());
       nodeID.appendChild(beschreibung);
 
       Element preis = doc.createElement("preis");
-      preis.setNodeValue("");
+      preis.setTextContent(String.valueOf(objectToInsert.getPreis()));
       nodeID.appendChild(preis);
 
       Element besonderheiten = doc.createElement("besonderheiten");
       for (String besonderheitString : objectToInsert.getBesonderheiten())
       {
         Element besonderheit = doc.createElement("besonderheit");
-        besonderheit.setNodeValue(besonderheitString);
+        besonderheit.setTextContent(besonderheitString);
         besonderheiten.appendChild(besonderheit);
       }
       nodeID.appendChild(besonderheiten);
@@ -119,7 +72,7 @@ public class WareDaoXml implements IDao<IWare, Long>
       for (String mangelString : objectToInsert.getMaengel())
       {
         Element mangel = doc.createElement("mangel");
-        mangel.setNodeValue(mangelString);
+        mangel.setTextContent(mangelString);
         maengel.appendChild(mangel);
       }
       nodeID.appendChild(maengel);
@@ -140,9 +93,23 @@ public class WareDaoXml implements IDao<IWare, Long>
     Document doc = getDocument(FILEPATH);
     assert doc != null;
     Element root = doc.getElementById("ware");
-    Element nodeID = root.getOwnerDocument().getElementById(id.toString());
-    Ware ware = new Ware(nodeID.getElementsByTagName("bezeichnung").item(0).getNodeValue(), Double.parseDouble(nodeID.getElementsByTagName("preis").item(0).getNodeValue()));
-    ware.setBeschreibung(nodeID.getElementsByTagName("beschreibung").item(0).getNodeValue());
+    NodeList nodes = root.getChildNodes();
+    Node nodeID = null;
+    for(int i = 0; i < nodes.getLength(); i++)
+    {
+      if (nodes.item(i).hasAttributes())
+      {
+        if (nodes.item(i).getAttributes().getNamedItem("id") != null)
+        {
+          if (nodes.item(i).getAttributes().getNamedItem("id").getTextContent().equals(id.toString()))
+          {
+            nodeID = nodes.item(i);
+          }
+        }
+      }
+    }
+    Ware ware = new Ware(nodeID.getChildNodes().item(1).getTextContent(), Double.parseDouble(nodeID.getChildNodes().item(5).getTextContent()));
+    ware.setBeschreibung(nodeID.getChildNodes().item(3).getTextContent());
     ware.setId(id);
     return ware;
   }
@@ -157,11 +124,14 @@ public class WareDaoXml implements IDao<IWare, Long>
     NodeList waren = root.getElementsByTagName("id");
     for (int i = 0; i < waren.getLength(); i++)
     {
-      NodeList children = waren.item(i).getChildNodes();
-      Ware ware = new Ware(children.item(0).getNodeValue(), Double.parseDouble(children.item(2).getNodeValue()));
-      ware.setBeschreibung(children.item(1).getNodeValue());
-      ware.setId(Long.parseLong(waren.item(i).getAttributes().getNamedItem("id").getNodeValue()));
-      wareListe.add(ware);
+      Node nodeID = waren.item(i);
+      if (nodeID.hasAttributes())
+      {
+        Ware ware = new Ware(nodeID.getChildNodes().item(1).getTextContent(), Double.parseDouble(nodeID.getChildNodes().item(5).getTextContent()));
+        ware.setBeschreibung(nodeID.getChildNodes().item(3).getTextContent());
+        ware.setId(Long.parseLong(waren.item(i).getAttributes().getNamedItem("id").getTextContent()));
+        wareListe.add(ware);
+      }
     }
     return wareListe;
   }
@@ -174,18 +144,32 @@ public class WareDaoXml implements IDao<IWare, Long>
       Document doc = getDocument(FILEPATH);
       assert doc != null;
       Element root = doc.getElementById("ware");
-      Element nodeID = root.getOwnerDocument().getElementById("");
+      NodeList nodes = root.getChildNodes();
+      Node nodeID = null;
+      for(int i = 0; i < nodes.getLength(); i++)
+      {
+        if (nodes.item(i).hasAttributes())
+        {
+          if (nodes.item(i).getAttributes().getNamedItem("id") != null)
+          {
+            if (nodes.item(i).getAttributes().getNamedItem("id").getTextContent().equals(String.valueOf(objectToUpdate.getId())))
+            {
+              nodeID = nodes.item(i);
+            }
+          }
+        }
+      }
 
-      Node bezeichnung = nodeID.getElementsByTagName("bezeichnung").item(0);
-      bezeichnung.setNodeValue(objectToUpdate.getBezeichnung());
+      Node bezeichnung = nodeID.getChildNodes().item(1);
+      bezeichnung.setTextContent(objectToUpdate.getBezeichnung());
 
-      Node beschreibung = nodeID.getElementsByTagName("beschreibung").item(0);
-      beschreibung.setNodeValue(objectToUpdate.getBeschreibung());
+      Node beschreibung = nodeID.getChildNodes().item(3);
+      beschreibung.setTextContent(objectToUpdate.getBeschreibung());
 
-      Node preis = nodeID.getElementsByTagName("preis").item(0);
-      preis.setNodeValue(String.valueOf(objectToUpdate.getPreis()));
+      Node preis = nodeID.getChildNodes().item(5);
+      preis.setTextContent(String.valueOf(objectToUpdate.getPreis()));
 
-      Node besonderheiten = nodeID.getElementsByTagName("besonderheiten").item(0);
+      Node besonderheiten = nodeID.getChildNodes().item(7);
       while (besonderheiten.getChildNodes().getLength() != 0)
       {
         besonderheiten.removeChild(besonderheiten.getChildNodes().item(0));
@@ -194,11 +178,11 @@ public class WareDaoXml implements IDao<IWare, Long>
       for (String besonderheitString : objectToUpdate.getBesonderheiten())
       {
         Element besonderheit = doc.createElement("besonderheit");
-        besonderheit.setNodeValue(besonderheitString);
+        besonderheit.setTextContent(besonderheitString);
         besonderheiten.appendChild(besonderheit);
       }
 
-      Node maengel = nodeID.getElementsByTagName("maengel").item(0);
+      Node maengel = nodeID.getChildNodes().item(9);
       while (maengel.getChildNodes().getLength() != 0)
       {
         maengel.removeChild(maengel.getChildNodes().item(0));
@@ -206,7 +190,7 @@ public class WareDaoXml implements IDao<IWare, Long>
       for (String mangelString : objectToUpdate.getMaengel())
       {
         Element mangel = doc.createElement("mangel");
-        mangel.setNodeValue(mangelString);
+        mangel.setTextContent(mangelString);
         maengel.appendChild(mangel);
       }
 
@@ -226,7 +210,21 @@ public class WareDaoXml implements IDao<IWare, Long>
       Document doc = getDocument(FILEPATH);
       assert doc != null;
       Element root = doc.getElementById("ware");
-      Element nodeID = root.getOwnerDocument().getElementById(id.toString());
+      NodeList nodes = root.getChildNodes();
+      Node nodeID = null;
+      for(int i = 0; i < nodes.getLength(); i++)
+      {
+        if (nodes.item(i).hasAttributes())
+        {
+          if (nodes.item(i).getAttributes().getNamedItem("id") != null)
+          {
+            if (nodes.item(i).getAttributes().getNamedItem("id").getTextContent().equals(id.toString()))
+            {
+              nodeID = nodes.item(i);
+            }
+          }
+        }
+      }
       root.removeChild(nodeID);
       writeToXML(doc, new FileOutputStream(FILEPATH));
     }

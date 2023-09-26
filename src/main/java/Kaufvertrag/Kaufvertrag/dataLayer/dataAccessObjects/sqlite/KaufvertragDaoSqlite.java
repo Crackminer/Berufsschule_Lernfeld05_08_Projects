@@ -108,22 +108,6 @@ public class KaufvertragDaoSqlite implements IDao<IKaufvertrag, Long>
     }
     objectToInsert.setWare(ware);
     objectToInsert.setZahlungsModalitaeten(Programm.getInputMethod().getString("Zahlungsmittel", getClass()));
-    /*try
-    {
-      Connection connection = ConnectionManager.getNewConnection();
-      String query = "INSERT into kaufvertrag (id, kaufer, verkaufer, ware, zahlungsmittel) values(?, ?, ?, ?, ?)";
-      PreparedStatement statement = connection.prepareStatement(query);
-      statement.setLong(1, Programm.getInputMethod().getID());
-      statement.setString(2, objectToInsert.getKaeufer().getAusweisNr());
-      statement.setString(3, objectToInsert.getVerkaeufer().getAusweisNr());
-      statement.setLong(4, objectToInsert.getWare().getId());
-      statement.setString(5, objectToInsert.getZahlungsModalitaeten());
-      statement.executeUpdate();
-    }
-    catch (Exception ex)
-    {
-      System.out.println("There was an unexpected Exception in KaufvertragDaoSqlite#create(IKaufvertrag objectToInsert).");
-    }*/
     return objectToInsert;
   }
 

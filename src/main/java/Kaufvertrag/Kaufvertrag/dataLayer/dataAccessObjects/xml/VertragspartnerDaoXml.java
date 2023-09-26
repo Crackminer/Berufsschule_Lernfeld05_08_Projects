@@ -21,7 +21,7 @@ import static Kaufvertrag.Kaufvertrag.dataLayer.dataAccessObjects.xml.XMLManager
 
 public class VertragspartnerDaoXml implements IDao<IVertragspartner, String>
 {
-  private static final String FILEPATH = "Berufsschule_Lernfeld05_08_Projects/src/main/java/Kaufvertrag/Kaufvertrag/XML/Vertragspartner.xml";
+  private static final String FILEPATH = "src/main/resources/xml/Vertragspartner.xml";
 
   @Override
   public IVertragspartner create()
@@ -48,36 +48,6 @@ public class VertragspartnerDaoXml implements IDao<IVertragspartner, String>
     {
       objectToInsert.setAdresse(new AdresseDaoXml().read(Programm.getInputMethod().getForeignID("Adresse", getClass())));
     }
-    /*try
-    {
-      Document doc = getDocument(FILEPATH);
-      assert doc != null;
-      Element root = doc.getElementById("vertragspartner");
-      Element nodeID = doc.createElement("id");
-      //get the id here pls.
-      nodeID.setIdAttribute(objectToInsert.getAusweisNr(), true);
-
-      Element vorname = doc.createElement("vorname");
-      vorname.setNodeValue(objectToInsert.getVorname());
-      nodeID.appendChild(vorname);
-
-      Element nachname = doc.createElement("nachname");
-      nachname.setNodeValue(objectToInsert.getNachname());
-      nodeID.appendChild(nachname);
-
-      Element addressId = doc.createElement("adresse");
-      addressId.setNodeValue(String.valueOf(objectToInsert.getAdresse().getID()));
-      nodeID.appendChild(addressId);
-
-      root.appendChild(nodeID);
-      writeToXML(doc, new FileOutputStream(FILEPATH));
-      return objectToInsert;
-    }
-    catch (IOException ex)
-    {
-      System.out.println("There was an unexpected Exception in VertragspartnerDaoXml#create().");
-    }
-    return null;*/
     return objectToInsert;
   }
 
@@ -90,18 +60,20 @@ public class VertragspartnerDaoXml implements IDao<IVertragspartner, String>
       assert doc != null;
       Element root = doc.getElementById("vertragspartner");
       Element nodeID = doc.createElement("id");
-      nodeID.setIdAttribute(objectToInsert.getAusweisNr(), true);
+      root.appendChild(nodeID);
+      nodeID.setAttribute("id", objectToInsert.getAusweisNr());
+      nodeID.setIdAttribute("id", true);
 
       Element vorname = doc.createElement("vorname");
-      vorname.setNodeValue(objectToInsert.getVorname());
+      vorname.setTextContent(objectToInsert.getVorname());
       nodeID.appendChild(vorname);
 
       Element nachname = doc.createElement("nachname");
-      nachname.setNodeValue(objectToInsert.getNachname());
+      nachname.setTextContent(objectToInsert.getNachname());
       nodeID.appendChild(nachname);
 
       Element addressId = doc.createElement("adresse");
-      addressId.setNodeValue(String.valueOf(objectToInsert.getAdresse().getID()));
+      addressId.setTextContent(String.valueOf(objectToInsert.getAdresse().getID()));
       nodeID.appendChild(addressId);
 
       root.appendChild(nodeID);
@@ -120,10 +92,24 @@ public class VertragspartnerDaoXml implements IDao<IVertragspartner, String>
     Document doc = getDocument(FILEPATH);
     assert doc != null;
     Element root = doc.getElementById("vertragspartner");
-    Element nodeID = root.getOwnerDocument().getElementById(id);
-    Vertragspartner vertragspartner = new Vertragspartner(nodeID.getElementsByTagName("vorname").item(0).getNodeValue(), nodeID.getElementsByTagName("nachname").item(0).getNodeValue());
+    NodeList nodes = root.getChildNodes();
+    Node nodeID = null;
+    for(int i = 0; i < nodes.getLength(); i++)
+    {
+      if (nodes.item(i).hasAttributes())
+      {
+        if (nodes.item(i).getAttributes().getNamedItem("id") != null)
+        {
+          if (nodes.item(i).getAttributes().getNamedItem("id").getTextContent().equals(id.toString()))
+          {
+            nodeID = nodes.item(i);
+          }
+        }
+      }
+    }
+    Vertragspartner vertragspartner = new Vertragspartner(nodeID.getChildNodes().item(1).getTextContent(), nodeID.getChildNodes().item(3).getTextContent());
     vertragspartner.setAusweisNr(id);
-    vertragspartner.setAdresse(adresseDaoXml.read(Long.parseLong(nodeID.getElementsByTagName("adresse").item(0).getNodeValue())));
+    vertragspartner.setAdresse(adresseDaoXml.read(Long.parseLong(nodeID.getChildNodes().item(5).getTextContent())));
     return vertragspartner;
   }
 
@@ -137,11 +123,14 @@ public class VertragspartnerDaoXml implements IDao<IVertragspartner, String>
     List<IVertragspartner> vertragspartnerListe = new ArrayList<>();
     NodeList vertragspartnerL = root.getElementsByTagName("id");
     for (int i = 0; i < vertragspartnerL.getLength(); i++) {
-      NodeList children = vertragspartnerL.item(i).getChildNodes();
-      Vertragspartner vertragspartner = new Vertragspartner(children.item(0).getNodeValue(), children.item(1).getNodeValue());
-      vertragspartner.setAusweisNr(vertragspartnerL.item(i).getAttributes().getNamedItem("id").getNodeValue());
-      vertragspartner.setAdresse(adresseDaoXml.read(Long.parseLong(children.item(2).getNodeValue())));
-      vertragspartnerListe.add(vertragspartner);
+      Node nodeID = vertragspartnerL.item(i);
+      if (nodeID.hasAttributes())
+      {
+        Vertragspartner vertragspartner = new Vertragspartner(nodeID.getChildNodes().item(1).getTextContent(), nodeID.getChildNodes().item(3).getTextContent());
+        vertragspartner.setAusweisNr(nodeID.getAttributes().getNamedItem("id").getTextContent());
+        vertragspartner.setAdresse(adresseDaoXml.read(Long.parseLong(nodeID.getChildNodes().item(5).getTextContent())));
+        vertragspartnerListe.add(vertragspartner);
+      }
     }
     return vertragspartnerListe;
   }
@@ -154,16 +143,30 @@ public class VertragspartnerDaoXml implements IDao<IVertragspartner, String>
       Document doc = getDocument(FILEPATH);
       assert doc != null;
       Element root = doc.getElementById("vertragspartner");
-      Element nodeID = root.getOwnerDocument().getElementById(objectToUpdate.getAusweisNr());
+      NodeList nodes = root.getChildNodes();
+      Node nodeID = null;
+      for(int i = 0; i < nodes.getLength(); i++)
+      {
+        if (nodes.item(i).hasAttributes())
+        {
+          if (nodes.item(i).getAttributes().getNamedItem("id") != null)
+          {
+            if (nodes.item(i).getAttributes().getNamedItem("id").getTextContent().equals(objectToUpdate.getAusweisNr()))
+            {
+              nodeID = nodes.item(i);
+            }
+          }
+        }
+      }
 
-      Node vorname = nodeID.getElementsByTagName("vorname").item(0);
-      vorname.setNodeValue(objectToUpdate.getVorname());
+      Node vorname = nodeID.getChildNodes().item(1);
+      vorname.setTextContent(objectToUpdate.getVorname());
 
-      Node nachname = nodeID.getElementsByTagName("nachname").item(0);
-      nachname.setNodeValue(objectToUpdate.getNachname());
+      Node nachname = nodeID.getChildNodes().item(3);
+      nachname.setTextContent(objectToUpdate.getNachname());
 
-      Node addressId = nodeID.getElementsByTagName("adresse").item(0);
-      addressId.setNodeValue(String.valueOf(objectToUpdate.getAdresse().getID()));
+      Node addressId = nodeID.getChildNodes().item(5);
+      addressId.setTextContent(String.valueOf(objectToUpdate.getAdresse().getID()));
 
       writeToXML(doc, new FileOutputStream(FILEPATH));
     }
@@ -181,7 +184,21 @@ public class VertragspartnerDaoXml implements IDao<IVertragspartner, String>
       Document doc = getDocument(FILEPATH);
       assert doc != null;
       Element root = doc.getElementById("vertragspartner");
-      Element nodeID = root.getOwnerDocument().getElementById(id);
+      NodeList nodes = root.getChildNodes();
+      Node nodeID = null;
+      for(int i = 0; i < nodes.getLength(); i++)
+      {
+        if (nodes.item(i).hasAttributes())
+        {
+          if (nodes.item(i).getAttributes().getNamedItem("id") != null)
+          {
+            if (nodes.item(i).getAttributes().getNamedItem("id").getTextContent().equals(id.toString()))
+            {
+              nodeID = nodes.item(i);
+            }
+          }
+        }
+      }
       root.removeChild(nodeID);
       writeToXML(doc, new FileOutputStream(FILEPATH));
     }

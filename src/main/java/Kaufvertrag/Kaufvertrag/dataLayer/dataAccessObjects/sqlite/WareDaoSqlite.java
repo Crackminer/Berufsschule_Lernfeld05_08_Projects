@@ -24,23 +24,6 @@ public class WareDaoSqlite implements IDao<IWare, Long>
     objectToInsert.setPreis(Programm.getInputMethod().getDouble("Preis", getClass()));
 
     objectToInsert.setId(Programm.getInputMethod().getID());
-    /*try
-    {
-      Connection connection = ConnectionManager.getNewConnection();
-      String query = "INSERT into ware (id, bezeichnung, beschreibung, preis, besonderheiten, maengel) values(?, ?, ?, ?, ?, ?)";
-      PreparedStatement statement = connection.prepareStatement(query);
-      statement.setLong(1, objectToInsert.getId());
-      statement.setString(2, objectToInsert.getBezeichnung());
-      statement.setString(3, objectToInsert.getBeschreibung());
-      statement.setDouble(4, objectToInsert.getPreis());
-      statement.setString(5, Arrays.toString(objectToInsert.getBesonderheiten().toArray()));
-      statement.setString(6, Arrays.toString(objectToInsert.getMaengel().toArray()));
-      statement.executeUpdate();
-    }
-    catch (Exception ex)
-    {
-      System.out.println("There was an unexpected Exception in WareDaoSqlite#create(IWare objectToInsert).");
-    }*/
     return objectToInsert;
   }
 
