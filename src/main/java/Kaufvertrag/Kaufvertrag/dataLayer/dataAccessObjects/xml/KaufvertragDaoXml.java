@@ -129,7 +129,7 @@ public class KaufvertragDaoXml implements IDao<IKaufvertrag, Long>
     {
       Document doc = getDocument(FILEPATH);
       assert doc != null;
-      Element root = doc.getElementById("kaufvertrag");
+      Node root = doc.getElementsByTagName("kaufvertrag").item(0);;
       Element nodeID = doc.createElement("id");
       root.appendChild(nodeID);
       nodeID.setAttribute("id", String.valueOf(Programm.getInputMethod().getID()));
@@ -165,7 +165,7 @@ public class KaufvertragDaoXml implements IDao<IKaufvertrag, Long>
   {
     Document doc = getDocument(FILEPATH);
     assert doc != null;
-    Element root = doc.getElementById("adresse");
+    Node root = doc.getElementsByTagName("kaufvertrag").item(0);
     NodeList nodes = root.getChildNodes();
     Node nodeID = null;
     for(int i = 0; i < nodes.getLength(); i++)
@@ -191,9 +191,9 @@ public class KaufvertragDaoXml implements IDao<IKaufvertrag, Long>
   {
     Document doc = getDocument(FILEPATH);
     assert doc != null;
-    Element root = doc.getElementById("adresse");
+    Node root = doc.getElementsByTagName("kaufvertrag").item(0);
     List<IKaufvertrag> kaufvertragListe = new ArrayList<>();
-    NodeList kaufvertraege = root.getElementsByTagName("id");
+    NodeList kaufvertraege = root.getChildNodes();
     for (int i = 0; i < kaufvertraege.getLength(); i++)
     {
       Node nodeID = kaufvertraege.item(i);
@@ -214,7 +214,7 @@ public class KaufvertragDaoXml implements IDao<IKaufvertrag, Long>
     {
       Document doc = getDocument(FILEPATH);
       assert doc != null;
-      Element root = doc.getElementById("kaufvertrag");
+      Node root = doc.getElementsByTagName("kaufvertrag").item(0);
       NodeList nodes = root.getChildNodes();
       Node nodeID = null;
       for(int i = 0; i < nodes.getLength(); i++)
@@ -258,7 +258,7 @@ public class KaufvertragDaoXml implements IDao<IKaufvertrag, Long>
     {
       Document doc = getDocument(FILEPATH);
       assert doc != null;
-      Element root = doc.getElementById("kaufvertrag");
+      Node root = doc.getElementsByTagName("kaufvertrag").item(0);
       NodeList nodes = root.getChildNodes();
       Node nodeID = null;
       for(int i = 0; i < nodes.getLength(); i++)

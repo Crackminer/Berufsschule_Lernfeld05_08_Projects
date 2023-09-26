@@ -58,7 +58,7 @@ public class VertragspartnerDaoXml implements IDao<IVertragspartner, String>
     {
       Document doc = getDocument(FILEPATH);
       assert doc != null;
-      Element root = doc.getElementById("vertragspartner");
+      Node root = doc.getElementsByTagName("vertragspartner").item(0);
       Element nodeID = doc.createElement("id");
       root.appendChild(nodeID);
       nodeID.setAttribute("id", objectToInsert.getAusweisNr());
@@ -91,7 +91,7 @@ public class VertragspartnerDaoXml implements IDao<IVertragspartner, String>
     AdresseDaoXml adresseDaoXml = new AdresseDaoXml();
     Document doc = getDocument(FILEPATH);
     assert doc != null;
-    Element root = doc.getElementById("vertragspartner");
+    Node root = doc.getElementsByTagName("vertragspartner").item(0);
     NodeList nodes = root.getChildNodes();
     Node nodeID = null;
     for(int i = 0; i < nodes.getLength(); i++)
@@ -119,9 +119,9 @@ public class VertragspartnerDaoXml implements IDao<IVertragspartner, String>
     AdresseDaoXml adresseDaoXml = new AdresseDaoXml();
     Document doc = getDocument(FILEPATH);
     assert doc != null;
-    Element root = doc.getElementById("vertragspartner");
+    Node root = doc.getElementsByTagName("vertragspartner").item(0);
     List<IVertragspartner> vertragspartnerListe = new ArrayList<>();
-    NodeList vertragspartnerL = root.getElementsByTagName("id");
+    NodeList vertragspartnerL = root.getChildNodes();
     for (int i = 0; i < vertragspartnerL.getLength(); i++) {
       Node nodeID = vertragspartnerL.item(i);
       if (nodeID.hasAttributes())
@@ -142,7 +142,7 @@ public class VertragspartnerDaoXml implements IDao<IVertragspartner, String>
     {
       Document doc = getDocument(FILEPATH);
       assert doc != null;
-      Element root = doc.getElementById("vertragspartner");
+      Node root = doc.getElementsByTagName("vertragspartner").item(0);
       NodeList nodes = root.getChildNodes();
       Node nodeID = null;
       for(int i = 0; i < nodes.getLength(); i++)
@@ -183,7 +183,7 @@ public class VertragspartnerDaoXml implements IDao<IVertragspartner, String>
     {
       Document doc = getDocument(FILEPATH);
       assert doc != null;
-      Element root = doc.getElementById("vertragspartner");
+      Node root = doc.getElementsByTagName("vertragspartner").item(0);
       NodeList nodes = root.getChildNodes();
       Node nodeID = null;
       for(int i = 0; i < nodes.getLength(); i++)

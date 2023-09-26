@@ -41,7 +41,7 @@ public class WareDaoXml implements IDao<IWare, Long>
     {
       Document doc = getDocument(FILEPATH);
       assert doc != null;
-      Element root = doc.getElementById("ware");
+      Node root = doc.getElementsByTagName("ware").item(0);
       Element nodeID = doc.createElement("id");
       root.appendChild(nodeID);
       nodeID.setAttribute("id", String.valueOf(objectToInsert.getId()));
@@ -92,7 +92,7 @@ public class WareDaoXml implements IDao<IWare, Long>
   {
     Document doc = getDocument(FILEPATH);
     assert doc != null;
-    Element root = doc.getElementById("ware");
+    Node root = doc.getElementsByTagName("ware").item(0);
     NodeList nodes = root.getChildNodes();
     Node nodeID = null;
     for(int i = 0; i < nodes.getLength(); i++)
@@ -119,9 +119,9 @@ public class WareDaoXml implements IDao<IWare, Long>
   {
     Document doc = getDocument(FILEPATH);
     assert doc != null;
-    Element root = doc.getElementById("ware");
+    Node root = doc.getElementsByTagName("ware").item(0);
     List<IWare> wareListe = new ArrayList<>();
-    NodeList waren = root.getElementsByTagName("id");
+    NodeList waren = root.getChildNodes();
     for (int i = 0; i < waren.getLength(); i++)
     {
       Node nodeID = waren.item(i);
@@ -143,7 +143,7 @@ public class WareDaoXml implements IDao<IWare, Long>
     {
       Document doc = getDocument(FILEPATH);
       assert doc != null;
-      Element root = doc.getElementById("ware");
+      Node root = doc.getElementsByTagName("ware").item(0);
       NodeList nodes = root.getChildNodes();
       Node nodeID = null;
       for(int i = 0; i < nodes.getLength(); i++)
@@ -209,7 +209,7 @@ public class WareDaoXml implements IDao<IWare, Long>
     {
       Document doc = getDocument(FILEPATH);
       assert doc != null;
-      Element root = doc.getElementById("ware");
+      Node root = doc.getElementsByTagName("ware").item(0);
       NodeList nodes = root.getChildNodes();
       Node nodeID = null;
       for(int i = 0; i < nodes.getLength(); i++)

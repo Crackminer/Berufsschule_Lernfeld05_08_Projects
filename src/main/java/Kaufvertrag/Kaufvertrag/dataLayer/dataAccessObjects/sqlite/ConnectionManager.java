@@ -1,5 +1,7 @@
 package Kaufvertrag.Kaufvertrag.dataLayer.dataAccessObjects.sqlite;
 
+import java.io.File;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -8,7 +10,20 @@ import java.sql.Statement;
 public class ConnectionManager
 {
   private static final String CLASSNAME = "org.sqlite.JDBC";
-  private static final String CONNECTIONSTRING = "jdbc:sqlite:/databases/Kaufvertrag";
+  private static final String CONNECTIONSTRING;
+
+  static
+  {
+    try
+    {
+      CONNECTIONSTRING = "jdbc:sqlite:" + new File(".").getCanonicalPath() + "/src/main/resources/databases/Kaufvertrag";
+    }
+    catch (IOException e)
+    {
+      throw new RuntimeException(e);
+    }
+  }
+
   private static Connection existingConnection;
   private static boolean classLoaded = false;
 
