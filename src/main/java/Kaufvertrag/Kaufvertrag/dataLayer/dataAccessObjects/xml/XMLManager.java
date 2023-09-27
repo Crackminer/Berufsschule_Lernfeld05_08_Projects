@@ -45,7 +45,6 @@ public class XMLManager
     }
     catch (SAXException | IOException | ParserConfigurationException ex)
     {
-      ex.printStackTrace();
       System.out.println("There was an unexpected Exception in AdresseDaoXml#getDocument().");
     }
     return null;
