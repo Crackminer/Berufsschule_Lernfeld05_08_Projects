@@ -1,6 +1,5 @@
 package Kaufvertrag.Kaufvertrag.presentationLayer;
 
-import Kaufvertrag.Kaufvertrag.presentationLayer.dialogues.ConfirmationDialogue;
 import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.FlatLightLaf;
@@ -114,8 +113,7 @@ public class RootFrame extends JFrame
     JButton exitButton = new JButton("Exit");
     exitButton.addActionListener((ActionEvent e) ->
       {
-        ConfirmationDialogue.confirm();
-        //System.exit(0);
+        System.exit(0);
       }
     );
     backButton = new JButton("Back");

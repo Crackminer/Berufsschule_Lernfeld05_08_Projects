@@ -12,6 +12,7 @@ import Kaufvertrag.Kaufvertrag.dataLayer.dataAccessObjects.xml.AdresseDaoXml;
 import Kaufvertrag.Kaufvertrag.dataLayer.dataAccessObjects.xml.KaufvertragDaoXml;
 import Kaufvertrag.Kaufvertrag.dataLayer.dataAccessObjects.xml.VertragspartnerDaoXml;
 import Kaufvertrag.Kaufvertrag.dataLayer.dataAccessObjects.xml.WareDaoXml;
+import Kaufvertrag.Kaufvertrag.presentationLayer.dialogues.*;
 import com.formdev.flatlaf.FlatLaf;
 
 import javax.swing.*;
@@ -107,45 +108,24 @@ public class DataBasePanel extends JPanel
         {
           case CONTRACT ->
           {
-            IKaufvertrag updatedObject = new DialogKaufvertrag().getObject();
-            if (updatedObject == null) break;
-            if (persistence.equals("sqlite"))
-              new KaufvertragDaoSqlite().create(updatedObject);
-            else
-              new KaufvertragDaoXml().create(updatedObject);
+            new CreateDialogKaufvertrag(this, persistence);
           }
           case PERSON ->
           {
-            IVertragspartner updatedObject = new DialogVertragspartner().getObject();
-            if (updatedObject == null) break;
-            if (persistence.equals("sqlite"))
-              new VertragspartnerDaoSqlite().create(updatedObject);
-            else
-              new VertragspartnerDaoXml().create(updatedObject);
+            new CreateDialogVertragspartner(this, persistence);
           }
           case ADDRESS ->
           {
-            IAdresse updatedObject = new DialogAdresse().getObject();
-            if (updatedObject == null) break;
-            if (persistence.equals("sqlite"))
-              new AdresseDaoSqlite().create(updatedObject);
-            else
-              new AdresseDaoXml().create(updatedObject);
+            new CreateDialogAdresse(this);
           }
           case WARE ->
           {
-            IWare updatedObject = new DialogWare().getObject();
-            if (updatedObject == null) break;
-            if (persistence.equals("sqlite"))
-              new WareDaoSqlite().create(updatedObject);
-            else
-              new WareDaoXml().create(updatedObject);
+            new CreateDialogWare(this);
           }
           default ->
           {
           }
         }
-        setTable((TableData) selectedTable.getSelectedItem());
       }
     );
     add(createButton, constraints);
@@ -161,45 +141,24 @@ public class DataBasePanel extends JPanel
           {
             case CONTRACT ->
             {
-              IKaufvertrag updatedObject = new UpdateDialogKaufvertrag(objectArray).getUpdatedObject();
-              if (updatedObject == null) break;
-              if (persistence.equals("sqlite"))
-                new KaufvertragDaoSqlite().update(updatedObject);
-              else
-                new KaufvertragDaoXml().update(updatedObject);
+              new UpdateDialogKaufvertrag(objectArray, this, persistence);
             }
             case PERSON ->
             {
-              IVertragspartner updatedObject = new UpdateDialogVertragspartner(objectArray).getUpdatedObject();
-              if (updatedObject == null) break;
-              if (persistence.equals("sqlite"))
-                new VertragspartnerDaoSqlite().update(updatedObject);
-              else
-                new VertragspartnerDaoXml().update(updatedObject);
+              new UpdateDialogVertragspartner(objectArray, this, persistence);
             }
             case ADDRESS ->
             {
-              IAdresse updatedObject = new UpdateDialogAdresse(objectArray).getUpdatedObject();
-              if (updatedObject == null) break;
-              if (persistence.equals("sqlite"))
-                new AdresseDaoSqlite().update(updatedObject);
-              else
-                new AdresseDaoXml().update(updatedObject);
+              new UpdateDialogAdresse(objectArray, this);
             }
             case WARE ->
             {
-              IWare updatedObject = new UpdateDialogWare(objectArray).getUpdatedObject();
-              if (updatedObject == null) break;
-              if (persistence.equals("sqlite"))
-                new WareDaoSqlite().update(updatedObject);
-              else
-                new WareDaoXml().update(updatedObject);
+              new UpdateDialogWare(objectArray, this);
             }
             default ->
             {
             }
           }
-          setTable((TableData) selectedTable.getSelectedItem());
         }
       }
     );
@@ -253,6 +212,87 @@ public class DataBasePanel extends JPanel
     add(deleteButton, constraints);
 
     readCurrentTableData();
+  }
+
+  public void doUpdate(Object objectToUpdate)
+  {
+    if (objectToUpdate == null) return;
+    switch ((TableData) selectedTable.getSelectedItem())
+    {
+      case CONTRACT ->
+      {
+        if (persistence.equals("sqlite"))
+          new KaufvertragDaoSqlite().update((IKaufvertrag) objectToUpdate);
+        else
+          new KaufvertragDaoXml().update((IKaufvertrag) objectToUpdate);
+      }
+      case PERSON ->
+      {
+        if (persistence.equals("sqlite"))
+          new VertragspartnerDaoSqlite().update((IVertragspartner) objectToUpdate);
+        else
+          new VertragspartnerDaoXml().update((IVertragspartner) objectToUpdate);
+      }
+      case ADDRESS ->
+      {
+        if (persistence.equals("sqlite"))
+          new AdresseDaoSqlite().update((IAdresse) objectToUpdate);
+        else
+          new AdresseDaoXml().update((IAdresse) objectToUpdate);
+      }
+      case WARE ->
+      {
+        if (persistence.equals("sqlite"))
+          new WareDaoSqlite().update((IWare) objectToUpdate);
+        else
+          new WareDaoXml().update((IWare) objectToUpdate);
+      }
+      default ->
+      {
+      }
+    }
+    setTable((TableData) selectedTable.getSelectedItem());
+  }
+
+  public void doCreate(Object objectToCreate)
+  {
+    if (objectToCreate == null) return;
+    switch ((TableData) selectedTable.getSelectedItem())
+    {
+      case CONTRACT ->
+      {
+
+        if (persistence.equals("sqlite"))
+          new KaufvertragDaoSqlite().create((IKaufvertrag) objectToCreate);
+        else
+          new KaufvertragDaoXml().create((IKaufvertrag) objectToCreate);
+      }
+      case PERSON ->
+      {
+        if (persistence.equals("sqlite"))
+          new VertragspartnerDaoSqlite().create((IVertragspartner) objectToCreate);
+        else
+          new VertragspartnerDaoXml().create((IVertragspartner) objectToCreate);
+      }
+      case ADDRESS ->
+      {
+        if (persistence.equals("sqlite"))
+          new AdresseDaoSqlite().create((IAdresse) objectToCreate);
+        else
+          new AdresseDaoXml().create((IAdresse) objectToCreate);
+      }
+      case WARE ->
+      {
+        if (persistence.equals("sqlite"))
+          new WareDaoSqlite().create((IWare) objectToCreate);
+        else
+          new WareDaoXml().create((IWare) objectToCreate);
+      }
+      default ->
+      {
+      }
+    }
+    setTable((TableData) selectedTable.getSelectedItem());
   }
 
   private Object[] getSelectedObjectArray()
