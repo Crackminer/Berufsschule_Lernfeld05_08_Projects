@@ -69,14 +69,3 @@ java -jar target/Lernfeld08Project01-1.0-SNAPSHOT.jar -GUI
 ```
 
 <br />
-
-Still to do: <br />
-- GUI                             
-  - Patrick
-  - Finja
-- DataLayerXml + Subclasses       
-  - (Patrick) 
-- DataLayerSqlite + Subclasses    
-  - (Patrick)
-<br />
-<br />
